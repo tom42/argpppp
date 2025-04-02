@@ -25,3 +25,19 @@ if(BUILD_TESTING)
   target_sources(argpppp_unit_testing ${argpppp_sources})
   target_compile_definitions(argpppp_unit_testing PRIVATE ARGPPPP_EXPORT_FOR_UNIT_TESTING=export)
 endif()
+
+# Check for argp_parse
+include(CheckSymbolExists)
+check_symbol_exists(argp_parse "argp.h" ARGPPPP_HAVE_ARGP)
+
+# Use argp-standalone if argp_parse is not around
+if(NOT ARGPPPP_HAVE_ARGP)
+  include(FetchContent)
+  FetchContent_Declare(
+    argp-standalone
+    GIT_REPOSITORY https://github.com/tom42/argp-standalone
+    GIT_TAG        v1.0.2)
+  FetchContent_MakeAvailable(argp-standalone)
+  target_link_libraries(argpppp PRIVATE argp-standalone)
+  target_link_libraries(argpppp_unit_testing PRIVATE argp-standalone)
+endif()
