@@ -4,12 +4,6 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
-* Release a proper 1.0.3 of argp-standalone where the package version in CMakeLists.txt is correct
-  * Change CMakeLists.txt to 1.0.3
-  * Make a release 1.0.3
-  * Have a checklist for releasing
-	* Version number needs to be updated in sources/build scripts
-	* Things need to be tagged correctly in git
 * Set up github action (do we build release and debug?)
 * Go for C++ 23 or 26?
 * Upgrade to CMake 4.0.0

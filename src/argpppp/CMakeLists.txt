@@ -36,7 +36,7 @@ if(NOT ARGPPPP_HAVE_ARGP)
   FetchContent_Declare(
     argp-standalone
     GIT_REPOSITORY https://github.com/tom42/argp-standalone
-    GIT_TAG        v1.0.2)
+    GIT_TAG        v1.0.3)
   FetchContent_MakeAvailable(argp-standalone)
   target_link_libraries(argpppp PRIVATE argp-standalone)
   target_link_libraries(argpppp_unit_testing PRIVATE argp-standalone)
