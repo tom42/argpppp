@@ -4,7 +4,6 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
-* Set up github action (do we build release and debug?)
 * Go for C++ 23 or 26?
 * Upgrade to CMake 4.0.0
 * Use import std?
