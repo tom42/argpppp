@@ -4,7 +4,6 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
-* In agbpack and other projects using Catch2, upgrade to 3.8.0 too
 * Release a proper 1.0.3 of argp-standalone where the package version in CMakeLists.txt is correct
   * Change CMakeLists.txt to 1.0.3
   * Make a release 1.0.3
