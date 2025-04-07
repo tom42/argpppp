@@ -4,4 +4,8 @@ SPDX-License-Identifier: MIT
 -->
 
 # argpppp
-C++ wrapper for glibc's Argp program argument parsing library
+argpppp is a simple C++ wrapper around glibc's Argp program argument
+parsing library. Its key features are:
+* It comes as a C++ module
+* It can use [argp-standalone](https://github.com/tom42/argp-standalone)
+  if glibc is not available

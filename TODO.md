@@ -9,3 +9,7 @@ SPDX-License-Identifier: MIT
   * Can we easily choose whether to build tests or not? How does e.g. Catch2 do this?
   * Can we choose whether to use argp-standalone or not?
 * Write README.md / documentation / example
+  * Minimal example
+  * More advanced example(s)
+    * How to use all (most of) the APIs we currently provide
+    * How to use argp_program_version
