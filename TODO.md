@@ -4,7 +4,6 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
-* Make argpppp installable (on Unix), including find_package support
 * When we use argpppp in another project:
   * Can we easily choose whether to build tests or not? How does e.g. Catch2 do this?
   * Can we choose whether to use argp-standalone or not?
