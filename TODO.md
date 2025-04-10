@@ -8,6 +8,7 @@ SPDX-License-Identifier: MIT
 * When we use argpppp in another project:
   * Can we easily choose whether to build tests or not? How does e.g. Catch2 do this?
   * Can we choose whether to use argp-standalone or not?
+  * Should we forbid installation if we're not the main project?
 * reuse compliancy
   * Can we somehow add a custom target to cmake?
   * Can we invoke that from the CI builds?
