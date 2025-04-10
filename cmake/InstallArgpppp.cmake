@@ -8,7 +8,7 @@ include(CMakePackageConfigHelpers)
 # Based on https://crascit.com/2024/04/04/cxx-modules-cmake-shared-libraries/#h-installing-shared-libraries-with-c-20-modules
 install(
   TARGETS argpppp
-  EXPORT argpppp-targets
+  EXPORT argppppTargets
   FILE_SET CXX_MODULES
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/argpppp/src
   FILE_SET HEADERS
@@ -16,15 +16,15 @@ install(
   INCLUDES
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(
-  EXPORT argpppp-targets
+  EXPORT argppppTargets
   DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/argpppp
   CXX_MODULES_DIRECTORY .)
 
-# Generate and install argpppp-config.cmake
+# Generate and install argppppConfig.cmake
 configure_package_config_file(
-  "${PROJECT_SOURCE_DIR}/cmake/argpppp-config.cmake.in"
-  "${PROJECT_BINARY_DIR}/argpppp-config.cmake"
+  "${PROJECT_SOURCE_DIR}/cmake/argppppConfig.cmake.in"
+  "${PROJECT_BINARY_DIR}/argppppConfig.cmake"
   INSTALL_DESTINATION lib/cmake/argpppp)
 install(
-  FILES "${PROJECT_BINARY_DIR}/argpppp-config.cmake"
+  FILES "${PROJECT_BINARY_DIR}/argppppConfig.cmake"
   DESTINATION lib/cmake/argpppp)
