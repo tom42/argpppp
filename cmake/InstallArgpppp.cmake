@@ -20,11 +20,16 @@ install(
   DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/argpppp
   CXX_MODULES_DIRECTORY .)
 
-# Generate and install argppppConfig.cmake
+# Generate and install argppppConfig.cmake and argppppConfigVersion.cmake
 configure_package_config_file(
   "${PROJECT_SOURCE_DIR}/cmake/argppppConfig.cmake.in"
   "${PROJECT_BINARY_DIR}/argppppConfig.cmake"
   INSTALL_DESTINATION lib/cmake/argpppp)
+write_basic_package_version_file(
+  "${PROJECT_BINARY_DIR}/argppppConfigVersion.cmake"
+  COMPATIBILITY SameMajorVersion)
 install(
-  FILES "${PROJECT_BINARY_DIR}/argppppConfig.cmake"
+  FILES
+  "${PROJECT_BINARY_DIR}/argppppConfig.cmake"
+  "${PROJECT_BINARY_DIR}/argppppConfigVersion.cmake"
   DESTINATION lib/cmake/argpppp)
