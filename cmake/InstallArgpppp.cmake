@@ -27,14 +27,14 @@ write_basic_package_version_file(
 install(
   FILES
   "${PROJECT_BINARY_DIR}/argppppConfigVersion.cmake"
-  DESTINATION lib/cmake/argpppp)
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/argpppp)
 
 # Generate and install argppppConfig.cmake
 configure_package_config_file(
   "${PROJECT_SOURCE_DIR}/cmake/argppppConfig.cmake.in"
   "${PROJECT_BINARY_DIR}/argppppConfig.cmake"
-  INSTALL_DESTINATION lib/cmake/argpppp)
+  INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/argpppp)
 install(
   FILES
   "${PROJECT_BINARY_DIR}/argppppConfig.cmake"
-  DESTINATION lib/cmake/argpppp)
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/argpppp)
