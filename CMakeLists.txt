@@ -23,3 +23,8 @@ add_subdirectory(src)
 if(BUILD_TESTING)
   add_subdirectory(test)
 endif()
+
+add_custom_target(
+  reuse-lint
+  COMMAND reuse lint
+  WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}")
