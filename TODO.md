@@ -4,6 +4,12 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* Read this: https://discourse.cmake.org/t/how-to-use-fetchcontent-correctly-for-building-external-dependencies/3686
+  * A well-structured project should ideally provide a project-specific CMake variable that can be passed down to turn
+    tests on or off, and it should default to true if the dependency is being built on its own and false if it is not the top level project.
+    * So that's what we should really strife for
+  * For install targets: what if we simply omit these for the time being if we're not the main project?
+  * Maybe gather such snippets of wisdom? (in vtgcmake repository)
 * Install target:
   * Versioning is done, but needs some testing
   * What to do on targets where argp-standalone is used (e.g. cygin?)
