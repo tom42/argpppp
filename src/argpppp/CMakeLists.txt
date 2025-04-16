@@ -30,10 +30,10 @@ endif()
 
 # Check for argp_parse
 include(CheckSymbolExists)
-check_symbol_exists(argp_parse "argp.h" ARGPPPP_HAVE_ARGP)
+check_symbol_exists(argp_parse "argp.h" argpppp_HAVE_ARGP)
 
 # Use argp-standalone if argp_parse is not around
-if(NOT ARGPPPP_HAVE_ARGP)
+if(NOT argpppp_HAVE_ARGP)
   include(FetchContent)
   FetchContent_Declare(
     argp-standalone
@@ -45,6 +45,6 @@ if(NOT ARGPPPP_HAVE_ARGP)
 endif()
 
 # Installation does not yet work for environments that need argp-standalone
-if(ARGPPPP_HAVE_ARGP)
+if(argpppp_HAVE_ARGP)
   include(InstallArgpppp)
 endif()
