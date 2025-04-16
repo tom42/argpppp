@@ -17,9 +17,6 @@ option(argpppp_BUILD_TESTING "Build argpppp tests." ${PROJECT_IS_TOP_LEVEL})
 
 if(PROJECT_IS_TOP_LEVEL)
   # TODO: document why we do this conditionally? => Needs to be top level, see CMake documentation
-  # TODO: use include(CTest) or not?
-  #       Quote from: https://discourse.cmake.org/t/project-structure-for-unit-testing-and-coverage/9038/4
-  #       "Unless you’re running a CDash Dashboard script, there’s little benefit to doing include(CTest). That adds a bunch of noise for things intended for nightly builds, but it just tends to get in the way for developers. I don’t typically include that module in any of my projects these days."
   enable_testing()
 endif()
 
