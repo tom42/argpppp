@@ -17,11 +17,7 @@ option(argpppp_BUILD_TESTING "Build argpppp tests." ${PROJECT_IS_TOP_LEVEL})
 ################################################################################
 
 if(argpppp_BUILD_TESTING)
-  if(PROJECT_IS_TOP_LEVEL)
-    # TODO: document why we do this conditionally? => Needs to be top level, see CMake documentation
-    enable_testing()
-  endif()
-
+  enable_testing()
   include(VtgTesting)
   vtg_testing_setup_catch2(3.7.1)
 endif()
