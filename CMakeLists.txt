@@ -5,7 +5,25 @@ cmake_minimum_required(VERSION 3.31.5)
 project(argpppp VERSION 0.0.1 LANGUAGES CXX)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
-include(CTest)
+################################################################################
+# Options
+################################################################################
+
+option(argpppp_BUILD_TESTING "Build argpppp tests." ${PROJECT_IS_TOP_LEVEL})
+option(BUILD_TESTING "Build the testing tree." ${argpppp_BUILD_TESTING})
+
+################################################################################
+# Testing
+################################################################################
+
+if(PROJECT_IS_TOP_LEVEL)
+  # TODO: document why we do this conditionally?
+  include(CTest)
+endif()
+
+# TODO: fix testing here:
+#       * from now on, wherever it says if(BUILD_TESTING) we probably mean if (argpppp_BUILD_TESTING)
+#       * what happens if we set up catch2 after raising warning levels? Is this a problem?
 
 # Build all 3rd party code before globally raising warning levels.
 if(BUILD_TESTING)
