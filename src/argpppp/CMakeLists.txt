@@ -21,7 +21,7 @@ target_compile_definitions(argpppp PRIVATE ARGPPPP_EXPORT_FOR_UNIT_TESTING=)
 target_compile_features(argpppp PUBLIC cxx_std_23)
 
 # Unit testing version of argpppp
-if(BUILD_TESTING)
+if(argpppp_BUILD_TESTING)
   add_library(argpppp_unit_testing)
   target_sources(argpppp_unit_testing ${argpppp_sources})
   target_compile_definitions(argpppp_unit_testing PRIVATE ARGPPPP_EXPORT_FOR_UNIT_TESTING=export)

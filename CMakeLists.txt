@@ -10,23 +10,24 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 ################################################################################
 
 option(argpppp_BUILD_TESTING "Build argpppp tests." ${PROJECT_IS_TOP_LEVEL})
-option(BUILD_TESTING "Build the testing tree." ${argpppp_BUILD_TESTING})
 
 ################################################################################
 # Testing
 ################################################################################
 
 if(PROJECT_IS_TOP_LEVEL)
-  # TODO: document why we do this conditionally?
-  include(CTest)
+  # TODO: document why we do this conditionally? => Needs to be top level, see CMake documentation
+  # TODO: use include(CTest) or not?
+  #       Quote from: https://discourse.cmake.org/t/project-structure-for-unit-testing-and-coverage/9038/4
+  #       "Unless you’re running a CDash Dashboard script, there’s little benefit to doing include(CTest). That adds a bunch of noise for things intended for nightly builds, but it just tends to get in the way for developers. I don’t typically include that module in any of my projects these days."
+  enable_testing()
 endif()
 
-# TODO: fix testing here:
-#       * from now on, wherever it says if(BUILD_TESTING) we probably mean if (argpppp_BUILD_TESTING)
-#       * what happens if we set up catch2 after raising warning levels? Is this a problem?
+# TODO: what happens if we set up catch2 after raising warning levels? Is this a problem?
+#       Reason why we might want to do this: we could then set up testing in the single branch below, or in our testing subtree...
 
 # Build all 3rd party code before globally raising warning levels.
-if(BUILD_TESTING)
+if(argpppp_BUILD_TESTING)
   include(VtgTesting)
   vtg_testing_setup_catch2(3.7.1)
 endif()
@@ -38,7 +39,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 include(VtgEnableWarnings)
 
 add_subdirectory(src)
-if(BUILD_TESTING)
+if(argpppp_BUILD_TESTING)
   add_subdirectory(test)
 endif()
 
