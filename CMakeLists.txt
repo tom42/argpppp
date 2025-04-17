@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MIT
 
 cmake_minimum_required(VERSION 3.31.5)
-project(argpppp VERSION 0.0.1 LANGUAGES CXX)
+project(argpppp VERSION 0.0.2 LANGUAGES CXX)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 ################################################################################
