@@ -41,7 +41,9 @@ if(NOT argpppp_HAVE_ARGP)
     GIT_TAG        v1.0.3)
   FetchContent_MakeAvailable(argp-standalone)
   target_link_libraries(argpppp PRIVATE argp-standalone)
-  target_link_libraries(argpppp_unit_testing PRIVATE argp-standalone)
+  if(argpppp_BUILD_TESTING)
+    target_link_libraries(argpppp_unit_testing PRIVATE argp-standalone)
+  endif()
 endif()
 
 # Installation does not yet work for environments that need argp-standalone
