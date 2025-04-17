@@ -4,6 +4,10 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* Our way of including adding cmake include paths is broken
+  * Let's try prepending the path
+  * This is shown here: https://discourse.cmake.org/t/how-to-properly-import-cmake-files-modules/2816/2
+  * Question: is CMAKE_MODULE_PATH scoped?
 * For install targets: what if we simply omit these for the time being if we're not the main project?
 * Install target:
   * Versioning is done, but needs some testing
