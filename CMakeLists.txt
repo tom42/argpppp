@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MIT
 
 cmake_minimum_required(VERSION 3.31.5)
-project(argpppp VERSION 0.0.4 LANGUAGES CXX)
+project(argpppp VERSION 0.0.5 LANGUAGES CXX)
 list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
 
@@ -44,7 +44,9 @@ endif()
 # Add custom targets (reuse lint etc.)
 ################################################################################
 
-add_custom_target(
-  reuse-lint
-  COMMAND reuse lint
-  WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}")
+if(PROJECT_IS_TOP_LEVEL)
+  add_custom_target(
+    reuse-lint
+    COMMAND reuse lint
+    WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}")
+endif()
