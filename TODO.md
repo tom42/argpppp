@@ -4,6 +4,15 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* Enable warnings: do it per target.
+  * See how it goes
+  * Enable warnings for all
+    * add_executable
+    * add_library
+  * If it works out
+    * Push it back to vtgcmake
+    * Also use it in agbpack
+    * Is there a checklist for a new project? (we need to remember that we enable warnings for every project)
 * For install targets: what if we simply omit these for the time being if we're not the main project?
 * Install target:
   * What to do on targets where argp-standalone is used (e.g. cygin?)
