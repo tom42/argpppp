@@ -27,7 +27,7 @@ if(argpppp_BUILD_TESTING)
   target_sources(argpppp_unit_testing ${argpppp_sources})
   target_compile_definitions(argpppp_unit_testing PRIVATE ARGPPPP_EXPORT_FOR_UNIT_TESTING=export)
   target_compile_features(argpppp_unit_testing PUBLIC cxx_std_23)
-  vtg_target_enable_warnings(argpppp_unit_testing )
+  vtg_target_enable_warnings(argpppp_unit_testing)
 endif()
 
 # Check for argp_parse
