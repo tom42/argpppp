@@ -49,6 +49,6 @@ if(NOT argpppp_HAVE_ARGP)
 endif()
 
 # Installation does not yet work for environments that need argp-standalone
-if(argpppp_HAVE_ARGP)
+if(argpppp_INSTALL_STATIC_LIBRARY AND argpppp_HAVE_ARGP)
   include(InstallArgpppp)
 endif()
