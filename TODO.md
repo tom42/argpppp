@@ -4,7 +4,6 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
-* For install targets: what if we simply omit these for the time being if we're not the main project?
 * Install target:
   * What to do on targets where argp-standalone is used (e.g. cygin?)
     * Install argp-standalone
