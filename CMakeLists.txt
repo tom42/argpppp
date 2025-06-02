@@ -11,6 +11,7 @@ list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_LIST_DIR}/cmake")
 ################################################################################
 
 option(argpppp_BUILD_TESTING "Build argpppp tests" ${PROJECT_IS_TOP_LEVEL})
+option(argpppp_ENABLE_WARNINGS "Build argpppp with warnings enabled" OFF)
 option(argpppp_INSTALL_STATIC_LIBRARY "Install the argpppp static library" ${PROJECT_IS_TOP_LEVEL})
 
 
@@ -32,7 +33,16 @@ endif()
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
-include(VtgEnableWarnings)
+
+# argpppp_buildflags' sole purpose is to carry build flags
+# This gives us a single place where we can define build flags.
+# Other projects can use the build flags by privately linking to this library.
+# Based on https://discourse.cmake.org/t/setting-cmake-cxx-flags-within-a-function/4163/7
+add_library(argpppp_buildflags INTERFACE)
+if(argpppp_ENABLE_WARNINGS)
+  include(VtgEnableWarnings)
+  vtg_target_enable_warnings(argpppp_buildflags)
+endif()
 
 add_subdirectory(src)
 if(argpppp_BUILD_TESTING)

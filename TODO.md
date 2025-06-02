@@ -5,20 +5,13 @@ SPDX-License-Identifier: MIT
 
 # TODO
 * Improve handling of warning flags:
-  * We should not enable warnings always by default, this makes usage for users more difficult.
   * Try something different
-    * Have a single interface library whose purpose is to carry buildflags
-    * Redo VtgEnableWarnings to add flags as shown in the article below
-    * Use VtgEnableWarnings to add build flags to the interface library defined above
-    * The targets we want to enable warnings for should now link to this library instead
-    * We can now have a build option to enable warnings. It should probably be off by default
-      Basically this boils down to setting/not setting warnings on our warnings target
     * We can then go and create presets (for development and CI) where we enable warnings
     * Update the build to make use of this
     * Make a habit of using it locally
-  * See
-    * https://discourse.cmake.org/t/compiler-warning-flags-for-all-except-externalprojects/4176
-    * https://discourse.cmake.org/t/setting-cmake-cxx-flags-within-a-function/4163/7
+    * Update VtgEnableWarnings in vtgcmake
+    * Test it:
+      * Can we use libraries when compiling a program with clang or g++ that have been produced with either of clang/g++?
 * Install target:
   * What to do on targets where argp-standalone is used (e.g. cygin?)
     * Install argp-standalone
