@@ -34,10 +34,15 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# argpppp_buildflags' sole purpose is to carry build flags
+# argpppp_buildflags' sole purpose is to carry build flags.
 # This gives us a single place where we can define build flags.
 # Other projects can use the build flags by privately linking to this library.
 # Based on https://discourse.cmake.org/t/setting-cmake-cxx-flags-within-a-function/4163/7
+#
+# If a target that uses argpppp_buildflags is installed, this requires
+# argpppp_buildflags to be installed too. This is not exactly pretty.
+# No file is actually installed for an empty interface library,
+# but argpppp_buildflags does show up in the installed argppppTargets.cmake.
 add_library(argpppp_buildflags INTERFACE)
 if(argpppp_ENABLE_WARNINGS)
   include(VtgEnableWarnings)
