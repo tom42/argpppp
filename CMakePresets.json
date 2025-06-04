@@ -1,0 +1,17 @@
+{
+  "$comment": [
+    "SPDX-FileCopyrightText: 2025 Thomas Mathys",
+    "SPDX-License-Identifier: MIT"
+  ],
+  "version": 10,
+  "configurePresets": [
+    {
+      "name": "development",
+      "displayName": "Development",
+      "description": "Development/CI with warnings enabled",
+      "cacheVariables": {
+        "argpppp_BUILD_TESTING": "ON"
+      }
+    }
+  ]
+}
