@@ -37,13 +37,13 @@ jobs:
             c_compiler: cl
             cpp_compiler: cl
             cmake_arch: -Ax64
-            cmake_generator: ''
+            cmake_generator: 'Visual Studio 17 2022'
           - os: windows-latest
             arch: x86
             c_compiler: cl
             cpp_compiler: cl
             cmake_arch: -AWin32
-            cmake_generator: ''
+            cmake_generator: 'Visual Studio 17 2022'
           - os: ubuntu-24.04
             c_compiler: gcc
             cpp_compiler: g++-14
