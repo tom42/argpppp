@@ -5,13 +5,10 @@ SPDX-License-Identifier: MIT
 
 # TODO
 * Improve handling of warning flags:
-  * Development preset:
-    * Should we set the lib directory to somewhere in tmp? Might make sense, no?
-    * Should we disable testing by default in the CMakeLists.txt?
   * Well the previous attempt with a special project I do not like. Use something different
   * Try something different
-    * We can then go and create presets (for development and CI) where we enable warnings
-    * Update the build to make use of this
+    * Update the build action to make use of this
+      * Whis will probably turn out to require a preset for Windows builds. Sigh.
     * Make a habit of using it locally
     * Update VtgEnableWarnings in vtgcmake
     * Test it:

@@ -9,6 +9,8 @@
       "name": "development",
       "displayName": "Development",
       "description": "Development/CI with warnings enabled",
+      "generator": "Ninja",
+      "installDir": "/tmp",
       "cacheVariables": {
         "argpppp_BUILD_TESTING": "ON",
         "argpppp_ENABLE_WARNINGS": "ON",
