@@ -6,8 +6,7 @@ SPDX-License-Identifier: MIT
 # TODO
 * Improve handling of warning flags:
   * Development preset:
-    * Enable testing
-    * Enable warnings
+    * Should we set the lib directory to somewhere in tmp? Might make sense, no?
     * Should we disable testing by default in the CMakeLists.txt?
   * Well the previous attempt with a special project I do not like. Use something different
   * Try something different

@@ -10,7 +10,9 @@
       "displayName": "Development",
       "description": "Development/CI with warnings enabled",
       "cacheVariables": {
-        "argpppp_BUILD_TESTING": "ON"
+        "argpppp_BUILD_TESTING": "ON",
+        "argpppp_ENABLE_WARNINGS": "ON",
+        "argpppp_INSTALL_STATIC_LIBRARY": "ON"
       }
     }
   ]
