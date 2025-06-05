@@ -22,7 +22,7 @@
       "installDir": "/tmp"
     },
     {
-      "name": "development-vs-defaultgenerator",
+      "name": "development-windows-defaultgenerator",
       "inherits": "development-base"
     }
   ]
