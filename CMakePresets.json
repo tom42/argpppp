@@ -6,16 +6,24 @@
   "version": 10,
   "configurePresets": [
     {
-      "name": "development",
-      "displayName": "Development",
+      "name": "development-base",
       "description": "Development/CI with warnings enabled",
-      "generator": "Ninja",
-      "installDir": "/tmp",
+      "hidden": true,
       "cacheVariables": {
         "argpppp_BUILD_TESTING": "ON",
         "argpppp_ENABLE_WARNINGS": "ON",
         "argpppp_INSTALL_STATIC_LIBRARY": "ON"
       }
+    },
+    {
+      "name": "development-linux-ninja",
+      "inherits": "development-base",
+      "generator": "Ninja",
+      "installDir": "/tmp"
+    },
+    {
+      "name": "development-vs-defaultgenerator",
+      "inherits": "development-base"
     }
   ]
 }
