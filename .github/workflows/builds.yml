@@ -91,3 +91,17 @@ jobs:
     - name: Test
       working-directory: ${{steps.strings.outputs.build-output-dir}}
       run: ctest --build-config ${{matrix.build_type}}
+
+  quality:
+    name: Static Quality Checks
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout sources
+      uses: actions/checkout@v4
+
+    - name: Install reuse
+      shell: bash
+      run: |
+        sudo apt install reuse
