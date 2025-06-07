@@ -27,12 +27,17 @@ jobs:
 
     # TODO: do we want to set up a build directory?
     # TODO: do we need to install Ninja?
+    # TODO: do we want to install Catch2?
     - name: Configure
       run: >
         cmake
         --preset dev-linux-ninja
         -DCMAKE_CXX_COMPILER=${{ matrix.cxx_compiler }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+
+    - name: Build
+      run: >
+        cmake --build
 
   # TODO: set name (based on matrix)
 
