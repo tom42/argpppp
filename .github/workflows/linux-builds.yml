@@ -32,12 +32,11 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    # TODO: do we need to install Ninja?
     # TODO: do we want to install Catch2?
     - name: Configure
       run: >
         cmake
-        cmake -B ${{steps.strings.outputs.build-output-dir}}
+        -B ${{steps.strings.outputs.build-output-dir}}
         -S ${{github.workspace}}
         --preset dev-linux-ninja
         -DCMAKE_CXX_COMPILER=${{matrix.cxx_compiler}}
@@ -45,8 +44,6 @@ jobs:
 
     - name: Build
       run: cmake --build ${{steps.strings.outputs.build-output-dir}} --config ${{matrix.build_type}}
-
-  # TODO: set name (based on matrix)
 
 # TODO: port stuff below
 
