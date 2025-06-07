@@ -81,7 +81,7 @@ jobs:
         -B ${{steps.strings.outputs.build-output-dir}}
         -S ${{github.workspace}}
         -A ${{matrix.arch}}
-        --preset dev-windows
+        --preset dev-windows-default
         -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
 
 
