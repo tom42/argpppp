@@ -32,7 +32,11 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    # TODO: do we want to install Catch2?
+    - name: Install Catch2
+      shell: bash
+      run: |
+        sudo apt install catch2
+
     - name: Configure
       run: >
         cmake
