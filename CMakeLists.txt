@@ -22,7 +22,7 @@ option(argpppp_INSTALL_STATIC_LIBRARY "Install the argpppp static library" ${PRO
 if(argpppp_BUILD_TESTING)
   enable_testing()
   include(VtgTesting)
-  vtg_testing_setup_catch2(3.7.1)
+  vtg_testing_setup_catch2(3.4.0)
 endif()
 
 
