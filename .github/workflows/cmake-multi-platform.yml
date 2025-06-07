@@ -37,23 +37,23 @@ jobs:
             c_compiler: cl
             cpp_compiler: cl
             cmake_arch: -Ax64
-            cmake_preset: 'development-windows-defaultgenerator'
+            cmake_preset: 'dev-windows-default'
           - os: windows-latest
             arch: x86
             c_compiler: cl
             cpp_compiler: cl
             cmake_arch: -AWin32
-            cmake_preset: 'development-windows-defaultgenerator'
+            cmake_preset: 'dev-windows-default'
           - os: ubuntu-24.04
             c_compiler: gcc
             cpp_compiler: g++-14
             cmake_arch: ''
-            cmake_preset: 'development-linux-ninja'
+            cmake_preset: 'dev-linux-ninja'
           - os: ubuntu-24.04
             c_compiler: clang
             cpp_compiler: clang++
             cmake_arch: ''
-            cmake_preset: 'development-linux-ninja'
+            cmake_preset: 'dev-linux-ninja'
         exclude:
           - os: windows-latest
             c_compiler: gcc
