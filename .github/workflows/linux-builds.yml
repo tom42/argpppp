@@ -18,7 +18,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        cxx_compiler: [clang++, g++]
+        cxx_compiler: [clang++, g++-14]
         build_type: [Release, Debug]
 
     steps:
@@ -26,10 +26,13 @@ jobs:
       uses: actions/checkout@v4
 
     # TODO: do we want to set up a build directory?
+    # TODO: do we need to install Ninja?
     - name: Configure
       run: >
         cmake
         --preset dev-linux-ninja
+        -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
+        -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
 
   # TODO: set name (based on matrix)
 
