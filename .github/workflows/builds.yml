@@ -72,5 +72,18 @@ jobs:
       run: |
         echo "build-output-dir=${{github.workspace}}/build" >> "$GITHUB_OUTPUT"
 
-    # TODO: add remaining steps for windows (checkout, somehow install Catch2, configure, build, test)
+    - name: Checkout sources
+      uses: actions/checkout@v4
+
+    - name: Configure CMake
+      run: >
+        cmake
+        -B ${{steps.strings.outputs.build-output-dir}}
+        -S ${{github.workspace}}
+        -A ${{arch}}
+        --preset dev-windows
+        -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
+
+
+    # TODO: add remaining steps for windows (somehow install Catch2, build, test)
     # TODO: add more stuff: can we run reuse-lint?
