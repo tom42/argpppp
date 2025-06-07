@@ -5,11 +5,11 @@ SPDX-License-Identifier: MIT
 
 # TODO
 * Improve handling of warning flags:
+  * Divide workflows on git: build matrixen suck, they get easily out of hand
+    * Have one for clang and gcc
+    * And another one for windows
   * Well the previous attempt with a special project I do not like. Use something different
   * Try something different
-    * Update the build action to make use of this
-      * Whis will probably turn out to require a preset for Windows builds. Sigh.
-    * Make a habit of using it locally
     * Update VtgEnableWarnings in vtgcmake
     * Test it:
       * Can we use libraries when compiling a program with clang or g++ that have been produced with either of clang/g++?
