@@ -84,6 +84,10 @@ jobs:
         --preset dev-windows-default
         -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
 
+    - name: Build
+      run: |
+        cmake --build ${{steps.strings.outputs.build-output-dir}} --config ${{matrix.build_type}}
 
-    # TODO: add remaining steps for windows (somehow install Catch2, build, test)
-    # TODO: add more stuff: can we run reuse-lint?
+    - name: Test
+      working-directory: ${{steps.strings.outputs.build-output-dir}}
+      run: ctest --build-config ${{matrix.build_type}}

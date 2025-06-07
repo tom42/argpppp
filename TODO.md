@@ -5,13 +5,9 @@ SPDX-License-Identifier: MIT
 
 # TODO
 * Improve handling of warning flags:
-  * Divide workflows on git: build matrixen suck, they get easily out of hand
-    * Have one for clang and gcc
-      * Can we speed up things by building everything in the same job, even if this requires some more typing/thinking?
-      * Can we speed up things by installing catch2 (and maybe also caching it?)
-      * Can we as a final step run reuse-lint?
-    * And another one for windows
-      * Here too, can we speed up things by installing catch2, e.g. as a vcpkg?
+  * Wrap up builds.yml for the time being
+    * Can we speed up windows by somehow installing Catch2, e.g. using vcpkg?
+    * Have another job 'quality', where we can do stuff such as running reuse-lint
   * Try something different
     * Test it:
       * Can we use libraries when compiling a program with clang or g++ that have been produced with either of clang/g++?
