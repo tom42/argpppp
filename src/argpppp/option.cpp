@@ -22,7 +22,7 @@ namespace
 template <std::integral T>
 bool in_closed_range(T x, T min, T max)
 {
-    return (min <= x) /* && (x <= max)*/;
+    return (min <= x) && (x <= max);
 }
 
 }
