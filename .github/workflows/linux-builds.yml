@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: 2025 Thomas Mathys
+# SPDX-License-Identifier: MIT
+
+name: Linux Builds
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
