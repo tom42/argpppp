@@ -8,6 +8,6 @@ add_executable(
   optional_string_test.cpp
   parser_test.cpp
   pf_test.cpp)
-target_link_libraries(argpppp_unit_test PRIVATE argpppp_buildflags)
+vtg_target_enable_warnings(argpppp_unit_test)
 target_link_libraries(argpppp_unit_test PRIVATE argpppp_unit_testing Catch2::Catch2WithMain)
 catch_discover_tests(argpppp_unit_test)
