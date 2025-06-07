@@ -101,10 +101,10 @@ jobs:
     - name: Checkout sources
       uses: actions/checkout@v4
 
-    # - name: Install reuse
-    #   shell: bash
-    #   run: |
-    #     sudo apt install reuse
+    - name: Install reuse
+      shell: bash
+      run: |
+        sudo apt install reuse
 
     - name: Run reuse lint
       shell: bash
