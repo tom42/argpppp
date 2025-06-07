@@ -96,8 +96,8 @@ jobs:
     name: Static Quality Checks
     runs-on: ubuntu-latest
 
-  strategy:
-    fail-fast: true
+    strategy:
+      fail-fast: true
 
     steps:
 
