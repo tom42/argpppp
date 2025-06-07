@@ -108,5 +108,5 @@ jobs:
 
     - name: Run reuse lint
       shell: bash
-      run |
+      run: |
         reuse lint
