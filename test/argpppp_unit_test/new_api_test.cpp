@@ -91,12 +91,25 @@ private:
     TValue m_max = std::numeric_limits<TValue>::max();
 };
 
+class option_with_handler final
+{
+public:
+    option_with_handler(const option& o, std::shared_ptr<option_handler> handler)
+        : m_o(o),
+        m_handler(handler)
+    {}
+
+private:
+    option m_o;
+    std::shared_ptr<option_handler> m_handler;
+};
+
 class options final
 {
 public:
-    options& add(const option& o, std::shared_ptr<option_handler>)
+    options& add(const option& o, std::shared_ptr<option_handler> handler)
     {
-        m_options.push_back(o);
+        m_options.emplace_back(o, handler);
         return *this;
     }
 
@@ -135,7 +148,7 @@ public:
 private:
     optional_string m_doc;
     optional_string m_args_doc;
-    std::vector<option> m_options;
+    std::vector<option_with_handler> m_options;
     std::size_t m_min_args = std::numeric_limits<size_t>::min();
     std::size_t m_max_args = std::numeric_limits<size_t>::max();
 };
@@ -159,6 +172,7 @@ TEST_CASE("new_api_test")
     //   On the other hand we can still create an add_header() member function.
     //   If we do so I'd probably rename add() to add_option()
     // * As a shorthand for writing option('x', "--xyz", ...) we can use uniform initialization: {'x', "--xyz", ...}
+    // * With value() we can store stuff directly in variables, and optionally have min/max values checked
     auto opts = options()
         .doc("Supercruncher 0.0.1 - Copyright (C) tom42, all rights reserved")
         .args_doc("FILE")
