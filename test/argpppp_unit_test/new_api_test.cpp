@@ -83,7 +83,6 @@ public:
         m_max = max;
         return *this;
     }
-
 private:
     TValue& m_v;
     // TODO: as ridiculous as it is, this compiles if TValue is std::string. Not sure what to make out of that
