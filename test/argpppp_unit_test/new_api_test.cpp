@@ -72,13 +72,13 @@ class value final : public option_handler
 public:
     value(TValue& v) : m_v(v) {}
 
-    value& min(TValue min)
+    value& min(const TValue& min)
     {
         m_min = min;
         return *this;
     }
 
-    value& max(TValue max)
+    value& max(const TValue& max)
     {
         m_max = max;
         return *this;
