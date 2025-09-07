@@ -5,7 +5,9 @@
 
 #include <catch2/catch_test_macros.hpp>
 #include <cstddef>
+#include <iostream>
 #include <limits>
+#include <memory>
 #include <optional>
 #include <string>
 #include <vector>
@@ -58,24 +60,50 @@ option header(const std::string& doc, int group = 0)
     return option({}, {}, doc, {}, {}, group);
 }
 
-class value_base
+class option_handler
 {
 public:
-    virtual ~value_base() {}
+    virtual ~option_handler() {}
 };
 
-template <typename T>
-class value : public value_base
+template <typename TValue>
+class value final : public option_handler
 {
 public:
+    value(TValue& v) : m_v(v) {}
+
+    value& min(TValue min)
+    {
+        m_min = min;
+        return *this;
+    }
+
+    value& max(TValue max)
+    {
+        m_max = max;
+        return *this;
+    }
+
+private:
+    TValue& m_v;
+    // TODO: as ridiculous as it is, this compiles if TValue is std::string. Not sure what to make out of that
+    TValue m_min = std::numeric_limits<TValue>::min();
+    TValue m_max = std::numeric_limits<TValue>::max();
 };
 
 class options final
 {
 public:
-    options& add(const option& o)
+    options& add(const option& o, std::shared_ptr<option_handler>)
     {
         m_options.push_back(o);
+        return *this;
+    }
+
+    template <typename THandler>
+    options& add(const option& o, const THandler& handler) requires std::derived_from<THandler, option_handler>
+    {
+        add(o, std::make_shared<THandler>(handler));
         return *this;
     }
 
@@ -121,13 +149,24 @@ TEST_CASE("new_api_test")
     //       * Make the value thing part of the option class, so the header() function would simply know it doesn' need to set it
     //       * Make the value thing an optional argument of some sorts
     //       * Have an add_header method on the options class itself - why would that be so horrible? It would probably be the absolute exception
+    std::string output_file;
+    bool verbose = false;
+    int compression_level = 0;
+
+    // Some notes:
+    // * header() is a function which creates an option instance that represents a group header.
+    //   I suppose I could live with passing a null pointer when adding a header.
+    //   On the other hand we can still create an add_header() member function.
+    //   If we do so I'd probably rename add() to add_option()
+    // * As a shorthand for writing option('x', "--xyz", ...) we can use uniform initialization: {'x', "--xyz", ...}
     auto opts = options()
         .doc("Supercruncher 0.0.1 - Copyright (C) tom42, all rights reserved")
         .args_doc("FILE")
         .nargs(1)
-        .add(header("General options"))                             // Header is a function which creates an option with the right content
-        .add(option('o', "output-file", "Specify output file name", "FILE"))
-        .add({'v', "verbose", "Print verbose messages"});           // Shorthand to create an option: use uniform initialization
+        .add(header("General options"), nullptr)
+        .add(option('o', "output-file", "Specify output file name", "FILE"), value(output_file))
+        .add({ 'v', "verbose", "Print verbose messages" }, value(verbose))
+        .add({ 'c', "compression-level", "Specify compression level" }, value(compression_level).min(0).max(10));
 }
 
 }
