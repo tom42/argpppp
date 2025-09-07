@@ -5,6 +5,7 @@
 
 #include <catch2/catch_test_macros.hpp>
 #include <cstddef>
+#include <functional>
 #include <iostream>
 #include <limits>
 #include <memory>
@@ -88,6 +89,13 @@ private:
     // TODO: as ridiculous as it is, this compiles if TValue is std::string. Not sure what to make out of that
     TValue m_min = std::numeric_limits<TValue>::min();
     TValue m_max = std::numeric_limits<TValue>::max();
+};
+
+template <typename TParam>
+class callback final : public option_handler
+{
+public:
+    callback(const std::function<void(TParam)>) {}
 };
 
 class option_with_handler final
@@ -179,7 +187,8 @@ TEST_CASE("new_api_test")
         .add(header("General options"), nullptr)
         .add(option('o', "output-file", "Specify output file name", "FILE"), value(output_file))
         .add({ 'v', "verbose", "Print verbose messages" }, value(verbose))
-        .add({ 'c', "compression-level", "Specify compression level" }, value(compression_level).min(0).max(10));
+        .add({ 'c', "compression-level", "Specify compression level" }, value(compression_level).min(0).max(10))
+        .add({ 'x', {}, "Some other option" }, callback<int>([](int) {})); // TODO: why is it not able to deduce the template argument?
 }
 
 }
