@@ -3,6 +3,7 @@
 
 add_executable(
   argpppp_unit_test
+  new_api_test.cpp
   of_test.cpp
   option_test.cpp
   optional_string_test.cpp
