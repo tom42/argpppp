@@ -160,6 +160,8 @@ private:
     std::size_t m_max_args = std::numeric_limits<size_t>::max();
 };
 
+void store_func(int /*x*/) {}
+
 TEST_CASE("new_api_test")
 {
     // TODO: ugh. now we have the next problem: If we now go and add a value parameter, then that's fine
@@ -188,7 +190,8 @@ TEST_CASE("new_api_test")
         .add(option('o', "output-file", "Specify output file name", "FILE"), value(output_file))
         .add({ 'v', "verbose", "Print verbose messages" }, value(verbose))
         .add({ 'c', "compression-level", "Specify compression level" }, value(compression_level).min(0).max(10))
-        .add({ 'x', {}, "Some other option" }, callback<int>([](int) {})); // TODO: why is it not able to deduce the template argument?
+        .add({ 'x', {}, "Some other option" }, callback<int>([](int) {})) // TODO: why is it not able to deduce the template argument?
+        .add({ 'y', {}, "Another option" }, callback<int>(store_func));
 }
 
 }
