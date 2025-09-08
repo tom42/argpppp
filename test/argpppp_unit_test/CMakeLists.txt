@@ -6,6 +6,7 @@ add_executable(
   of_test.cpp
   option_test.cpp
   optional_string_test.cpp
+  options_test.cpp
   parser_test.cpp
   pf_test.cpp)
 vtg_target_enable_warnings(argpppp_unit_test)

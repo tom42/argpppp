@@ -116,18 +116,6 @@ public:
         return *this;
     }
 
-    options& doc(const optional_string& doc)
-    {
-        m_doc = doc;
-        return *this;
-    }
-
-    options& args_doc(const optional_string& args_doc)
-    {
-        m_args_doc = args_doc;
-        return *this;
-    }
-
     options& nargs(std::size_t nargs)
     {
         m_min_args = m_max_args = nargs;
@@ -142,8 +130,6 @@ public:
     }
 
 private:
-    optional_string m_doc;
-    optional_string m_args_doc;
     std::vector<option_with_handler> m_options;
     std::size_t m_min_args = std::numeric_limits<size_t>::min();
     std::size_t m_max_args = std::numeric_limits<size_t>::max();
