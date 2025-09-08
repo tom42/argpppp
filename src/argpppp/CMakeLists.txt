@@ -8,6 +8,7 @@ set(
   of.cppm
   option.cppm
   optional_string.cppm
+  options.cppm
   parser.cppm
   pf.cppm
   PRIVATE
