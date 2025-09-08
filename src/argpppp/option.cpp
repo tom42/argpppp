@@ -27,12 +27,12 @@ bool in_closed_range(T x, T min, T max)
 
 }
 
-option::option(const optional_string& name, int key, const optional_string& arg, of flags, const optional_string& doc, int group)
-    : m_name(name)
-    , m_key(key)
+option::option(int key, const optional_string& name, const optional_string& doc, const optional_string& arg, of flags, int group)
+    : m_key(key)
+    , m_name(name)
+    , m_doc(doc)
     , m_arg(arg)
     , m_flags(flags)
-    , m_doc(doc)
     , m_group(group)
 {
     if (need_long_name(key) && !m_name)

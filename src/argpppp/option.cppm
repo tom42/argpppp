@@ -18,9 +18,19 @@ namespace argpppp
 export class option final
 {
 public:
-    // Note: we intentionally use std::nullopt rather than {} for default arguments.
-    // The latter bugs with g++ 14.2 (odd linker errors which clang++ and MSVC do not produce).
-    option(const optional_string& name = std::nullopt, int key = 0, const optional_string& arg = std::nullopt, of flags = of::none, const optional_string& doc = std::nullopt, int group = 0);
+    // Note:      Constructor parameters are not in the same order as argp_option's field.
+    //            Constructor parameters are ordered such that those parameters more commonly
+    //            used come first. It is rather uncommon to specify any option flags or
+    //            the option group, so these two parameters come last.
+    // Also note: We intentionally use std::nullopt rather than {} for default arguments.
+    //            The latter bugs with g++ 14.2 (odd linker errors which clang++ and MSVC do not produce).
+    option(
+        int key = 0,
+        const optional_string& name = std::nullopt,
+        const optional_string& doc = std::nullopt,
+        const optional_string& arg = std::nullopt,
+        of flags = of::none,
+        int group = 0);
 
     const optional_string& name() const { return m_name; }
 
@@ -35,11 +45,11 @@ public:
     int group() const { return m_group; }
 
 private:
-    optional_string m_name;
     int m_key;
+    optional_string m_name;
+    optional_string m_doc;
     optional_string m_arg;
     of m_flags;
-    optional_string m_doc;
     int m_group;
 };
 
