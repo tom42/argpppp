@@ -116,19 +116,6 @@ public:
         return *this;
     }
 
-    options& nargs(std::size_t nargs)
-    {
-        m_min_args = m_max_args = nargs;
-        return *this;
-    }
-
-    options& nargs(std::size_t min_args, std::size_t max_args)
-    {
-        m_min_args = min_args;
-        m_max_args = max_args;
-        return *this;
-    }
-
 private:
     std::vector<option_with_handler> m_options;
 };

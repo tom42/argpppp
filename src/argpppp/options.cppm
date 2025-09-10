@@ -42,9 +42,28 @@ public:
         return m_min_args;
     }
 
+    options& min_args(std::size_t min_args)
+    {
+        m_min_args = min_args;
+        return *this;
+    }
+
     std::size_t max_args() const
     {
         return m_max_args;
+    }
+
+    options& max_args(std::size_t max_args)
+    {
+        m_max_args = max_args;
+        return *this;
+    }
+
+    options& num_args(std::size_t num_args)
+    {
+        min_args(num_args);
+        max_args(num_args);
+        return *this;
     }
 
 private:

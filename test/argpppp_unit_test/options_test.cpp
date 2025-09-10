@@ -34,6 +34,25 @@ TEST_CASE("options_test")
         options.args_doc("Argument documentation");
         CHECK(options.args_doc() == "Argument documentation");
     }
+
+    SECTION("set minimum number of arguments")
+    {
+        options.min_args(1);
+        CHECK(options.min_args() == 1);
+    }
+
+    SECTION("set maximum number of arguments")
+    {
+        options.max_args(10);
+        CHECK(options.max_args() == 10);
+    }
+
+    SECTION("set number of arguments")
+    {
+        options.num_args(2);
+        CHECK(options.max_args() == 2);
+        CHECK(options.max_args() == 2);
+    }
 }
 
 }
