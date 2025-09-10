@@ -7,6 +7,7 @@ set(
   argpppp.cppm
   of.cppm
   option.cppm
+  option_handlers.cppm
   optional_string.cppm
   options.cppm
   parser.cppm

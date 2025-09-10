@@ -27,15 +27,6 @@ SPDX-License-Identifier: MIT
 * Delete new_api_test.cpp code below once done
 
 * ----------new_api_test.cpp--------------------------------------------------------
-#include <catch2/catch_test_macros.hpp>
-#include <cstddef>
-#include <functional>
-#include <iostream>
-#include <limits>
-#include <memory>
-#include <optional>
-#include <string>
-#include <vector>
 
 import argpppp;
 
@@ -49,12 +40,6 @@ option header(const std::string& header_text, int group = 0)
 {
     return option({}, {}, header_text, {}, {}, group);
 }
-
-class option_handler
-{
-public:
-    virtual ~option_handler() {}
-};
 
 template <typename TValue>
 class value final : public option_handler

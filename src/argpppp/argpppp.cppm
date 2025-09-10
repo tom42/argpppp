@@ -8,6 +8,7 @@ module;
 export module argpppp;
 export import :of;
 export import :option;
+export import :option_handlers;
 export import :optional_string;
 export import :options;
 export import :parser;
