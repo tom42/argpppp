@@ -7,8 +7,7 @@ import :options;
 namespace argpppp
 {
 
-// TODO: this needs a return value
-export void parse_command_line(int argc, char* argv[], const options& o);
+export void parse_command_line(int argc, char* argv[], const options& options);
 
 // TODO: flesh out public interface. This gets called by the convenience function above, but can also be called by programs that need more control
 export class command_line_parser final
