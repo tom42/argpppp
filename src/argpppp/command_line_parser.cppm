@@ -14,7 +14,7 @@ export class command_line_parser final
 {
 public:
     // TODO: this needs a return value
-    void parse(int argc, char* argv[], const options& o);
+    void parse(int argc, char* argv[], const options& o) const;
 
 private:
 };
