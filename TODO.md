@@ -25,6 +25,7 @@ SPDX-License-Identifier: MIT
 * Implement the options class (the list of options)
 * Write a new function parse (or a class), which uses an options instance to parse stuff.
 * Delete new_api_test.cpp code below once done
+* Go through all helper functions in all modules and see which ones we do not need anymore
 
 * ----------new_api_test.cpp--------------------------------------------------------
 

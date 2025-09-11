@@ -1,6 +1,8 @@
 // SPDX-FileCopyrightText: 2025 Thomas Mathys
 // SPDX-License-Identifier: MIT
 
+// TODO: remove this file
+
 module;
 
 #include <argp.h>
@@ -12,14 +14,16 @@ module;
 #include <variant>
 #include <vector>
 
-export module argpppp:parser;
+export module argpppp:parser_old;
 import :of;
 import :option;
 import :optional_string;
 import :pf;
 
-namespace argpppp
+namespace argpppp_old
 {
+
+using namespace argpppp;
 
 export class arg_error final
 {

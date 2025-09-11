@@ -17,9 +17,9 @@ import argpppp;
 namespace argpppp_unit_test
 {
 
-using argpppp::arg_error;
+using argpppp_old::arg_error;
 using argpppp::of;
-using argpppp::parser;
+using argpppp_old::parser;
 using argpppp::pf;
 using string = std::string;
 using std::vector;
@@ -62,7 +62,7 @@ auto parse(parser& parser, const std::string& command_line)
 
 }
 
-TEST_CASE("parser_test")
+TEST_CASE("parser_test_old")
 {
     parser parser;
     std::string failure_message;

@@ -12,7 +12,7 @@ const char* argp_program_version = "argp_program_version_test 1.0";
 
 int main(int argc, char** argv)
 {
-    argpppp::parser parser;
+    argpppp_old::parser parser;
 
     // Work around undefined reference when doing debug builds with g++
     // (undefined reference to `std::_Optional_base<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, false, false>::_Optional_base())

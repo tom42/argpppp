@@ -1,6 +1,8 @@
 // SPDX-FileCopyrightText: 2025 Thomas Mathys
 // SPDX-License-Identifier: MIT
 
+// TODO: remove this file
+
 module;
 
 #include <argp.h>
@@ -15,7 +17,7 @@ module;
 module argpppp;
 import :pf;
 
-namespace argpppp
+namespace argpppp_old
 {
 
 namespace
