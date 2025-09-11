@@ -5,6 +5,7 @@ set(
   argpppp_sources
   PUBLIC FILE_SET CXX_MODULES FILES
   argpppp.cppm
+  command_line_parser.cppm
   of.cppm
   option.cppm
   option_handlers.cppm
@@ -13,6 +14,7 @@ set(
   parser_old.cppm
   pf.cppm
   PRIVATE
+  command_line_parser.cpp
   option.cpp
   parser_old.cpp)
 

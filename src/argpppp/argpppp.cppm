@@ -6,6 +6,7 @@ module;
 #include <string>
 
 export module argpppp;
+export import :command_line_parser;
 export import :of;
 export import :option;
 export import :option_handlers;
