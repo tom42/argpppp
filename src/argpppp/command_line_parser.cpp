@@ -42,7 +42,8 @@ parse_result command_line_parser::parse(int argc, char* argv[], const options& o
     // TODO: pass in context (that would be mostly the this pointer);
     // TODO: rethrow any exceptions
     parse_result result;
-    result.errnum = argp_parse(&argp, argc, argv, to_uint(m_flags), nullptr, nullptr);
+    parser_context context;
+    result.errnum = argp_parse(&argp, argc, argv, to_uint(m_flags), nullptr, &context);
 
     return result;
 }
