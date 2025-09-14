@@ -72,7 +72,7 @@ TEST_CASE("command_line_parser_test")
         auto result = parse_command_line(parser, options, "x y");
 
         CHECK(result.errnum == 0);
-        // TODO: check argument vector in result
+        CHECK(result.args == vector<string>{"x", "y"});
         // TODO: check error output, should be empty
         // TODO: when done, delete old test from parser_test_old.cpp (after checking it is equivalent)
     }

@@ -4,6 +4,8 @@
 module;
 
 #include <argp.h>
+#include <string>
+#include <vector>
 
 export module argpppp:command_line_parser;
 import :options;
@@ -16,6 +18,7 @@ namespace argpppp
 export struct parse_result final
 {
     int errnum = 0;
+    std::vector<std::string> args;
 };
 
 export parse_result parse_command_line(int argc, char* argv[], const options& options);

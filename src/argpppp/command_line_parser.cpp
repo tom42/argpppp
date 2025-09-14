@@ -65,7 +65,7 @@ error_t command_line_parser::parse_option_static(int key, char* arg, argp_state*
 error_t command_line_parser::parse_option(int /*key*/, char* /*arg*/, argp_state* /*state*/) const
 {
     // TODO: implement option callback here
-    return 0;
+    return 0; // TODO: should not normally return 0 here. We should only return 0 here if we processed key successfully, or something
 }
 
 }
