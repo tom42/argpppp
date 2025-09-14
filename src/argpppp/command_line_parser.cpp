@@ -16,7 +16,7 @@ parse_result parse_command_line(int argc, char* argv[], const options& options)
     return parser.parse(argc, argv, options);
 }
 
-parse_result command_line_parser::parse(int argc, char* argv[], const options& /*options*/) const
+parse_result command_line_parser::parse(int argc, char* argv[], const options& options) const
 {
     // TODO: set up stuff for argp_parse (see old implementation)
     // TODO: call argp_parse
@@ -26,7 +26,7 @@ parse_result command_line_parser::parse(int argc, char* argv[], const options& /
     constexpr const char* argp_domain = nullptr;
 
     // TODO: supply all the commented out stuff
-    const argp argp{ {}/*argp_options.data()*/, {}/*parse_option_static*/, {}/*c_str(m_args_doc)*/, {}/*c_str(m_doc)*/, children, help_filter, argp_domain};
+    const argp argp{ {}/*argp_options.data()*/, {}/*parse_option_static*/, c_str(options.args_doc()), c_str(options.doc()), children, help_filter, argp_domain};
 
     // TODO: pass in context (that would be mostly the this pointer);
     // TODO: rethrow any exceptions
