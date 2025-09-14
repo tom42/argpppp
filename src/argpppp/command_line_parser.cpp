@@ -54,12 +54,17 @@ parse_result command_line_parser::parse(int argc, char* argv[], const options& o
     return result;
 }
 
-error_t command_line_parser::parse_option_static(int /*key*/, char* /*arg*/, argp_state* state)
+error_t command_line_parser::parse_option_static(int key, char* arg, argp_state* state)
 {
     // TODO: real implementation
-    //       * delegate to non-static version, return that one's exit code
     //       * catch all exceptions and store them in context, so they can be rethrown later. In the case of an exception, return EINVAL;
     auto context = get_context(state);
+    return context->this_parser.parse_option(key, arg, state);
+}
+
+error_t command_line_parser::parse_option(int /*key*/, char* /*arg*/, argp_state* /*state*/) const
+{
+    // TODO: implement option callback here
     return 0;
 }
 

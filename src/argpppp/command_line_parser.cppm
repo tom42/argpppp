@@ -33,6 +33,8 @@ public:
 private:
     static error_t parse_option_static(int key, char* arg, argp_state* state);
 
+    error_t parse_option(int key, char* arg, argp_state* state) const;
+
     pf m_flags = pf::none;
 };
 
