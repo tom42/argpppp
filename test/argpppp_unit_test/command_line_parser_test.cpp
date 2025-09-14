@@ -14,6 +14,8 @@ namespace argpppp_unit_test
 
 using command_line_parser = argpppp::command_line_parser;
 using options = argpppp::options;
+using parse_result = argpppp::parse_result;
+using pf = argpppp::pf;
 using std::string;
 using std::vector;
 
@@ -33,10 +35,9 @@ vector<char> make_arg(const char* s)
     return make_arg(s, s + strlen(s));
 }
 
-// TODO: this should have a return value
 // TODO: rename this to disambiguate?
 // TODO: review (arguments and that)
-void parse_command_line(const command_line_parser& parser, const options& options, const string& command_line)
+parse_result parse_command_line(command_line_parser& parser, const options& options, const string& command_line)
 {
     // Build vector of zero terminated arguments
     vector<vector<char>> args;
@@ -53,7 +54,7 @@ void parse_command_line(const command_line_parser& parser, const options& option
         argv.push_back(arg.data());
     }
 
-    // TODO: somewhere need to tell the parser about the no_exit flag, otherwise it's going to exit our test, suite, which is not good.
+    parser.flags(pf::no_errs | pf::no_exit);
     return parser.parse(static_cast<int>(argv.size()), argv.data(), options);
 }
 
@@ -68,7 +69,7 @@ TEST_CASE("command_line_parser_test")
     {
         options.num_args(2);
 
-        /*auto result = */ parse_command_line(parser, options, "x y");
+        auto result = parse_command_line(parser, options, "x y");
 
         // TODO: check return code, should be 0
         // TODO: check argument vector in result

@@ -3,20 +3,29 @@
 
 export module argpppp:command_line_parser;
 import :options;
+import :pf;
 
 namespace argpppp
 {
 
-export void parse_command_line(int argc, char* argv[], const options& options);
+// TODO: add exit code
+// TODO: add argument vector
+export struct parse_result final {};
 
-// TODO: flesh out public interface. This gets called by the convenience function above, but can also be called by programs that need more control
+export parse_result parse_command_line(int argc, char* argv[], const options& options);
+
 export class command_line_parser final
 {
 public:
-    // TODO: this needs a return value
-    void parse(int argc, char* argv[], const options& o) const;
+    parse_result parse(int argc, char* argv[], const options& o) const;
+
+    void flags(pf flags)
+    {
+        m_flags = flags;
+    }
 
 private:
+    pf m_flags = pf::none;
 };
 
 }

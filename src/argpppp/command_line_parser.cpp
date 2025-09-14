@@ -10,13 +10,13 @@ module argpppp;
 namespace argpppp
 {
 
-void parse_command_line(int argc, char* argv[], const options& options)
+parse_result parse_command_line(int argc, char* argv[], const options& options)
 {
     command_line_parser parser;
     return parser.parse(argc, argv, options);
 }
 
-void command_line_parser::parse(int /*argc*/, char* /*argv*/[], const options& /*options*/) const
+parse_result command_line_parser::parse(int argc, char* argv[], const options& /*options*/) const
 {
     // TODO: set up stuff for argp_parse (see old implementation)
     // TODO: call argp_parse
@@ -27,6 +27,12 @@ void command_line_parser::parse(int /*argc*/, char* /*argv*/[], const options& /
 
     // TODO: supply all the commented out stuff
     const argp argp{ {}/*argp_options.data()*/, {}/*parse_option_static*/, {}/*c_str(m_args_doc)*/, {}/*c_str(m_doc)*/, children, help_filter, argp_domain};
+
+    // TODO: pass in context (that would be mostly the this pointer);
+    // TODO: return exit code from argp_parse (or do we wrap it?)
+    // TODO: rethrow any exceptions
+    argp_parse(&argp, argc, argv, to_uint(m_flags), nullptr, nullptr);
+    return parse_result();
 }
 
 }
