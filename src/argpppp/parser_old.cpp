@@ -20,6 +20,8 @@ import :pf;
 namespace argpppp_old
 {
 
+using namespace argpppp;
+
 namespace
 {
 

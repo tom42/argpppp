@@ -5,6 +5,8 @@ module;
 
 #include <cstddef>
 #include <limits>
+#include <optional>
+#include <string>
 
 export module argpppp:options;
 import :optional_string;
