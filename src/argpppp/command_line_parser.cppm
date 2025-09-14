@@ -38,6 +38,8 @@ private:
 
     error_t parse_option(int key, char* arg, argp_state* state) const;
 
+    error_t handle_key_arg(char* arg, argp_state* state) const;
+
     pf m_flags = pf::none;
 };
 

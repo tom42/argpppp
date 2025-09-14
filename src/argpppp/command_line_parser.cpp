@@ -74,13 +74,17 @@ error_t command_line_parser::parse_option(int key, char* arg, argp_state* state)
     switch (key)
     {
         case ARGP_KEY_ARG:
-            // TODO: move this into own function returning 0, so we just have a return statement here
-            get_context(state)->result.args.push_back(arg);
-            return 0;
+            return handle_key_arg(arg, state);
         // TODO: handle ARGP_KEY_END here
         default:
             return ARGP_ERR_UNKNOWN;
     }
+}
+
+error_t command_line_parser::handle_key_arg(char* arg, argp_state* state) const
+{
+    get_context(state)->result.args.push_back(arg);
+    return 0;
 }
 
 }
