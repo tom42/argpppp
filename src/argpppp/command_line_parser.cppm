@@ -1,6 +1,10 @@
 // SPDX-FileCopyrightText: 2025 Thomas Mathys
 // SPDX-License-Identifier: MIT
 
+module;
+
+#include <argp.h>
+
 export module argpppp:command_line_parser;
 import :options;
 import :pf;
@@ -27,6 +31,8 @@ public:
     }
 
 private:
+    static error_t parse_option_static(int key, char* arg, argp_state* state);
+
     pf m_flags = pf::none;
 };
 
