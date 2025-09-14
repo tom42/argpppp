@@ -10,6 +10,17 @@ module argpppp;
 namespace argpppp
 {
 
+namespace
+{
+
+class parser_context final
+{
+public:
+    parser_context() {}
+};
+
+}
+
 parse_result parse_command_line(int argc, char* argv[], const options& options)
 {
     command_line_parser parser;
