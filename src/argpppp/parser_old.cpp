@@ -52,9 +52,9 @@ void rethrow_exception_if_any(const argpppp_context& context)
     }
 }
 
-auto find_option_or_throw(const std::vector<option>& options, int key)
+auto find_option_or_throw(const std::vector<argpppp::option>& options, int key)
 {
-    auto opt = std::ranges::find_if(options, [=](const option& o) { return o.key() == key; });
+    auto opt = std::ranges::find_if(options, [=](const argpppp::option& o) { return o.key() == key; });
     if (opt == options.end())
     {
         throw std::logic_error("find_option_or_throw: option not found");
@@ -64,7 +64,7 @@ auto find_option_or_throw(const std::vector<option>& options, int key)
 
 }
 
-void parser::add_option(const option& o, const option_callback& c)
+void parser::add_option(const argpppp::option& o, const option_callback& c)
 {
     m_options.push_back(o);
 

@@ -49,7 +49,7 @@ export struct parse_result final
 export class parser final
 {
 public:
-    void add_option(const option& o, const option_callback& c);
+    void add_option(const argpppp::option& o, const option_callback& c);
 
     void set_args_doc(const optional_string& s);
 
@@ -78,7 +78,7 @@ private:
 
     optional_string m_args_doc;
     optional_string m_doc;
-    std::vector<option> m_options;
+    std::vector<argpppp::option> m_options;
     std::map<int, option_callback> m_callbacks;
     failure_callback m_failure_callback;
 
@@ -88,14 +88,14 @@ private:
     std::size_t m_max_args = std::numeric_limits<size_t>::max();
 };
 
-export inline void add_option(parser& p, const option& o, const option_callback& c)
+export inline void add_option(parser& p, const argpppp::option& o, const option_callback& c)
 {
     p.add_option(o, c);
 }
 
 export inline void add_header(parser& p, const std::string& header_text, int group = 0)
 {
-    p.add_option(option({}, {}, header_text, {}, {}, group), {});
+    p.add_option(argpppp::option({}, {}, header_text, {}, {}, group), {});
 }
 
 }
