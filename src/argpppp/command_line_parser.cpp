@@ -16,7 +16,9 @@ namespace
 class parser_context final
 {
 public:
-    parser_context() {}
+    parser_context(const command_line_parser& p) : this_parser(p) {}
+
+    const command_line_parser& this_parser;
 };
 
 parser_context* get_context(argp_state* state)
@@ -46,7 +48,7 @@ parse_result command_line_parser::parse(int argc, char* argv[], const options& o
 
     // TODO: rethrow any exceptions
     parse_result result;
-    parser_context context;
+    parser_context context(*this);
     result.errnum = argp_parse(&argp, argc, argv, to_uint(m_flags), nullptr, &context);
 
     return result;
