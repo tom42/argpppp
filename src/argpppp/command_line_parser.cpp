@@ -16,9 +16,16 @@ namespace
 class parser_context final
 {
 public:
-    parser_context(const command_line_parser& p) : this_parser(p) {}
+    // TODO: delete copy constructor
+    // TODO: delete assignment operator
+
+    parser_context(const command_line_parser& p, parse_result& r)
+        : this_parser(p)
+        , result(r)
+    {}
 
     const command_line_parser& this_parser;
+    parse_result& result;
 };
 
 parser_context* get_context(argp_state* state)
@@ -48,7 +55,7 @@ parse_result command_line_parser::parse(int argc, char* argv[], const options& o
 
     // TODO: rethrow any exceptions
     parse_result result;
-    parser_context context(*this);
+    parser_context context(*this, result);
     result.errnum = argp_parse(&argp, argc, argv, to_uint(m_flags), nullptr, &context);
 
     return result;
@@ -62,10 +69,18 @@ error_t command_line_parser::parse_option_static(int key, char* arg, argp_state*
     return context->this_parser.parse_option(key, arg, state);
 }
 
-error_t command_line_parser::parse_option(int /*key*/, char* /*arg*/, argp_state* /*state*/) const
+error_t command_line_parser::parse_option(int key, char* arg, argp_state* state) const
 {
-    // TODO: implement option callback here
-    return 0; // TODO: should not normally return 0 here. We should only return 0 here if we processed key successfully, or something
+    switch (key)
+    {
+        case ARGP_KEY_ARG:
+            // TODO: move this into own function returning 0, so we just have a return statement here
+            get_context(state)->result.args.push_back(arg);
+            return 0;
+        // TODO: handle ARGP_KEY_END here
+        default:
+            return ARGP_ERR_UNKNOWN;
+    }
 }
 
 }
