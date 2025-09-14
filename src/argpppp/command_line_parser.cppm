@@ -8,9 +8,11 @@ import :pf;
 namespace argpppp
 {
 
-// TODO: add exit code
 // TODO: add argument vector
-export struct parse_result final {};
+export struct parse_result final
+{
+    int errnum = 0;
+};
 
 export parse_result parse_command_line(int argc, char* argv[], const options& options);
 

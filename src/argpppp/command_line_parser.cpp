@@ -29,10 +29,11 @@ parse_result command_line_parser::parse(int argc, char* argv[], const options& /
     const argp argp{ {}/*argp_options.data()*/, {}/*parse_option_static*/, {}/*c_str(m_args_doc)*/, {}/*c_str(m_doc)*/, children, help_filter, argp_domain};
 
     // TODO: pass in context (that would be mostly the this pointer);
-    // TODO: return exit code from argp_parse (or do we wrap it?)
     // TODO: rethrow any exceptions
-    argp_parse(&argp, argc, argv, to_uint(m_flags), nullptr, nullptr);
-    return parse_result();
+    parse_result result;
+    result.errnum = argp_parse(&argp, argc, argv, to_uint(m_flags), nullptr, nullptr);
+
+    return result;
 }
 
 }
