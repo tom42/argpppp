@@ -12,7 +12,8 @@ namespace argpppp
 
 options& options::add(const option& o, std::shared_ptr<option_handler> h)
 {
-    // TODO: tuck away option and its handler, somehow (if we store options without handlers, then we do it in the branch below)
+    // TODO: also tuck away option handler, either here, or in the branch below
+    m_options.push_back(o);
 
     if (o.key() == 0)
     {

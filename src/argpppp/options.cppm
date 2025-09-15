@@ -8,6 +8,7 @@ module;
 #include <memory>
 #include <optional>
 #include <string>
+#include <vector>
 
 export module argpppp:options;
 import :option;
@@ -78,6 +79,7 @@ private:
     optional_string m_args_doc;
     std::size_t m_min_args = std::numeric_limits<size_t>::min();
     std::size_t m_max_args = std::numeric_limits<size_t>::max();
+    std::vector<option> m_options;
 };
 
 }
