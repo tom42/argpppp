@@ -142,15 +142,6 @@ TEST_CASE("parser_test_old")
         CHECK(a_seen == true);
     }
 
-    SECTION("Unlimited number of arguments")
-    {
-        auto result = parse(parser, "arg1 arg2 arg3 arg4");
-
-        CHECK(result.errnum == 0);
-        CHECK(result.args == vector<string>{"arg1", "arg2", "arg3", "arg4"});
-        CHECK(failure_message == "");
-    }
-
     SECTION("Too few arguments")
     {
         parser.set_nargs(2);

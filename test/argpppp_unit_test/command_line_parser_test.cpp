@@ -64,6 +64,16 @@ TEST_CASE("command_line_parser_test")
 {
     command_line_parser parser;
     options options;
+    string failure_message;
+
+    SECTION("Unlimited number of arguments")
+    {
+        auto result = parse_command_line(parser, options, "arg1 arg2 arg3 arg4");
+
+        CHECK(result.errnum == 0);
+        CHECK(result.args == vector<string>{"arg1", "arg2", "arg3", "arg4"});
+        CHECK(failure_message == "");
+    }
 
     SECTION("Correct number of arguments")
     {
