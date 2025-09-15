@@ -87,7 +87,9 @@ error_t command_line_parser::parse_option(int key, char* arg, argp_state* state)
 
 error_t command_line_parser::handle_key_arg(char* arg, argp_state* state) const
 {
-    get_context(state)->result.args.push_back(arg);
+    auto context = get_context(state);
+
+    context->result.args.push_back(arg);
     return 0;
 }
 
