@@ -18,6 +18,19 @@ import :optional_string;
 namespace argpppp
 {
 
+class option_with_handler final
+{
+public:
+    option_with_handler(const option& o, std::shared_ptr<option_handler> h)
+        : m_option(o)
+        , m_handler(h)
+    {}
+
+private:
+    option m_option;
+    std::shared_ptr<option_handler> m_handler;
+};
+
 export class options final
 {
 public:
