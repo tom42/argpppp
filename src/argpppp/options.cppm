@@ -27,8 +27,13 @@ public:
         , m_handler(h)
     {}
 
+    const option& option() const
+    {
+        return m_option;
+    }
+
 private:
-    option m_option;
+    argpppp::option m_option;
     std::shared_ptr<option_handler> m_handler;
 };
 
