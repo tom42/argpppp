@@ -18,8 +18,8 @@ namespace
 class parser_context final
 {
 public:
-    // TODO: delete copy constructor
-    // TODO: delete assignment operator
+    parser_context(const parser_context&) = delete;
+    parser_context& operator=(const parser_context&) = delete;
 
     parser_context(const options& o, const command_line_parser& p, parse_result& r)
         : options(o)

@@ -28,9 +28,6 @@ namespace
 class argpppp_context final
 {
 public:
-    argpppp_context(const argpppp_context&) = delete;
-    argpppp_context& operator=(const argpppp_context&) = delete;
-
     argpppp_context(const parser& p, parse_result& r)
         : this_parser(p)
         , result(r)
