@@ -95,7 +95,7 @@ TEST_CASE("command_line_parser_test")
         auto result = parse_command_line(parser, options, "x y z");
 
         CHECK(result.errnum == EINVAL);
-        CHECK(result.args == vector<string>{"x", "y", "z"});
+        CHECK(result.args == vector<string>{"x", "y"});
         CHECK(failure_message == "too many arguments");
     }
 
