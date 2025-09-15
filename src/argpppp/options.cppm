@@ -3,6 +3,7 @@
 
 module;
 
+#include <argp.h>
 #include <cstddef>
 #include <limits>
 #include <memory>
@@ -88,11 +89,18 @@ public:
     }
 
 private:
+    friend std::vector<argp_option> get_argp_options(const options& o);
+
     optional_string m_doc;
     optional_string m_args_doc;
     std::size_t m_min_args = std::numeric_limits<size_t>::min();
     std::size_t m_max_args = std::numeric_limits<size_t>::max();
     std::vector<option_with_handler> m_options;
 };
+
+// TODO: document what this does (in particular, options must remain in scope)
+// TODO: this is a friend function
+// TODO: do we still need to_argp_options (note plural) from option.cppm / option.cpp?
+std::vector<argp_option> get_argp_options(const options& o);
 
 }

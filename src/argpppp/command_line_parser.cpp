@@ -50,9 +50,18 @@ parse_result command_line_parser::parse(int argc, char* argv[], const options& o
     constexpr const argp_child* children = nullptr;
     constexpr const auto help_filter = nullptr;
     constexpr const char* argp_domain = nullptr;
+    const auto argp_options = get_argp_options(options);
 
-    // TODO: supply all the commented out stuff
-    const argp argp{ {}/*argp_options.data()*/, parse_option_static, c_str(options.args_doc()), c_str(options.doc()), children, help_filter, argp_domain};
+    const argp argp
+    {
+        argp_options.data(),
+        parse_option_static,
+        c_str(options.args_doc()),
+        c_str(options.doc()),
+        children,
+        help_filter,
+        argp_domain
+    };
 
     // TODO: rethrow any exceptions
     parse_result result;

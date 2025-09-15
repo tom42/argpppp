@@ -3,6 +3,8 @@
 
 module;
 
+#include <algorithm>
+#include <iterator>
 #include <stdexcept>
 
 module argpppp;
@@ -29,6 +31,16 @@ options& options::add(const option& o, std::shared_ptr<option_handler> h)
 
     m_options.emplace_back(o, h);
     return *this;
+}
+
+std::vector<argp_option> get_argp_options(const options& o)
+{
+    std::vector<argp_option> argp_options;
+    argp_options.reserve(o.m_options.size() + 1);
+    // TODO: convert all options in o to argp_option and add it to argp_options
+    std::transform(o.m_options.begin(), o.m_options.end(), back_inserter(argp_options), to_argp_option);
+    argp_options.push_back({});
+    return argp_options;
 }
 
 }
