@@ -2,13 +2,18 @@
 // SPDX-License-Identifier: MIT
 
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/matchers/catch_matchers.hpp>
+#include <catch2/matchers/catch_matchers_exception.hpp>
 #include <limits>
+#include <memory>
 
 import argpppp;
 
 namespace argpppp_unit_test
 {
 
+using of = argpppp::of;
+using option_handler = argpppp::option_handler;
 using options = argpppp::options;
 
 TEST_CASE("options_test")
@@ -52,6 +57,15 @@ TEST_CASE("options_test")
         options.num_args(2);
         CHECK(options.max_args() == 2);
         CHECK(options.max_args() == 2);
+    }
+
+    SECTION("add throws if an option with key = 0 has a handler")
+    {
+        CHECK_THROWS_MATCHES(
+            options.add({ {}, "This is a documentation option", {}, {}, of::doc }, std::make_shared<option_handler>()),
+            std::invalid_argument,
+            Catch::Matchers::Message("add: special options with key = 0 must not have handlers"));
+        // TODO: remove test when done
     }
 }
 

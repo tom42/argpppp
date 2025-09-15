@@ -68,14 +68,6 @@ TEST_CASE("parser_test_old")
     std::string failure_message;
     parser.set_failure_callback([&failure_message](int, const std::string& msg) { failure_message += msg; });
 
-    SECTION("add_option throws if an option with key = 0 has a callback")
-    {
-        CHECK_THROWS_MATCHES(
-            add_option(parser, { {}, "This is a documentation option", {}, {}, of::doc }, [](auto) { return true; }),
-            std::invalid_argument,
-            Catch::Matchers::Message("add_option: special options with key = 0 must not have callbacks"));
-    }
-
     SECTION("add_option throws if an option with key != 0 does not have a callback")
     {
         CHECK_THROWS_MATCHES(

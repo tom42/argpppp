@@ -5,10 +5,13 @@ module;
 
 #include <cstddef>
 #include <limits>
+#include <memory>
 #include <optional>
 #include <string>
 
 export module argpppp:options;
+import :option;
+import :option_handlers;
 import :optional_string;
 
 namespace argpppp
@@ -17,6 +20,8 @@ namespace argpppp
 export class options final
 {
 public:
+    options& add(const option& o, std::shared_ptr<option_handler> h);
+
     const optional_string& doc() const
     {
         return m_doc;

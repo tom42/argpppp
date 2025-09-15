@@ -7,6 +7,7 @@ namespace argpppp
 {
 
 // TODO: add parsing interface for parser (abstract)
+// TODO: can we make this class abstract? How?
 export class option_handler
 {
 public:

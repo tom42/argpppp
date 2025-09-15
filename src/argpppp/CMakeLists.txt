@@ -16,6 +16,7 @@ set(
   PRIVATE
   command_line_parser.cpp
   option.cpp
+  options.cpp
   parser_old.cpp)
 
 # Production version of argpppp
