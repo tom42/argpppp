@@ -142,16 +142,6 @@ TEST_CASE("parser_test_old")
         CHECK(a_seen == true);
     }
 
-    SECTION("Minimum and maximum number of arguments differ")
-    {
-        parser.set_nargs(2, 3);
-
-        CHECK(parse(parser, "1").errnum == EINVAL);
-        CHECK(parse(parser, "1 2").errnum == 0);
-        CHECK(parse(parser, "1 2 3").errnum == 0);
-        CHECK(parse(parser, "1 2 3 4").errnum == EINVAL);
-    }
-
     SECTION("set_nargs throws if min is > max")
     {
         CHECK_THROWS_MATCHES(

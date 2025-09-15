@@ -109,6 +109,17 @@ TEST_CASE("command_line_parser_test")
         CHECK(result.args == vector<string>{"x", "y"});
         CHECK(failure_message == "");
     }
+
+    SECTION("Minimum and maximum number of arguments differ")
+    {
+        options.min_args(2);
+        options.max_args(3);
+
+        CHECK(parse_command_line(parser, options, "1").errnum == EINVAL);
+        CHECK(parse_command_line(parser, options, "1 2").errnum == 0);
+        CHECK(parse_command_line(parser, options, "1 2 3").errnum == 0);
+        CHECK(parse_command_line(parser, options, "1 2 3 4").errnum == EINVAL);
+    }
 }
 
 }
