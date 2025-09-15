@@ -31,16 +31,16 @@ export class command_line_parser final
 public:
     parse_result parse(int argc, char* argv[], const options& o) const;
 
-    // TODO: fluent API?
-    void failure_callback(const failure_callback& c)
+    command_line_parser& failure_callback(const failure_callback& c)
     {
         m_failure_callback = c;
+        return *this;
     }
 
-    // TODO: fluent API?
-    void flags(pf flags)
+    command_line_parser& flags(pf flags)
     {
         m_flags = flags;
+        return *this;
     }
 
 private:

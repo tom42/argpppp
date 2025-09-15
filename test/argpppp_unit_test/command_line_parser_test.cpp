@@ -40,7 +40,9 @@ class command_line_parser_fixture
 public:
     command_line_parser_fixture()
     {
-        parser.failure_callback([this](int, const string& message) {failure_message += message; });
+        parser
+            .flags(pf::no_errs | pf::no_exit)
+            .failure_callback([this](int, const string& message) {failure_message += message; });
     }
 
 protected:
@@ -61,7 +63,6 @@ protected:
             argv.push_back(arg.data());
         }
 
-        parser.flags(pf::no_errs | pf::no_exit);
         return parser.parse(static_cast<int>(argv.size()), argv.data(), options);
     }
 
