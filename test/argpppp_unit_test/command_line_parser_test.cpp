@@ -44,8 +44,6 @@ public:
     }
 
 protected:
-    // TODO: rename this to disambiguate?
-    // TODO: review (arguments and that)
     parse_result parse_command_line(const string& command_line)
     {
         // Build vector of zero terminated arguments
