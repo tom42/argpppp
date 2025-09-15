@@ -75,6 +75,17 @@ TEST_CASE("command_line_parser_test")
         CHECK(failure_message == "");
     }
 
+    SECTION("Too few arguments")
+    {
+        options.num_args(2);
+
+        auto result = parse_command_line(parser, options, "x");
+
+        CHECK(result.errnum == EINVAL);
+        CHECK(result.args == vector<string>{"x"});
+        CHECK(failure_message == "too few arguments");
+    }
+
     SECTION("Correct number of arguments")
     {
         options.num_args(2);
@@ -83,7 +94,7 @@ TEST_CASE("command_line_parser_test")
 
         CHECK(result.errnum == 0);
         CHECK(result.args == vector<string>{"x", "y"});
-        // TODO: check error output, should be empty
+        CHECK(failure_message == "");
         // TODO: when done, delete old test from parser_test_old.cpp (after checking it is equivalent)
     }
 }

@@ -4,6 +4,7 @@
 module;
 
 #include <argp.h>
+#include <functional>
 #include <string>
 #include <vector>
 
@@ -14,7 +15,7 @@ import :pf;
 namespace argpppp
 {
 
-// TODO: add argument vector
+// TODO: add is_successful() / success() function
 export struct parse_result final
 {
     int errnum = 0;
