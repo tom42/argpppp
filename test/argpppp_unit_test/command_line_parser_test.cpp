@@ -88,6 +88,17 @@ TEST_CASE("command_line_parser_test")
         CHECK(failure_message == "too few arguments");
     }
 
+    SECTION("Too many arguments")
+    {
+        options.num_args(2);
+
+        auto result = parse_command_line(parser, options, "x y z");
+
+        CHECK(result.errnum == EINVAL);
+        CHECK(result.args == vector<string>{"x", "y", "z"});
+        CHECK(failure_message == "too many arguments");
+    }
+
     SECTION("Correct number of arguments")
     {
         options.num_args(2);

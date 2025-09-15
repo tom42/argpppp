@@ -142,17 +142,6 @@ TEST_CASE("parser_test_old")
         CHECK(a_seen == true);
     }
 
-    SECTION("Too many arguments")
-    {
-        parser.set_nargs(2);
-
-        auto result = parse(parser, "x y z");
-
-        CHECK(result.errnum == EINVAL);
-        CHECK(result.args == vector<string>{"x", "y", "z"});
-        CHECK(failure_message == "too many arguments");
-    }
-
     SECTION("Minimum and maximum number of arguments differ")
     {
         parser.set_nargs(2, 3);
