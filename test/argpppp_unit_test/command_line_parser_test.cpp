@@ -35,42 +35,50 @@ vector<char> make_arg(const char* s)
     return make_arg(s, s + strlen(s));
 }
 
-// TODO: rename this to disambiguate?
-// TODO: review (arguments and that)
-parse_result parse_command_line(command_line_parser& parser, const options& options, const string& command_line)
+class command_line_parser_fixture
 {
-    // Build vector of zero terminated arguments
-    vector<vector<char>> args;
-    args.push_back(make_arg("program_name"));
-    for (auto word : std::views::split(command_line, ' '))
+public:
+    command_line_parser_fixture()
     {
-        args.push_back(make_arg(word.begin(), word.end()));
+        parser.failure_callback([this](int, const string& message) {failure_message += message; });
     }
 
-    // Build argv, a vector containing char pointers to the zero terminated arguments
-    vector<char*> argv;
-    for (auto& arg : args)
+protected:
+    // TODO: rename this to disambiguate?
+    // TODO: review (arguments and that)
+    parse_result parse_command_line(const string& command_line)
     {
-        argv.push_back(arg.data());
+        // Build vector of zero terminated arguments
+        vector<vector<char>> args;
+        args.push_back(make_arg("program_name"));
+        for (auto word : std::views::split(command_line, ' '))
+        {
+            args.push_back(make_arg(word.begin(), word.end()));
+        }
+
+        // Build argv, a vector containing char pointers to the zero terminated arguments
+        vector<char*> argv;
+        for (auto& arg : args)
+        {
+            argv.push_back(arg.data());
+        }
+
+        parser.flags(pf::no_errs | pf::no_exit);
+        return parser.parse(static_cast<int>(argv.size()), argv.data(), options);
     }
 
-    parser.flags(pf::no_errs | pf::no_exit);
-    return parser.parse(static_cast<int>(argv.size()), argv.data(), options);
-}
-
-}
-
-TEST_CASE("command_line_parser_test")
-{
     command_line_parser parser;
     options options;
     string failure_message;
+};
 
-    parser.failure_callback([&failure_message](int, const string& message) {failure_message += message; });
+}
 
+TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser_test")
+{
     SECTION("Unlimited number of arguments")
     {
-        auto result = parse_command_line(parser, options, "arg1 arg2 arg3 arg4");
+        auto result = parse_command_line("arg1 arg2 arg3 arg4");
 
         CHECK(result.errnum == 0);
         CHECK(result.args == vector<string>{"arg1", "arg2", "arg3", "arg4"});
@@ -81,7 +89,7 @@ TEST_CASE("command_line_parser_test")
     {
         options.num_args(2);
 
-        auto result = parse_command_line(parser, options, "x");
+        auto result = parse_command_line("x");
 
         CHECK(result.errnum == EINVAL);
         CHECK(result.args == vector<string>{"x"});
@@ -92,7 +100,7 @@ TEST_CASE("command_line_parser_test")
     {
         options.num_args(2);
 
-        auto result = parse_command_line(parser, options, "x y z");
+        auto result = parse_command_line("x y z");
 
         CHECK(result.errnum == EINVAL);
         CHECK(result.args == vector<string>{"x", "y"});
@@ -103,7 +111,7 @@ TEST_CASE("command_line_parser_test")
     {
         options.num_args(2);
 
-        auto result = parse_command_line(parser, options, "x y");
+        auto result = parse_command_line("x y");
 
         CHECK(result.errnum == 0);
         CHECK(result.args == vector<string>{"x", "y"});
@@ -115,10 +123,10 @@ TEST_CASE("command_line_parser_test")
         options.min_args(2);
         options.max_args(3);
 
-        CHECK(parse_command_line(parser, options, "1").errnum == EINVAL);
-        CHECK(parse_command_line(parser, options, "1 2").errnum == 0);
-        CHECK(parse_command_line(parser, options, "1 2 3").errnum == 0);
-        CHECK(parse_command_line(parser, options, "1 2 3 4").errnum == EINVAL);
+        CHECK(parse_command_line("1").errnum == EINVAL);
+        CHECK(parse_command_line("1 2").errnum == 0);
+        CHECK(parse_command_line("1 2 3").errnum == 0);
+        CHECK(parse_command_line("1 2 3 4").errnum == EINVAL);
     }
 }
 
