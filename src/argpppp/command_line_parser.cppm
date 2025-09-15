@@ -41,6 +41,8 @@ private:
 
     error_t handle_key_arg(char* arg, argp_state* state) const;
 
+    error_t handle_key_end(argp_state* state) const;
+
     pf m_flags = pf::none;
 };
 

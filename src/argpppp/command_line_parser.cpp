@@ -4,6 +4,7 @@
 module;
 
 #include <argp.h>
+#include <cstdlib>
 
 module argpppp;
 
@@ -19,11 +20,13 @@ public:
     // TODO: delete copy constructor
     // TODO: delete assignment operator
 
-    parser_context(const command_line_parser& p, parse_result& r)
-        : this_parser(p)
+    parser_context(const options& o, const command_line_parser& p, parse_result& r)
+        : options(o)
+        , this_parser(p)
         , result(r)
     {}
 
+    const options& options;
     const command_line_parser& this_parser;
     parse_result& result;
 };
@@ -44,7 +47,6 @@ parse_result parse_command_line(int argc, char* argv[], const options& options)
 parse_result command_line_parser::parse(int argc, char* argv[], const options& options) const
 {
     // TODO: set up stuff for argp_parse (see old implementation)
-    // TODO: call argp_parse
 
     constexpr const argp_child* children = nullptr;
     constexpr const auto help_filter = nullptr;
@@ -55,7 +57,7 @@ parse_result command_line_parser::parse(int argc, char* argv[], const options& o
 
     // TODO: rethrow any exceptions
     parse_result result;
-    parser_context context(*this, result);
+    parser_context context(options, *this, result);
     result.errnum = argp_parse(&argp, argc, argv, to_uint(m_flags), nullptr, &context);
 
     return result;
@@ -75,7 +77,8 @@ error_t command_line_parser::parse_option(int key, char* arg, argp_state* state)
     {
         case ARGP_KEY_ARG:
             return handle_key_arg(arg, state);
-        // TODO: handle ARGP_KEY_END here
+        case ARGP_KEY_END:
+            return handle_key_end(state);
         default:
             return ARGP_ERR_UNKNOWN;
     }
@@ -84,6 +87,19 @@ error_t command_line_parser::parse_option(int key, char* arg, argp_state* state)
 error_t command_line_parser::handle_key_arg(char* arg, argp_state* state) const
 {
     get_context(state)->result.args.push_back(arg);
+    return 0;
+}
+
+error_t command_line_parser::handle_key_end(argp_state* state) const
+{
+    auto context = get_context(state);
+
+    if (context->result.args.size() < context->options.min_args())
+    {
+        report_failure(state, EXIT_FAILURE, 0, "too few arguments");
+        return EINVAL;
+    }
+
     return 0;
 }
 
