@@ -12,9 +12,6 @@ namespace argpppp
 
 options& options::add(const option& o, std::shared_ptr<option_handler> h)
 {
-    // TODO: also tuck away option handler, either here, or in the branch below
-    m_options.push_back(o);
-
     if (o.key() == 0)
     {
         if (h)
@@ -30,6 +27,7 @@ options& options::add(const option& o, std::shared_ptr<option_handler> h)
         }
     }
 
+    m_options.emplace_back(o, h);
     return *this;
 }
 

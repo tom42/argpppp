@@ -92,7 +92,7 @@ private:
     optional_string m_args_doc;
     std::size_t m_min_args = std::numeric_limits<size_t>::min();
     std::size_t m_max_args = std::numeric_limits<size_t>::max();
-    std::vector<option> m_options;
+    std::vector<option_with_handler> m_options;
 };
 
 }
