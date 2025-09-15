@@ -47,8 +47,6 @@ parse_result parse_command_line(int argc, char* argv[], const options& options)
 
 parse_result command_line_parser::parse(int argc, char* argv[], const options& options) const
 {
-    // TODO: set up stuff for argp_parse (see old implementation)
-
     constexpr const argp_child* children = nullptr;
     constexpr const auto help_filter = nullptr;
     constexpr const char* argp_domain = nullptr;
