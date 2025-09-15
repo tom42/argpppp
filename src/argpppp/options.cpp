@@ -18,12 +18,15 @@ options& options::add(const option& o, std::shared_ptr<option_handler> h)
     {
         if (h)
         {
-            throw std::invalid_argument("add: special options with key = 0 must not have handlers");
+            throw std::invalid_argument("add: a special option with key = 0 must not have a handler");
         }
     }
     else
     {
-        // TODO: throw if the option should have a handler but has none
+        if (!h)
+        {
+            throw std::invalid_argument("add: option must have a handler");
+        }
     }
 
     return *this;

@@ -68,14 +68,6 @@ TEST_CASE("parser_test_old")
     std::string failure_message;
     parser.set_failure_callback([&failure_message](int, const std::string& msg) { failure_message += msg; });
 
-    SECTION("add_option throws if an option with key != 0 does not have a callback")
-    {
-        CHECK_THROWS_MATCHES(
-            add_option(parser, { 'a' }, {}),
-            std::invalid_argument,
-            Catch::Matchers::Message("add_option: option must have a callback"));
-    }
-
     SECTION("Exceptions abort parsing and are propagated to caller")
     {
         add_option(parser, { 'a' }, [](auto)->bool{ throw std::runtime_error("This exception should occur."); });
