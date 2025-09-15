@@ -66,6 +66,8 @@ TEST_CASE("command_line_parser_test")
     options options;
     string failure_message;
 
+    parser.failure_callback([&failure_message](int, const string& message) {failure_message += message; });
+
     SECTION("Unlimited number of arguments")
     {
         auto result = parse_command_line(parser, options, "arg1 arg2 arg3 arg4");

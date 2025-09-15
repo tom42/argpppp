@@ -5,6 +5,7 @@ module;
 
 #include <argp.h>
 #include <cstdlib>
+#include <string>
 
 module argpppp;
 
@@ -101,6 +102,18 @@ error_t command_line_parser::handle_key_end(argp_state* state) const
     }
 
     return 0;
+}
+
+void command_line_parser::report_failure(const argp_state* state, int status, int errnum, const std::string& message) const
+{
+    if (m_failure_callback)
+    {
+        m_failure_callback(errnum, message);
+    }
+    else
+    {
+        argp_failure(state, status, errnum, "%s", message.c_str());
+    }
 }
 
 }

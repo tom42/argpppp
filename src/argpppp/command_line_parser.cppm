@@ -15,7 +15,9 @@ import :pf;
 namespace argpppp
 {
 
-// TODO: add is_successful() / success() function
+export using failure_callback = std::function<void(int, const std::string&)>;
+
+// TODO: add is_successful() / success() function?
 export struct parse_result final
 {
     int errnum = 0;
@@ -29,6 +31,13 @@ export class command_line_parser final
 public:
     parse_result parse(int argc, char* argv[], const options& o) const;
 
+    // TODO: fluent API?
+    void failure_callback(const failure_callback& c)
+    {
+        m_failure_callback = c;
+    }
+
+    // TODO: fluent API?
     void flags(pf flags)
     {
         m_flags = flags;
@@ -43,6 +52,9 @@ private:
 
     error_t handle_key_end(argp_state* state) const;
 
+    void report_failure(const argp_state* state, int status, int errnum, const std::string& message) const;
+
+    argpppp::failure_callback m_failure_callback;
     pf m_flags = pf::none;
 };
 
