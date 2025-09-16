@@ -43,8 +43,7 @@ public:
     std::exception_ptr exception;
 };
 
-// TODO: do we want this to be noexcept?
-parser_context* get_context(argp_state* state)
+parser_context* get_context(argp_state* state) noexcept
 {
     return static_cast<parser_context*>(state->input);
 }
