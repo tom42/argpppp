@@ -5,6 +5,7 @@ module;
 
 #include <argp.h>
 #include <cstdlib>
+#include <exception>
 #include <stdexcept> // TODO: added for testcode, delete if not needed
 #include <string>
 
@@ -31,8 +32,10 @@ public:
     const options& options;
     const command_line_parser& this_parser;
     parse_result& result;
+    std::exception_ptr exception;
 };
 
+// TODO: do we want this to be noexcept?
 parser_context* get_context(argp_state* state)
 {
     return static_cast<parser_context*>(state->input);
@@ -64,11 +67,11 @@ parse_result command_line_parser::parse(int argc, char* argv[], const options& o
         argp_domain
     };
 
-    // TODO: rethrow any exceptions
     parse_result result;
     parser_context context(options, *this, result);
     result.errnum = argp_parse(&argp, argc, argv, to_uint(m_flags), nullptr, &context);
 
+    rethrow_exception_if_any(context);
     return result;
 }
 
@@ -77,7 +80,17 @@ error_t command_line_parser::parse_option_static(int key, char* arg, argp_state*
     // TODO: real implementation
     //       * catch all exceptions and store them in context, so they can be rethrown later. In the case of an exception, return EINVAL;
     auto context = get_context(state);
-    return context->this_parser.parse_option(key, arg, state);
+    try
+    {
+        return context->this_parser.parse_option(key, arg, state);
+    }
+    catch (...)
+    {
+        // Do not let exception escape into argp, which is written in C.
+        // Instead, pass exception to calling C++ code through argpppp_context instance.
+        context->exception = std::current_exception();
+        return EINVAL;
+    }
 }
 
 error_t command_line_parser::parse_option(int key, char* arg, argp_state* state) const
