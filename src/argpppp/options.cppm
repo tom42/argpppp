@@ -93,6 +93,11 @@ public:
         return *this;
     }
 
+    const std::vector<option_with_handler>& opts() const
+    {
+        return m_options;
+    }
+
 private:
     friend std::vector<argp_option> get_argp_options(const options& o);
 
