@@ -6,11 +6,12 @@ export module argpppp:option_handlers;
 namespace argpppp
 {
 
-// TODO: add parsing interface for parser (abstract)
-// TODO: can we make this class abstract? How?
 export class option_handler
 {
 public:
+    // TODO: probably later this needs arguments and a return value
+    virtual void handle_option() = 0;
+
     virtual ~option_handler() {}
 };
 
