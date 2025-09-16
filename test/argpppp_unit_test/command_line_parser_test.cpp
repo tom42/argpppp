@@ -2,8 +2,12 @@
 // SPDX-License-Identifier: MIT
 
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/matchers/catch_matchers.hpp>
+#include <catch2/matchers/catch_matchers_exception.hpp>
 #include <cstring>
+#include <memory>
 #include <ranges>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -12,10 +16,12 @@ import argpppp;
 namespace argpppp_unit_test
 {
 
+using callback = argpppp::callback;
 using command_line_parser = argpppp::command_line_parser;
 using options = argpppp::options;
 using parse_result = argpppp::parse_result;
 using pf = argpppp::pf;
+using std::make_shared;
 using std::string;
 using std::vector;
 
@@ -126,6 +132,21 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser_test")
         CHECK(parse_command_line("1 2").errnum == 0);
         CHECK(parse_command_line("1 2 3").errnum == 0);
         CHECK(parse_command_line("1 2 3 4").errnum == EINVAL);
+    }
+
+    SECTION("Exceptions abort parsing and are propagated to caller")
+    {
+        // TODO: set up callbacks (how?) => we can alaways create a shortcut later!
+        // TODO: get test to pass
+        // TODO: delete old test once good
+        options
+            .add({ 'a' }, make_shared<callback>())
+            .add({ 'b' }, make_shared<callback>());
+
+        CHECK_THROWS_MATCHES(
+            parse_command_line("-a -b"),
+            std::runtime_error,
+            Catch::Matchers::Message("This exception should occur."));
     }
 }
 

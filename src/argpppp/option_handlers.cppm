@@ -14,4 +14,9 @@ public:
     virtual ~option_handler() {}
 };
 
+export class callback : public option_handler
+{
+public:
+};
+
 }
