@@ -85,8 +85,6 @@ parse_result command_line_parser::parse(int argc, char* argv[], const options& o
 
 error_t command_line_parser::parse_option_static(int key, char* arg, argp_state* state)
 {
-    // TODO: real implementation
-    //       * catch all exceptions and store them in context, so they can be rethrown later. In the case of an exception, return EINVAL;
     auto context = get_context(state);
     try
     {
@@ -103,7 +101,7 @@ error_t command_line_parser::parse_option_static(int key, char* arg, argp_state*
 
 error_t command_line_parser::parse_option(int key, char* arg, argp_state* state) const
 {
-    // TODO: hack to get test passing
+    // TODO: hack to get test passing. Need to find and invoke callback, but that is not yet implemented. Sigh.
     if (key == 'a')
     {
         throw std::runtime_error("This exception should occur.");
