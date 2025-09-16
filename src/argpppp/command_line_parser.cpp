@@ -29,6 +29,14 @@ public:
         , result(r)
     {}
 
+    void rethrow_exception_if_any() const
+    {
+        if (exception)
+        {
+            std::rethrow_exception(exception);
+        }
+    }
+
     const options& options;
     const command_line_parser& this_parser;
     parse_result& result;
@@ -71,7 +79,7 @@ parse_result command_line_parser::parse(int argc, char* argv[], const options& o
     parser_context context(options, *this, result);
     result.errnum = argp_parse(&argp, argc, argv, to_uint(m_flags), nullptr, &context);
 
-    rethrow_exception_if_any(context);
+    context.rethrow_exception_if_any();
     return result;
 }
 
