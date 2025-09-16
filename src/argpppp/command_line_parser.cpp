@@ -6,6 +6,8 @@ module;
 #include <argp.h>
 #include <cstdlib>
 #include <exception>
+#include <map>
+#include <memory>
 #include <stdexcept> // TODO: added for testcode, delete if not needed
 #include <string>
 
@@ -39,6 +41,7 @@ public:
 
     const options& options;
     const command_line_parser& this_parser;
+    std::map<int, std::shared_ptr<option_handler>> option_handlers;
     parse_result& result;
     std::exception_ptr exception;
 };

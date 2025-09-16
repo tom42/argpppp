@@ -111,6 +111,7 @@ private:
 // TODO: do we still need to_argp_options (note plural) from option.cppm / option.cpp?
 std::vector<argp_option> get_argp_options(const options& o);
 
+// TODO: this function is yet to be implemented
 // TODO: what happens if an option key is used by more than one option?
 std::map<int, std::shared_ptr<option_handler>> get_option_handlers(const options& o);
 
