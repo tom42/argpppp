@@ -18,6 +18,10 @@ public:
 export class callback : public option_handler
 {
 public:
+    void handle_option() override
+    {
+        // TODO: forward to callback
+    }
 };
 
 }
