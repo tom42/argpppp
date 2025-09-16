@@ -4,8 +4,11 @@
 module;
 
 #include <algorithm>
+#include <argp.h>
 #include <iterator>
+#include <memory>
 #include <stdexcept>
+#include <vector>
 
 module argpppp;
 
