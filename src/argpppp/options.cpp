@@ -39,8 +39,8 @@ options& options::add(const option& o, std::shared_ptr<option_handler> h)
 std::vector<argp_option> get_argp_options(const options& o)
 {
     std::vector<argp_option> argp_options;
-    argp_options.reserve(o.m_options.size() + 1);
-    std::transform(o.m_options.begin(), o.m_options.end(), back_inserter(argp_options), [](const option_with_handler& owh) { return to_argp_option(owh.option()); });
+    argp_options.reserve(o.opts().size() + 1);
+    std::transform(o.opts().begin(), o.opts().end(), back_inserter(argp_options), [](const option_with_handler& owh) { return to_argp_option(owh.option()); });
     argp_options.push_back({});
     return argp_options;
 }
