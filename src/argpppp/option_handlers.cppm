@@ -1,6 +1,10 @@
 // SPDX-FileCopyrightText: 2025 Thomas Mathys
 // SPDX-License-Identifier: MIT
 
+module;
+
+#include <functional>
+
 export module argpppp:option_handlers;
 
 namespace argpppp
@@ -18,10 +22,16 @@ public:
 export class callback : public option_handler
 {
 public:
+    // TODO: get callback functional here and tuck it away (what's its signature?)
+    callback(const std::function<void()>& callback) : m_callback(callback) {}
+
     void handle_option() override
     {
         // TODO: forward to callback
     }
+
+private:
+    std::function<void()> m_callback;
 };
 
 }
