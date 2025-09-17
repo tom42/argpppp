@@ -109,7 +109,6 @@ error_t command_line_parser::parse_option(int key, char* arg, argp_state* state)
     auto handler = context->option_handlers.find(key);
     if (handler != context->option_handlers.end())
     {
-        // TODO: update callback handler to actually invoke the functional it gets in its ctor
         // TODO: handle return value of handler, once that's implemented
         handler->second->handle_option();
     }
