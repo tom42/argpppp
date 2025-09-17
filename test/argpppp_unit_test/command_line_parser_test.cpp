@@ -22,6 +22,7 @@ using options = argpppp::options;
 using parse_result = argpppp::parse_result;
 using pf = argpppp::pf;
 using std::make_shared;
+using runtime_error = std::runtime_error;
 using std::string;
 using std::vector;
 
@@ -139,12 +140,12 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser_test")
         // TODO: set up callbacks (how?) => we can alaways create a shortcut later!
         // TODO: delete old test once good
         options
-            .add({ 'a' }, make_shared<callback>([]{ throw std::runtime_error("This exception should occur."); }))
-            .add({ 'b' }, make_shared<callback>([]{ throw std::runtime_error("This exception should not occur."); }));
+            .add({ 'a' }, make_shared<callback>([]{ throw runtime_error("This exception should occur."); }))
+            .add({ 'b' }, make_shared<callback>([]{ throw runtime_error("This exception should not occur."); }));
 
         CHECK_THROWS_MATCHES(
             parse_command_line("-a -b"),
-            std::runtime_error,
+            runtime_error,
             Catch::Matchers::Message("This exception should occur."));
     }
 }
