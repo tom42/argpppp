@@ -103,9 +103,14 @@ error_t command_line_parser::parse_option_static(int key, char* arg, argp_state*
 
 error_t command_line_parser::parse_option(int key, char* arg, argp_state* state) const
 {
-    // TODO: hack to get test passing. Need to find and invoke callback, but that is not yet implemented. Sigh.
-    if (key == 'a')
+    auto context = get_context(state);
+
+    auto handler = context->option_handlers.find(key);
+    if (handler != context->option_handlers.end())
     {
+        // TODO: we do not ever get here since nobody populates the handler map
+        // TODO: hack to get test passing. Need to find and invoke callback, but that is not yet implemented. Sigh.
+        // TODO: unhardcode stuff here. Invoke handler instead
         throw std::runtime_error("This exception should occur.");
     }
 
