@@ -4,6 +4,7 @@
 module;
 
 #include <argp.h>
+#include <concepts>
 #include <cstddef>
 #include <limits>
 #include <map>
@@ -47,6 +48,12 @@ export class options final
 {
 public:
     options& add(const option& o, std::shared_ptr<option_handler> h);
+
+    template <typename TOptionHandler>
+    options& add(const option& o, const TOptionHandler& h) requires std::derived_from<TOptionHandler, option_handler>
+    {
+        add(o, std::make_shared<TOptionHandler>(h));
+    }
 
     const optional_string& doc() const
     {
