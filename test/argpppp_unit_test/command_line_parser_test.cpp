@@ -138,7 +138,6 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser_test")
     SECTION("Exceptions abort parsing and are propagated to caller")
     {
         // TODO: set up callbacks (how?) => we can alaways create a shortcut later!
-        // TODO: delete old test once good
         options
             .add({ 'a' }, make_shared<callback>([]{ throw runtime_error("This exception should occur."); }))
             .add({ 'b' }, make_shared<callback>([]{ throw runtime_error("This exception should not occur."); }));

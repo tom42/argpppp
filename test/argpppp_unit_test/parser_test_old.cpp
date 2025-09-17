@@ -68,17 +68,6 @@ TEST_CASE("parser_test_old")
     std::string failure_message;
     parser.set_failure_callback([&failure_message](int, const std::string& msg) { failure_message += msg; });
 
-    SECTION("Exceptions abort parsing and are propagated to caller")
-    {
-        add_option(parser, { 'a' }, [](auto)->bool{ throw std::runtime_error("This exception should occur."); });
-        add_option(parser, { 'b' }, [](auto)->bool{ throw std::runtime_error("This exception should not occur."); });
-
-        CHECK_THROWS_MATCHES(
-            parse(parser, "-a -b"),
-            std::runtime_error,
-            Catch::Matchers::Message("This exception should occur."));
-    }
-
     SECTION("Successful parsing of switches")
     {
         bool a_seen = false;
