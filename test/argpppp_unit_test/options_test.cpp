@@ -14,7 +14,19 @@ namespace argpppp_unit_test
 
 using callback = argpppp::callback;
 using of = argpppp::of;
+using option_handler = argpppp::option_handler;
 using options = argpppp::options;
+
+namespace
+{
+
+class null_option_handler final : public option_handler
+{
+public:
+    void handle_option() override {}
+};
+
+}
 
 TEST_CASE("options_test")
 {
@@ -62,8 +74,7 @@ TEST_CASE("options_test")
     SECTION("add throws if an option with key = 0 has a handler")
     {
         CHECK_THROWS_MATCHES(
-            // TODO: consider using some sort of null callback to decouple us from other stuff changing
-            options.add({ {}, "This is a documentation option", {}, {}, of::doc }, std::make_shared<callback>([]{})),
+            options.add({ {}, "This is a documentation option", {}, {}, of::doc }, std::make_shared<null_option_handler>()),
             std::invalid_argument,
             Catch::Matchers::Message("add: a special option with key = 0 must not have a handler"));
     }
