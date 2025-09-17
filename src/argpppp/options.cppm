@@ -53,6 +53,7 @@ public:
     options& add(const option& o, const TOptionHandler& h) requires std::derived_from<TOptionHandler, option_handler>
     {
         add(o, std::make_shared<TOptionHandler>(h));
+        return *this;
     }
 
     const optional_string& doc() const
