@@ -140,8 +140,8 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser_test")
         // TODO: get test to pass
         // TODO: delete old test once good
         options
-            .add({ 'a' }, make_shared<callback>([]{}))
-            .add({ 'b' }, make_shared<callback>([]{}));
+            .add({ 'a' }, make_shared<callback>([]{ throw std::runtime_error("This exception should occur."); }))
+            .add({ 'b' }, make_shared<callback>([]{ throw std::runtime_error("This exception should not occur."); }));
 
         CHECK_THROWS_MATCHES(
             parse_command_line("-a -b"),
