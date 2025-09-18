@@ -110,6 +110,7 @@ error_t command_line_parser::parse_option(int key, char* arg, argp_state* state)
     {
         // TODO: handle return value of handler, once that's implemented
         handler->second->handle_option();
+        return 0;
     }
 
     switch (key)
