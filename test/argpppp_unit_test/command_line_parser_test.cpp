@@ -144,6 +144,26 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser_test")
             runtime_error,
             Catch::Matchers::Message("This exception should occur."));
     }
+
+    SECTION("Successful parsing of switches using callbacks")
+    {
+        bool a_seen = false;
+        bool b_seen = false;
+        bool c_seen = false;
+
+        options
+            .add({ 'a' }, callback([&]{ a_seen = true; }))
+            .add({ 'b' }, callback([&]{ b_seen = true; }))
+            .add({ 'c' }, callback([&]{ c_seen = true; }));
+
+        auto result = parse_command_line("-c -a");
+
+        CHECK(result.errnum == 0);
+        CHECK(failure_message == "");
+        CHECK(a_seen == true);
+        CHECK(b_seen == false);
+        CHECK(c_seen == true);
+    }
 }
 
 }

@@ -68,25 +68,6 @@ TEST_CASE("parser_test_old")
     std::string failure_message;
     parser.set_failure_callback([&failure_message](int, const std::string& msg) { failure_message += msg; });
 
-    SECTION("Successful parsing of switches")
-    {
-        bool a_seen = false;
-        bool b_seen = false;
-        bool c_seen = false;
-
-        add_option(parser, { 'a' }, [&](auto){ return a_seen = true; });
-        add_option(parser, { 'b' }, [&](auto){ return b_seen = true; });
-        add_option(parser, { 'c' }, [&](auto){ return c_seen = true; });
-
-        auto result = parse(parser, "-c -a");
-
-        CHECK(result.errnum == 0);
-        CHECK(failure_message == "");
-        CHECK(a_seen == true);
-        CHECK(b_seen == false);
-        CHECK(c_seen == true);
-    }
-
     SECTION("Parsing should stop if an option callback returns false")
     {
         bool a_seen = false;
