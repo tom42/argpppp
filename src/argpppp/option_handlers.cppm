@@ -10,6 +10,9 @@ export module argpppp:option_handlers;
 namespace argpppp
 {
 
+// TODO: later use either std::variant or, better, std::expected? Well our semantics don't quite fit into std::expected.
+export using option_handler_result = bool;
+
 export class option_handler
 {
 public:
