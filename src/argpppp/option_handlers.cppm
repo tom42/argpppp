@@ -20,22 +20,22 @@ public:
     option_handler(const option_handler&) = default;
     virtual ~option_handler() {}
 
-    // TODO: probably later this needs arguments and a return value
-    virtual void handle_option() = 0;
+    // TODO: probably later this needs (an) argument(s)
+    virtual option_handler_result handle_option() = 0;
 };
 
 export class callback : public option_handler
 {
 public:
-    callback(const std::function<void()>& callback) : m_callback(callback) {}
+    callback(const std::function<option_handler_result()>& callback) : m_callback(callback) {}
 
-    void handle_option() override
+    option_handler_result handle_option() override
     {
         return m_callback();
     }
 
 private:
-    std::function<void()> m_callback;
+    std::function<option_handler_result()> m_callback;
 };
 
 }

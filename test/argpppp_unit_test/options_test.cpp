@@ -15,6 +15,7 @@ namespace argpppp_unit_test
 using callback = argpppp::callback;
 using of = argpppp::of;
 using option_handler = argpppp::option_handler;
+using option_handler_result = argpppp::option_handler_result;
 using options = argpppp::options;
 
 namespace
@@ -23,7 +24,7 @@ namespace
 class null_option_handler final : public option_handler
 {
 public:
-    void handle_option() override {}
+    option_handler_result handle_option() override { return true; }
 };
 
 }
