@@ -4,6 +4,9 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* Maybe get clang format up and running. Possible approach
+  * Configure it
+  * Make it part of the quality build. If it fails, fail the build
 * Install target:
   * What to do on targets where argp-standalone is used (e.g. cygwin?)
     * Install argp-standalone
