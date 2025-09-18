@@ -4,9 +4,6 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
-* Improve handling of warning flags:
-  * Test new handling:
-    * Can we use libraries when compiling a program with clang or g++ that have been produced with either of clang/g++?
 * Install target:
   * What to do on targets where argp-standalone is used (e.g. cygwin?)
     * Install argp-standalone
