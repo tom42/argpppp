@@ -145,7 +145,7 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser_test")
             Catch::Matchers::Message("This exception should occur."));
     }
 
-    SECTION("Successful parsing of switches using callbacks")
+    SECTION("Successful parsing of switches using callback option handlers")
     {
         bool a_seen = false;
         bool b_seen = false;
