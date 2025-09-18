@@ -13,10 +13,12 @@ namespace argpppp
 export class option_handler
 {
 public:
+    option_handler() = default;
+    option_handler(const option_handler&) = default;
+    virtual ~option_handler() {}
+
     // TODO: probably later this needs arguments and a return value
     virtual void handle_option() = 0;
-
-    virtual ~option_handler() {}
 };
 
 export class callback : public option_handler
