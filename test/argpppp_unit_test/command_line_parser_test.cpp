@@ -18,7 +18,6 @@ namespace argpppp_unit_test
 using callback = argpppp::callback;
 using command_line_parser = argpppp::command_line_parser;
 using option_error = argpppp::option_error;
-using options = argpppp::options;
 using parse_result = argpppp::parse_result;
 using pf = argpppp::pf;
 using runtime_error = std::runtime_error;
@@ -76,7 +75,7 @@ protected:
     }
 
     command_line_parser parser;
-    options options;
+    argpppp::options options;
     string failure_message;
 };
 

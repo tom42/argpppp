@@ -42,7 +42,7 @@ std::vector<argp_option> get_argp_options(const options& o)
 {
     std::vector<argp_option> argp_options;
     argp_options.reserve(o.opts().size() + 1);
-    std::transform(o.opts().begin(), o.opts().end(), back_inserter(argp_options), [](const option_with_handler& owh) { return to_argp_option(owh.option()); });
+    std::transform(o.opts().begin(), o.opts().end(), back_inserter(argp_options), [](const option_with_handler& owh) { return to_argp_option(owh.opt()); });
     argp_options.push_back({});
     return argp_options;
 }
@@ -55,7 +55,7 @@ std::map<int, std::shared_ptr<option_handler>> get_option_handlers(const options
     {
         if (option.handler())
         {
-            handlers[option.option().key()] = option.handler();
+            handlers[option.opt().key()] = option.handler();
         }
     }
 
@@ -64,13 +64,13 @@ std::map<int, std::shared_ptr<option_handler>> get_option_handlers(const options
 
 const option& find_option_or_throw(const options& options, int key)
 {
-    auto owh = std::ranges::find_if(options.opts(), [=](const option_with_handler& o) { return o.option().key() == key; });
+    auto owh = std::ranges::find_if(options.opts(), [=](const option_with_handler& o) { return o.opt().key() == key; });
     if (owh == options.opts().end())
     {
         throw std::logic_error("find_option_or_throw: option not found");
     }
 
-    return owh->option();
+    return owh->opt();
 }
 
 }

@@ -29,7 +29,7 @@ public:
         , m_handler(h)
     {}
 
-    const option& option() const
+    const option& opt() const
     {
         return m_option;
     }
