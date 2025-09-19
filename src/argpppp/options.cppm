@@ -122,7 +122,6 @@ private:
 };
 
 // TODO: document what this does (in particular, options must remain in scope)
-// TODO: do we still need to_argp_options (note plural) from option.cppm / option.cpp?
 // TODO: does this need / have tests?
 std::vector<argp_option> get_argp_options(const options& o);
 
