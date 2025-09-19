@@ -61,6 +61,7 @@ public:
         // TODO: real implementation
         //       * Parse value into long (strol or whatever), fail on error
         //         * We fail if end does not point to the terminating character
+        //         * Ugh: I think we also need to check errno (e.g. if number is too bug to fit into a long long). See cpppreference
         //       * Check range, fail on error
         //         * This is important, because we'll have to store to e.g. int, but we always parse into long long
         char* end;
