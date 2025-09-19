@@ -164,6 +164,21 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser_test")
         CHECK(b_seen == false);
         CHECK(c_seen == true);
     }
+
+    SECTION("Parsing should stop if an option handler returns false")
+    {
+        bool a_seen = false;
+
+        options
+            .add({ 'a' }, callback([&] { a_seen = true; return false; }))
+            .add({ 'b' }, callback([] -> bool { throw runtime_error("This exception should not occur."); }));
+
+        auto result = parse_command_line("-a -b");
+
+        CHECK(result.errnum == EINVAL);
+        CHECK(failure_message == "unexpected option '-a'");
+        CHECK(a_seen == true);
+    }
 }
 
 }

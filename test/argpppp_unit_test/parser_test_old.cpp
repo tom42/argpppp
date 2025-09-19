@@ -68,20 +68,6 @@ TEST_CASE("parser_test_old")
     std::string failure_message;
     parser.set_failure_callback([&failure_message](int, const std::string& msg) { failure_message += msg; });
 
-    SECTION("Parsing should stop if an option callback returns false")
-    {
-        bool a_seen = false;
-
-        add_option(parser, { 'a' }, [&](auto){ a_seen = true; return false; });
-        add_option(parser, { 'b' }, [](auto)->bool{ throw std::runtime_error("This exception should not occur."); });
-
-        auto result = parse(parser, "-a -b");
-
-        CHECK(result.errnum == EINVAL);
-        CHECK(failure_message == "unexpected option '-a'");
-        CHECK(a_seen == true);
-    }
-
     SECTION("Parsing should stop if an option callback returns arg_error")
     {
         bool a_seen = false;
