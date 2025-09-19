@@ -128,7 +128,6 @@ error_t command_line_parser::handle_key_arg(char* arg, argp_state* state) const
 {
     auto context = get_context(state);
 
-    // TODO: recheck: is it > or is it >= ?
     if (context->result.args.size() >= context->options.max_args())
     {
         report_failure(state, EXIT_FAILURE, 0, "too many arguments");
