@@ -109,7 +109,7 @@ error_t command_line_parser::parse_option(int key, char* arg, argp_state* state)
     auto handler = context->option_handlers.find(key);
     if (handler != context->option_handlers.end())
     {
-        auto handler_result = handler->second->handle_option();
+        const auto handler_result = handler->second->handle_option();
         return handle_option_handler_result(handler_result, key, arg, state);
     }
 
@@ -128,6 +128,7 @@ error_t command_line_parser::handle_key_arg(char* arg, argp_state* state) const
 {
     auto context = get_context(state);
 
+    // TODO: recheck: is it > or is it >= ?
     if (context->result.args.size() >= context->options.max_args())
     {
         report_failure(state, EXIT_FAILURE, 0, "too many arguments");

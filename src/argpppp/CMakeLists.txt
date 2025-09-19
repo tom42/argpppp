@@ -12,13 +12,11 @@ set(
   option_handlers.cppm
   optional_string.cppm
   options.cppm
-  parser_old.cppm
   pf.cppm
   PRIVATE
   command_line_parser.cpp
   option.cpp
-  options.cpp
-  parser_old.cpp)
+  options.cpp)
 
 # Production version of argpppp
 add_library(argpppp)

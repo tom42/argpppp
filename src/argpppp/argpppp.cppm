@@ -13,5 +13,4 @@ export import :option_error;
 export import :option_handlers;
 export import :optional_string;
 export import :options;
-export import :parser_old;
 export import :pf;

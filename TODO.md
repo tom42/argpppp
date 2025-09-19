@@ -22,10 +22,12 @@ SPDX-License-Identifier: MIT
     * How to use argp_program_version
 
 # Better API
-* Implement the options class (the list of options)
-* Write a new function parse (or a class), which uses an options instance to parse stuff.
 * Delete new_api_test.cpp code below once done
 * Go through all helper functions in all modules and see which ones we do not need anymore
+* Continue development:
+  * Our handler base class is far from complete: it needs the argument string, so we can parse it
+  * Then we can try writing a value class, which converts arguments directly and stores them in fields
+  * And the same we'd like to have for delegating to a storer function, I guess
 
 * ----------new_api_test.cpp--------------------------------------------------------
 
