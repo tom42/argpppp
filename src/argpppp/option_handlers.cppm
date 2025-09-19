@@ -29,16 +29,15 @@ public:
 export class callback : public option_handler
 {
 public:
-    explicit callback(const std::function<option_handler_result()>& callback) : m_callback(callback) {}
+    explicit callback(const std::function<option_handler_result(const char*)>& callback) : m_callback(callback) {}
 
-    option_handler_result handle_option(const char* /*arg*/) override
+    option_handler_result handle_option(const char* arg) override
     {
-        // TODO: pass arg to callback. Obviously this requires a change to the callback signature
-        return m_callback();
+        return m_callback(arg);
     }
 
 private:
-    std::function<option_handler_result()> m_callback;
+    std::function<option_handler_result(const char*)> m_callback;
 };
 
 export template <typename TValue> class value
