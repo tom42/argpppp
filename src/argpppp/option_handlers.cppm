@@ -66,14 +66,25 @@ public:
         //         * Ugh: I think we also need to check errno (e.g. if number is too bug to fit into a long long). See cpppreference
         //       * Check range, fail on error
         //         * This is important, because we'll have to store to e.g. int, but we always parse into long long
+        //       * Test entire class (separate unit test, no need to go through parser class)
         char* end;
         auto value = strtoll(arg, &end, 10); // TODO: a base of 0 gives support for decimal, octal and hexadecimal. question is, do we want this by default?
         m_target_variable = static_cast<TValue>(value);
         return true;
     }
 
-    // TODO: add min value
-    // TODO: add max value
+    value& min(TValue min)
+    {
+        m_min = min;
+        return *this;
+    }
+
+    value& max(TValue max)
+    {
+        m_max = max;
+        return *this;
+    }
+
 private:
     TValue m_min = std::numeric_limits<TValue>::min();
     TValue m_max = std::numeric_limits<TValue>::max();
