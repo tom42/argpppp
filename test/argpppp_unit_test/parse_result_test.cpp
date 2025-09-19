@@ -14,9 +14,9 @@ TEST_CASE("parse_result_test")
 {
     SECTION("success")
     {
-        CHECK((parse_result{}).success() == true);
-        CHECK((parse_result{ 1 }).success() == false);
-        CHECK((parse_result{ 2 }).success() == false);
+        CHECK((parse_result{ 0, {} }).success() == true);
+        CHECK((parse_result{ 1, {} }).success() == false);
+        CHECK((parse_result{ 2, {} }).success() == false);
     }
 }
 
