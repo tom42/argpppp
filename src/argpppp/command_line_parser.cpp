@@ -109,8 +109,16 @@ error_t command_line_parser::parse_option(int key, char* arg, argp_state* state)
     if (handler != context->option_handlers.end())
     {
         // TODO: handle return value of handler, once that's implemented
-        handler->second->handle_option();
-        return 0;
+        if (!handler->second->handle_option())
+        {
+            // TODO: unhardcode, use get_default_error_message
+            report_failure(state, EXIT_FAILURE, 0, "unexpected option '-a'");
+            return EINVAL;
+        }
+        else
+        {
+            return 0;
+        }
     }
 
     switch (key)
