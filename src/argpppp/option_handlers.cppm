@@ -44,10 +44,12 @@ private:
 export template <typename TValue> class value
 {
 public:
-    // TODO: ctor is required for ctad to work. Why?
     // TODO: if we do require the ctor, how can we make sure the class is not used?
     //       like so we get an error because it is abstract, but maybe a static_assert is better?
-    value(TValue&) {}
+    value(TValue&)
+    {
+        // Constructor is required for CTAD of specializations to work.
+    }
 };
 
 template <std::signed_integral TValue>
