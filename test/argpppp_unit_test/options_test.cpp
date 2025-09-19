@@ -87,6 +87,38 @@ TEST_CASE("options_test")
             std::invalid_argument,
             Catch::Matchers::Message("add: option must have a handler"));
     }
+
+    SECTION("get_argp_options")
+    {
+        options
+            .add({ 'o', "option1", "doc1", "arg1", of::arg_optional, 1 }, null_option_handler())
+            .add({ 'p', "option2", "doc2", "arg2", of::no_usage, 2 }, null_option_handler());
+
+        const auto argp_options = get_argp_options(options);
+
+        CHECK(argp_options.size() == 3);
+
+        CHECK(argp_options[0].key == 'o');
+        CHECK(!strcmp(argp_options[0].name, "option1"));
+        CHECK(!strcmp(argp_options[0].doc, "doc1"));
+        CHECK(!strcmp(argp_options[0].arg, "arg1"));
+        CHECK(argp_options[0].flags == to_int(of::arg_optional));
+        CHECK(argp_options[0].group == 1);
+
+        CHECK(argp_options[1].key == 'p');
+        CHECK(!strcmp(argp_options[1].name, "option2"));
+        CHECK(!strcmp(argp_options[1].doc, "doc2"));
+        CHECK(!strcmp(argp_options[1].arg, "arg2"));
+        CHECK(argp_options[1].flags == to_int(of::no_usage));
+        CHECK(argp_options[1].group == 2);
+
+        CHECK(argp_options[2].key == 0);
+        CHECK(argp_options[2].name == nullptr);
+        CHECK(argp_options[2].doc == nullptr);
+        CHECK(argp_options[2].arg == nullptr);
+        CHECK(argp_options[2].flags == 0);
+        CHECK(argp_options[2].group == 0);
+    }
 }
 
 }

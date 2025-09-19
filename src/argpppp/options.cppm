@@ -122,7 +122,7 @@ private:
 };
 
 // TODO: document what this does (in particular, options must remain in scope)
-// TODO: does this need / have tests?
+ARGPPPP_EXPORT_FOR_UNIT_TESTING
 std::vector<argp_option> get_argp_options(const options& o);
 
 // TODO: what happens if an option key is used by more than one option?
