@@ -103,13 +103,4 @@ argp_option to_argp_option(const option& o)
     return {c_str(o.name()), o.key(), c_str(o.arg()), to_int(o.flags()), c_str(o.doc()), o.group()};
 }
 
-std::vector<argp_option> to_argp_options(const std::vector<option>& options)
-{
-    std::vector<argp_option> argp_options;
-    argp_options.reserve(options.size() + 1);
-    std::transform(options.begin(), options.end(), back_inserter(argp_options), to_argp_option);
-    argp_options.push_back({});
-    return argp_options;
-}
-
 }
