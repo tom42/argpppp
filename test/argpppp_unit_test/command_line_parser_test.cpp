@@ -202,15 +202,18 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser_test")
     SECTION("Parsing of integer values")
     {
         int i = 0;
+        int j = 0;
 
-        // TODO: add another variable with a different value, so we must implement parsing
-        options.add({ 'i', {}, {}, "NUMBER" }, value(i));
+        options
+            .add({ 'i', {}, {}, "NUMBER" }, value(i))
+            .add({ 'j', {}, {}, "NUMBER" }, value(j));
 
-        auto result = parse_command_line("-i 123");
+        auto result = parse_command_line("-i 123 -j -456");
 
         CHECK(result.errnum == 0);
         CHECK(failure_message == "");
         CHECK(i == 123);
+        CHECK(j == -456);
     }
 }
 

@@ -109,7 +109,7 @@ error_t command_line_parser::parse_option(int key, char* arg, argp_state* state)
     auto handler = context->option_handlers.find(key);
     if (handler != context->option_handlers.end())
     {
-        const auto handler_result = handler->second->handle_option();
+        const auto handler_result = handler->second->handle_option(arg);
         return handle_option_handler_result(handler_result, key, arg, state);
     }
 

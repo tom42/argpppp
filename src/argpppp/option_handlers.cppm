@@ -5,6 +5,7 @@ module;
 
 #include <concepts>
 #include <functional>
+#include <cstdlib>
 #include <variant>
 
 export module argpppp:option_handlers;
@@ -22,8 +23,7 @@ public:
     option_handler(const option_handler&) = default;
     virtual ~option_handler() {}
 
-    // TODO: probably later this needs (an) argument(s)
-    virtual option_handler_result handle_option() = 0;
+    virtual option_handler_result handle_option(const char* arg) = 0;
 };
 
 export class callback : public option_handler
@@ -31,8 +31,9 @@ export class callback : public option_handler
 public:
     explicit callback(const std::function<option_handler_result()>& callback) : m_callback(callback) {}
 
-    option_handler_result handle_option() override
+    option_handler_result handle_option(const char* /*arg*/) override
     {
+        // TODO: pass arg to callback. Obviously this requires a change to the callback signature
         return m_callback();
     }
 
@@ -55,13 +56,16 @@ class value<TValue> : public option_handler
 public:
     value(TValue& target_variable) : m_target_variable(target_variable) {}
 
-    option_handler_result handle_option() override
+    option_handler_result handle_option(const char* arg) override
     {
         // TODO: real implementation
         //       * Parse value into long (strol or whatever), fail on error
+        //         * We fail if end does not point to the terminating character
         //       * Check range, fail on error
-        //       * Tuck away value
-        m_target_variable = 123;
+        //         * This is important, because we'll have to store to e.g. int, but we always parse into long long
+        char* end;
+        auto value = strtoll(arg, &end, 10); // TODO: a base of 0 gives support for decimal, octal and hexadecimal. question is, do we want this by default?
+        m_target_variable = static_cast<TValue>(value);
         return true;
     }
 
