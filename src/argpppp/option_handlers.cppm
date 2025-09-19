@@ -27,7 +27,7 @@ public:
 export class callback : public option_handler
 {
 public:
-    callback(const std::function<option_handler_result()>& callback) : m_callback(callback) {}
+    explicit callback(const std::function<option_handler_result()>& callback) : m_callback(callback) {}
 
     option_handler_result handle_option() override
     {
