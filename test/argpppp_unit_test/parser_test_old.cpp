@@ -17,7 +17,7 @@ import argpppp;
 namespace argpppp_unit_test
 {
 
-using argpppp_old::arg_error;
+using argpppp_old::option_error;
 using argpppp::of;
 using argpppp_old::parser;
 using argpppp::pf;
@@ -72,7 +72,7 @@ TEST_CASE("parser_test_old")
     {
         bool a_seen = false;
 
-        add_option(parser, { 'a' }, [&](auto) { a_seen = true; return arg_error("custom error message"); });
+        add_option(parser, { 'a' }, [&](auto) { a_seen = true; return option_error("custom error message"); });
         add_option(parser, { 'b' }, [](auto)->bool { throw std::runtime_error("This exception should not occur."); });
 
         auto result = parse(parser, "-a -b");
