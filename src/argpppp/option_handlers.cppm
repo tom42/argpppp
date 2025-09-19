@@ -4,8 +4,9 @@
 module;
 
 #include <concepts>
-#include <functional>
 #include <cstdlib>
+#include <functional>
+#include <limits>
 #include <variant>
 
 export module argpppp:option_handlers;
@@ -74,6 +75,8 @@ public:
     // TODO: add min value
     // TODO: add max value
 private:
+    TValue m_min = std::numeric_limits<TValue>::min();
+    TValue m_max = std::numeric_limits<TValue>::max();
     TValue& m_target_variable;
 };
 
