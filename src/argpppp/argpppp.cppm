@@ -1,10 +1,6 @@
 // SPDX-FileCopyrightText: 2025 Thomas Mathys
 // SPDX-License-Identifier: MIT
 
-module;
-
-#include <string>
-
 export module argpppp;
 export import :command_line_parser;
 export import :of;
