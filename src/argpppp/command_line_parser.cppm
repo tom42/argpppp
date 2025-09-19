@@ -17,9 +17,10 @@ namespace argpppp
 
 export using failure_callback = std::function<void(int, const std::string&)>;
 
-// TODO: add is_successful() / success() function?
 export struct parse_result final
 {
+    bool success() const { return errnum == 0; }
+
     int errnum = 0;
     std::vector<std::string> args;
 };

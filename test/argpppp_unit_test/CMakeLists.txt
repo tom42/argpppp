@@ -8,6 +8,7 @@ add_executable(
   option_test.cpp
   optional_string_test.cpp
   options_test.cpp
+  parse_result_test.cpp
   pf_test.cpp)
 vtg_target_enable_warnings(argpppp_unit_test)
 target_link_libraries(argpppp_unit_test PRIVATE argpppp_unit_testing Catch2::Catch2WithMain)
