@@ -22,6 +22,7 @@ using options = argpppp::options;
 using parse_result = argpppp::parse_result;
 using pf = argpppp::pf;
 using runtime_error = std::runtime_error;
+using argpppp::value;
 using std::string;
 using std::vector;
 
@@ -196,6 +197,20 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser_test")
         CHECK(result.errnum == EINVAL);
         CHECK(failure_message == "custom error message");
         CHECK(a_seen == true);
+    }
+
+    SECTION("Parsing of integer values")
+    {
+        int i = 0;
+
+        // TODO: add another variable with a different value, so we must implement parsing
+        options.add({ 'i', {}, {}, "NUMBER" }, value(i));
+
+        auto result = parse_command_line("-i 123");
+
+        CHECK(result.errnum == 0);
+        CHECK(failure_message == "");
+        CHECK(i == 123);
     }
 }
 
