@@ -121,7 +121,8 @@ private:
     std::vector<option_with_handler> m_options;
 };
 
-// TODO: document what this does (in particular, options must remain in scope)
+// Returns a vector of struct argp_option that can be passed to argp_parse.
+// The options instance must remain in scope as long as the argp_options are in use.
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 std::vector<argp_option> get_argp_options(const options& o);
 
