@@ -23,7 +23,6 @@ SPDX-License-Identifier: MIT
 
 # Better API
 * Delete new_api_test.cpp code below once done
-* Go through all helper functions in all modules and see which ones we do not need anymore
 * Continue development:
   * Our handler base class is far from complete: it needs the argument string, so we can parse it
   * Then we can try writing a value class, which converts arguments directly and stores them in fields
