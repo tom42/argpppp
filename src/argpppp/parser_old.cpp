@@ -187,7 +187,7 @@ error_t parser::handle_option_callback_result_for_type(bool result, int key, cha
     }
 }
 
-error_t parser::handle_option_callback_result_for_type(const option_error& error, int, char*, const argp_state* state) const
+error_t parser::handle_option_callback_result_for_type(const arg_error& error, int, char*, const argp_state* state) const
 {
     report_failure(state, EXIT_FAILURE, 0, error.message());
     return EINVAL;

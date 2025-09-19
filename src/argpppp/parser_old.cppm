@@ -25,17 +25,17 @@ namespace argpppp_old
 
 using namespace argpppp;
 
-export class option_error final
+export class arg_error final
 {
 public:
-    explicit option_error(const std::string& message) : m_message(message) {}
+    explicit arg_error(const std::string& message) : m_message(message) {}
 
     const std::string& message() const { return m_message; }
 private:
     std::string m_message;
 };
 
-export using option_callback_result = std::variant<bool, option_error>;
+export using option_callback_result = std::variant<bool, arg_error>;
 export using option_callback = std::function<option_callback_result(char*)>;
 
 export using failure_callback = std::function<void(int, const std::string&)>;
@@ -69,7 +69,7 @@ private:
 
     error_t handle_option_callback_result(const option_callback_result& result, int key, char* arg, const argp_state* state) const;
     error_t handle_option_callback_result_for_type(bool result, int key, char* arg, const argp_state* state) const;
-    error_t handle_option_callback_result_for_type(const option_error& error, int key, char* arg, const argp_state* state) const;
+    error_t handle_option_callback_result_for_type(const arg_error& error, int key, char* arg, const argp_state* state) const;
 
     error_t handle_key_arg(char* arg, argp_state* state) const;
     error_t handle_key_end(argp_state* state) const;
