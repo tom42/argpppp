@@ -44,6 +44,7 @@ private:
     std::shared_ptr<option_handler> m_handler;
 };
 
+// TODO: with the current API it is possible to set min_args > max_args. Do we care?
 export class options final
 {
 public:
@@ -128,5 +129,8 @@ std::vector<argp_option> get_argp_options(const options& o);
 // TODO: what happens if an option key is used by more than one option?
 // TODO: does this need / have tests?
 std::map<int, std::shared_ptr<option_handler>> get_option_handlers(const options& o);
+
+// TODO: does this need a test?
+const option& find_option_or_throw(const options& options, int key);
 
 }

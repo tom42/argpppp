@@ -17,6 +17,7 @@ namespace argpppp_unit_test
 
 using callback = argpppp::callback;
 using command_line_parser = argpppp::command_line_parser;
+using option_error = argpppp::option_error;
 using options = argpppp::options;
 using parse_result = argpppp::parse_result;
 using pf = argpppp::pf;
@@ -54,6 +55,8 @@ protected:
     parse_result parse_command_line(const string& command_line)
     {
         // Build vector of zero terminated arguments
+        // Split at space characters without quoting, arguments containing spaces are therefore not supported.
+        // This is sufficient for our test cases, quoting and such are low level details handled by getopt.
         vector<vector<char>> args;
         args.push_back(make_arg("program_name"));
         for (auto word : std::views::split(command_line, ' '))
@@ -177,6 +180,21 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser_test")
 
         CHECK(result.errnum == EINVAL);
         CHECK(failure_message == "unexpected option '-a'");
+        CHECK(a_seen == true);
+    }
+
+    SECTION("Parsing should stop if an option handler returns option_error")
+    {
+        bool a_seen = false;
+
+        options
+            .add({ 'a' }, callback([&] { a_seen = true; return option_error("custom error message"); }))
+            .add({ 'b' }, callback([] -> bool { throw std::runtime_error("This exception should not occur."); }));
+
+        auto result = parse_command_line("-a -b");
+
+        CHECK(result.errnum == EINVAL);
+        CHECK(failure_message == "custom error message");
         CHECK(a_seen == true);
     }
 }

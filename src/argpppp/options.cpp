@@ -8,6 +8,7 @@ module;
 #include <iterator>
 #include <map>
 #include <memory>
+#include <ranges>
 #include <stdexcept>
 #include <vector>
 
@@ -59,6 +60,17 @@ std::map<int, std::shared_ptr<option_handler>> get_option_handlers(const options
     }
 
     return handlers;
+}
+
+const option& find_option_or_throw(const options& options, int key)
+{
+    auto owh = std::ranges::find_if(options.opts(), [=](const option_with_handler& o) { return o.option().key() == key; });
+    if (owh == options.opts().end())
+    {
+        throw std::logic_error("find_option_or_throw: option not found");
+    }
+
+    return owh->option();
 }
 
 }

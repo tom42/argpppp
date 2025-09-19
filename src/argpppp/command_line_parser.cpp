@@ -9,6 +9,7 @@ module;
 #include <map>
 #include <memory>
 #include <string>
+#include <variant>
 
 module argpppp;
 
@@ -108,17 +109,8 @@ error_t command_line_parser::parse_option(int key, char* arg, argp_state* state)
     auto handler = context->option_handlers.find(key);
     if (handler != context->option_handlers.end())
     {
-        // TODO: handle return value of handler, once that's implemented
-        if (!handler->second->handle_option())
-        {
-            // TODO: unhardcode, use get_default_error_message
-            report_failure(state, EXIT_FAILURE, 0, "unexpected option '-a'");
-            return EINVAL;
-        }
-        else
-        {
-            return 0;
-        }
+        auto handler_result = handler->second->handle_option();
+        return handle_option_handler_result(handler_result, key, arg, state);
     }
 
     switch (key)
@@ -157,6 +149,32 @@ error_t command_line_parser::handle_key_end(argp_state* state) const
     }
 
     return 0;
+}
+
+error_t command_line_parser::handle_option_handler_result(const option_handler_result& result, int key, char* arg, argp_state* state) const
+{
+    return std::visit([&](const auto& r) { return handle_option_handler_result_for_type(r, key, arg, state); }, result);
+}
+
+error_t command_line_parser::handle_option_handler_result_for_type(bool result, int key, char* arg, argp_state* state) const
+{
+    if (result)
+    {
+        return 0;
+    }
+    else
+    {
+        auto option = find_option_or_throw(get_context(state)->options, key);
+        auto error_message = get_default_error_message(option, arg);
+        report_failure(state, EXIT_FAILURE, 0, error_message);
+        return EINVAL;
+    }
+}
+
+error_t command_line_parser::handle_option_handler_result_for_type(const option_error& error, int, char*, argp_state* state) const
+{
+    report_failure(state, EXIT_FAILURE, 0, error.message());
+    return EINVAL;
 }
 
 void command_line_parser::report_failure(const argp_state* state, int status, int errnum, const std::string& message) const

@@ -52,6 +52,12 @@ private:
 
     error_t handle_key_end(argp_state* state) const;
 
+    error_t handle_option_handler_result(const option_handler_result& result, int key, char* arg, argp_state* state) const;
+
+    error_t handle_option_handler_result_for_type(bool result, int key, char* arg, argp_state* state) const;
+
+    error_t handle_option_handler_result_for_type(const option_error& error, int key, char* arg, argp_state* state) const;
+
     void report_failure(const argp_state* state, int status, int errnum, const std::string& message) const;
 
     argpppp::failure_callback m_failure_callback;
