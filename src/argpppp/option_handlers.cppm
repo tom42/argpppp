@@ -50,7 +50,7 @@ public:
     value(TValue&) {}
 };
 
-export template <std::signed_integral TValue>
+template <std::signed_integral TValue>
 class value<TValue> : public option_handler
 {
 public:
