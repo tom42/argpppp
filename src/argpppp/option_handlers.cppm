@@ -4,14 +4,15 @@
 module;
 
 #include <functional>
+#include <variant>
 
 export module argpppp:option_handlers;
+import :option_error;
 
 namespace argpppp
 {
 
-// TODO: later use either std::variant or, better, std::expected? Well our semantics don't quite fit into std::expected.
-export using option_handler_result = bool;
+export using option_handler_result = std::variant<bool, option_error>;
 
 export class option_handler
 {
