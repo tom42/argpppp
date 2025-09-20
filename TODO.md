@@ -33,11 +33,6 @@ SPDX-License-Identifier: MIT
 namespace new_api_test
 {
 
-option header(const std::string& header_text, int group = 0)
-{
-    return option({}, {}, header_text, {}, {}, group);
-}
-
 template <typename TValue>
 class value final : public option_handler
 {

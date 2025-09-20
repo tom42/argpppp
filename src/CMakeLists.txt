@@ -2,3 +2,4 @@
 # SPDX-License-Identifier: MIT
 
 add_subdirectory(argpppp)
+add_subdirectory(argpppp_example)

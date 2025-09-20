@@ -57,6 +57,13 @@ public:
         return *this;
     }
 
+    // TODO: does this need a test?
+    options& add_header(const std::string& header, int group = 0)
+    {
+        add(option({}, {}, header, {}, {}, group), nullptr);
+        return *this;
+    }
+
     const optional_string& doc() const
     {
         return m_doc;
