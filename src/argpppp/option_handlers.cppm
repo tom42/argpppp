@@ -51,6 +51,10 @@ public:
     }
 };
 
+// TODO: can we write this in a way it works for
+//       * signed integers
+//       * unsigned integers
+//       * all types of floating point values
 template <std::signed_integral TValue>
 class value<TValue> : public option_handler
 {
