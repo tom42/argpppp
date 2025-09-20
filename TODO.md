@@ -33,50 +33,6 @@ SPDX-License-Identifier: MIT
 namespace new_api_test
 {
 
-template <typename TValue>
-class value final : public option_handler
-{
-public:
-    value(TValue& v) : m_v(v) {}
-
-    value& min(const TValue& min)
-    {
-        m_min = min;
-        return *this;
-    }
-
-    value& max(const TValue& max)
-    {
-        m_max = max;
-        return *this;
-    }
-private:
-    TValue& m_v;
-    // TODO: as ridiculous as it is, this compiles if TValue is std::string. Not sure what to make out of that
-    TValue m_min = std::numeric_limits<TValue>::min();
-    TValue m_max = std::numeric_limits<TValue>::max();
-};
-
-template <typename TParam>
-class callback final : public option_handler
-{
-public:
-    callback(const std::function<void(TParam)>) {}
-};
-
-class option_with_handler final
-{
-public:
-    option_with_handler(const option& o, std::shared_ptr<option_handler> handler)
-        : m_o(o),
-        m_handler(handler)
-    {}
-
-private:
-    option m_o;
-    std::shared_ptr<option_handler> m_handler;
-};
-
 class options final
 {
 public:
