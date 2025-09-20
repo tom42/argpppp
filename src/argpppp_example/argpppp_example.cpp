@@ -2,6 +2,7 @@
 // SPDX - License - Identifier: MIT
 
 #include <cstdlib>
+#include <iomanip>
 #include <iostream>
 #include <stdexcept>
 #include <string>
@@ -35,6 +36,8 @@ int main(int argc, char* argv[])
     {
         int i = 0;
         string s = "";
+        bool x = false;
+        bool y = false;
 
         argpppp::options options;
         options
@@ -43,7 +46,9 @@ int main(int argc, char* argv[])
             .add_header("General options")
             .add({ 'i', "integer", "Option with mandatory integer argument", "INTEGER" }, value(i))
             .add({ 's', "string", "Option with mandatory string argument", "STRING" }, value(s))
-            .add_header("Special options");
+            .add_header("Special options")
+            .add({ 'x', {}, "A switch" }, value(x))
+            .add({ 'y', {}, "Another switch" }, value(y));
 
         // Parse command line.
         // Note that in the case of an error, argp_parse will print error output to stderr and exit with an error code.
@@ -54,8 +59,11 @@ int main(int argc, char* argv[])
             return EXIT_FAILURE;
         }
 
+        std::cout << std::boolalpha;
         std::cout << "i: " << i << "\n";
         std::cout << "s: '" << s << "'\n";
+        std::cout << "x: " << x << "\n";
+        std::cout << "y: " << y << "\n";
 
         // Program arguments are stored in parse_result.args.
         // It is possible to specify the minimum/maximum/exact number of arguments

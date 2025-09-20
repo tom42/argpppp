@@ -45,7 +45,7 @@ private:
 export template <typename TValue> class value
 {
 public:
-    value(TValue&)
+    explicit value(TValue&)
     {
         // Constructor is required for CTAD of specializations to work, so we cannot work with an undefined primary template.
         static_assert(false, "only specializations of argpppp::value may be used");
@@ -56,7 +56,7 @@ template <>
 class value<std::string> : public option_handler
 {
 public:
-    value(std::string& target_value) : m_target_value(target_value) {}
+    explicit value(std::string& target_value) : m_target_value(target_value) {}
 
     option_handler_result handle_option(const char* arg) override
     {
@@ -71,6 +71,22 @@ private:
     std::string& m_target_value;
 };
 
+template <>
+class value<bool> : public option_handler
+{
+public:
+    explicit value(bool& target_variable) : m_target_variable(target_variable) {}
+
+    option_handler_result handle_option(const char*) override
+    {
+        m_target_variable = true;
+        return true;
+    }
+
+private:
+    bool& m_target_variable;
+};
+
 // TODO: can we write this in a way it works for
 //       * signed integers
 //       * unsigned integers
@@ -79,7 +95,7 @@ template <std::signed_integral TValue>
 class value<TValue> : public option_handler
 {
 public:
-    value(TValue& target_variable) : m_target_variable(target_variable) {}
+    explicit value(TValue& target_variable) : m_target_variable(target_variable) {}
 
     option_handler_result handle_option(const char* arg) override
     {
