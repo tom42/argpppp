@@ -33,7 +33,7 @@ int main(int argc, char* argv[])
         // Parse command line.
         // Note that in the case of an error, argp_parse will print error output to stderr and exit with an error code.
         // Also note that if a help option is encountered, argp_parse will also print output and exit with success.
-        auto parse_result = parse_command_line(argc, argv, options);
+        auto parse_result = argpppp::parse_command_line(argc, argv, options);
         if (!parse_result.success())
         {
             return EXIT_FAILURE;
