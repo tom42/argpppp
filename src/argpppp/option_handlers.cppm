@@ -7,6 +7,7 @@ module;
 #include <cstdlib>
 #include <functional>
 #include <limits>
+#include <string>
 #include <variant>
 
 export module argpppp:option_handlers;
@@ -49,6 +50,25 @@ public:
         // Constructor is required for CTAD of specializations to work, so we cannot work with an undefined primary template.
         static_assert(false, "only specializations of argpppp::value may be used");
     }
+};
+
+template <>
+class value<std::string> : public option_handler
+{
+public:
+    value(std::string& target_value) : m_target_value(target_value) {}
+
+    option_handler_result handle_option(const char* arg) override
+    {
+        // TODO: do we have to take into account that arg is optional and may be omitted? What do we do then in this case?
+        //       note: this is a problem for any option_handler!
+        // TODO: note: a conservative solution would be not to support this for the time being!
+        m_target_value = arg;
+        return true;
+    }
+
+private:
+    std::string& m_target_value;
 };
 
 // TODO: can we write this in a way it works for

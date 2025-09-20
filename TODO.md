@@ -30,13 +30,8 @@ SPDX-License-Identifier: MIT
 
 * ----------new_api_test.cpp--------------------------------------------------------
 
-import argpppp;
-
 namespace new_api_test
 {
-
-using argpppp::of;
-using argpppp::optional_string;
 
 option header(const std::string& header_text, int group = 0)
 {
