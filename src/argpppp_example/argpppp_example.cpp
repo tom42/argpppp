@@ -46,7 +46,6 @@ int main(int argc, char* argv[])
     }
     catch (const std::exception& e)
     {
-        // TODO: print basename only?
         std::cerr << argv[0] << ": " << e.what() << "\n";
         return EXIT_FAILURE;
     }
