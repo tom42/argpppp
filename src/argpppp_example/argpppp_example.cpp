@@ -8,17 +8,22 @@
 
 import argpppp;
 
-// Some of argp_parse's features are not wrapped by argpppp, but can be used nevertheless.
+// Some of argp_parse's features are controlled by the existence of certain global variables.
+// These are not wrapped by argpppp, but can be used nevertheless.
 //
 // Note that extern "C" is needed for some platforms, e.g. when using MSVC and argp-standalone.
 // It is not needed for glibc.
 extern "C"
 {
-// TODO: set up program version  thing
+
+// Defining this variable is optional. If it is defined, the --version option is available.
+// The option prints the content of argp_program_version and exits.
+const char* argp_program_version = "argpppp example 0.99.1";
 
 // Defining this variable is optional. If it is defined, the 'Report bugs to ...'
 // text will appear at the end of the message printed by the --help option.
 const char* argp_program_bug_address = "https://github.com/tom42/argpppp/issues";
+
 }
 
 int main(int argc, char* argv[])
