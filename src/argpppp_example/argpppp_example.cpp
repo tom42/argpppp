@@ -8,7 +8,18 @@
 
 import argpppp;
 
+// Some of argp_parse's features are not wrapped by argpppp, but can be used nevertheless.
+//
+// Note that extern "C" is needed for some platforms, e.g. when using MSVC and argp-standalone.
+// It is not needed for glibc.
+extern "C"
+{
 // TODO: set up program version  thing
+
+// Defining this variable is optional. If it is defined, the 'Report bugs to ...'
+// text will appear at the end of the message printed by the --help option.
+const char* argp_program_bug_address = "https://github.com/tom42/argpppp/issues";
+}
 
 int main(int argc, char* argv[])
 {
@@ -21,7 +32,6 @@ int main(int argc, char* argv[])
         string s = "";
 
         // TODO: show args_doc() feature
-        // TODO: show bug report address feature
         argpppp::options options;
         options
             .doc("argpppp example program - Copyright (C) 2025 Thomas Mathys")

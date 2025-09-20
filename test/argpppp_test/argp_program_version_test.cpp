@@ -3,7 +3,7 @@
 
 import argpppp;
 
-// extern "C" is needed for some platforms, e.g. when using MSVC and argp-standalone.
+// Note that extern "C" is needed for some platforms, e.g. when using MSVC and argp-standalone.
 // It is not needed for glibc.
 extern "C"
 {
