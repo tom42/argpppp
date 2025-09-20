@@ -36,10 +36,10 @@ int main(int argc, char* argv[])
         int i = 0;
         string s = "";
 
-        // TODO: show args_doc() feature
         argpppp::options options;
         options
             .doc("argpppp example program - Copyright (C) 2025 Thomas Mathys")
+            .args_doc("ARG1 ARG2 ... ARGN")
             .add_header("General options")
             .add({ 'i', "integer", "Option with mandatory integer argument", "INTEGER" }, value(i))
             .add({ 's', "string", "Option with mandatory string argument", "STRING" }, value(s))
