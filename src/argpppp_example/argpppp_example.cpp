@@ -55,7 +55,23 @@ int main(int argc, char* argv[])
         }
 
         std::cout << "i: " << i << "\n";
-        std::cout << "s: <" << s << ">\n";
+        std::cout << "s: '" << s << "'\n";
+
+        // Program arguments are stored in parse_result.args.
+        // It is possible to specify the minimum/maximum/exact number of arguments
+        // using options::min_args(), options::max_args() and options::num_args().
+        std::cout << "arguments:";
+        if (parse_result.args.size())
+        {
+            for (auto& arg : parse_result.args)
+            {
+                std::cout << " '" << arg << '\'';
+            }
+        }
+        else
+        {
+            std::cout << " (none)\n";
+        }
 
         return EXIT_SUCCESS;
     }
