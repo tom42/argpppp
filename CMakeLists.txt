@@ -10,6 +10,7 @@ list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_LIST_DIR}/cmake")
 # Options
 ################################################################################
 
+option(argpppp_BUILD_EXAMPLE "Build argpppp example" ${PROJECT_IS_TOP_LEVEL})
 option(argpppp_BUILD_TESTING "Build argpppp tests" OFF)
 option(argpppp_ENABLE_WARNINGS "Build argpppp with warnings enabled" OFF)
 option(argpppp_INSTALL_STATIC_LIBRARY "Install the argpppp static library" ${PROJECT_IS_TOP_LEVEL})
