@@ -44,11 +44,10 @@ private:
 export template <typename TValue> class value
 {
 public:
-    // TODO: if we do require the ctor, how can we make sure the class is not used?
-    //       like so we get an error because it is abstract, but maybe a static_assert is better?
     value(TValue&)
     {
-        // Constructor is required for CTAD of specializations to work.
+        // Constructor is required for CTAD of specializations to work, so we cannot work with an undefined primary template.
+        static_assert(false, "only specializations of argpppp::value may be used");
     }
 };
 
