@@ -198,21 +198,24 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser_test")
         CHECK(a_seen == true);
     }
 
-    SECTION("Parsing of integer values")
+    SECTION("Parsing of values")
     {
         int i = 0;
         int j = 0;
+        string s = "";
 
         options
             .add({ 'i', {}, {}, "NUMBER" }, value(i))
-            .add({ 'j', {}, {}, "NUMBER" }, value(j));
+            .add({ 'j', {}, {}, "NUMBER" }, value(j))
+            .add({ 's', {}, {}, "STRING" }, value(s));
 
-        auto result = parse_command_line("-i 123 -j -456");
+        auto result = parse_command_line("-i 123 -j -456 -s foo");
 
         CHECK(result.errnum == 0);
         CHECK(failure_message == "");
         CHECK(i == 123);
         CHECK(j == -456);
+        CHECK(s == "foo");
     }
 }
 
