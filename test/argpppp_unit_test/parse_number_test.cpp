@@ -34,7 +34,7 @@ TEST_CASE("parse_integral")
     {
         auto testdata = GENERATE(
             make_pair("0", uint64_t(0)),
-            make_pair("18446744073709551616", uint64_t(0xffffffffffffffff)));
+            make_pair("18446744073709551615", uint64_t(0xffffffffffffffff)));
         uint64_t result;
 
         CHECK(parse_integral<uint64_t>(testdata.first, result, 10) == true);
