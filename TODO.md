@@ -33,26 +33,6 @@ SPDX-License-Identifier: MIT
 namespace new_api_test
 {
 
-class options final
-{
-public:
-    options& add(const option& o, std::shared_ptr<option_handler> handler)
-    {
-        m_options.emplace_back(o, handler);
-        return *this;
-    }
-
-    template <typename THandler>
-    options& add(const option& o, const THandler& handler) requires std::derived_from<THandler, option_handler>
-    {
-        add(o, std::make_shared<THandler>(handler));
-        return *this;
-    }
-
-private:
-    std::vector<option_with_handler> m_options;
-};
-
 void store_func(int /*x*/) {}
 
 TEST_CASE("new_api_test")
