@@ -14,6 +14,7 @@ set(
   options.cppm
   pf.cppm
   string_to_floating_point_converter.cppm
+  string_to_integral_converter.cppm
   PRIVATE
   command_line_parser.cpp
   option.cpp

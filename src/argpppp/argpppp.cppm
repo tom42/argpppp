@@ -11,3 +11,4 @@ export import :optional_string;
 export import :options;
 export import :pf;
 export import :string_to_floating_point_converter;
+export import :string_to_integral_converter;
