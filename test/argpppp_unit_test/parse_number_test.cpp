@@ -2,17 +2,59 @@
 // SPDX-License-Identifier: MIT
 
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/generators/catch_generators.hpp>
 #include <concepts>
+#include <cstdint>
 #include <cstdlib>
 #include <type_traits>
+#include <utility>
 
 import argpppp;
 
 namespace argpppp_unit_test
 {
 
+using argpppp::parse_integral;
+using std::make_pair;
+
 TEST_CASE("parse_integral")
 {
+    SECTION("int64_t, valid values")
+    {
+        auto testdata = GENERATE(
+            make_pair("-9223372036854775808", int64_t(0x8000000000000000)),
+            make_pair("0", 0),
+            make_pair("9223372036854775807", int64_t(0x7fffffffffffffff)));
+        int64_t result;
+
+        CHECK(parse_integral<int64_t>(testdata.first, result, 10) == true);
+        CHECK(result == testdata.second);
+    }
+
+    SECTION("int32_t, valid values")
+    {
+        auto testdata = GENERATE(
+            make_pair("-2147483648", -2147483648),
+            make_pair("0", 0),
+            make_pair("2147483647", 2147483647));
+        int32_t result;
+
+        CHECK(parse_integral<int32_t>(testdata.first, result, 10) == true);
+        CHECK(result == testdata.second);
+    }
+
+    SECTION("int8_t, valid values")
+    {
+        auto testdata = GENERATE(
+            make_pair("-128", -128),
+            make_pair("0", 0),
+            make_pair("127", 127));
+        int8_t result;
+
+        CHECK(parse_integral<int8_t>(testdata.first, result, 10) == true);
+        CHECK(result == testdata.second);
+    }
+
     // TODO: what do we need to test?
     //       * long long, long, small type
     //       * unsigned long long, unsigned long, small type
