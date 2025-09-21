@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2025 Thomas Mathys
 // SPDX-License-Identifier: MIT
 
-// Interface to call strtof, strtod, and strtold in a generic way
+// Interface to call strtof, strtod, and strtold in a uniform way
 
 module;
 

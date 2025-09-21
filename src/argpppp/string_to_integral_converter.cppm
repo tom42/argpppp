@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2025 Thomas Mathys
 // SPDX-License-Identifier: MIT
 
-// Interface to call strtol, strtoll, strtoul strtoull in a generic way
+// Interface to call strtol, strtoll, strtoul strtoull in a uniform way
 
 module;
 
