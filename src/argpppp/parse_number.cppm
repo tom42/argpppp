@@ -3,6 +3,7 @@
 
 module;
 
+#include <cerrno>
 #include <concepts>
 
 export module argpppp:parse_number;
@@ -18,6 +19,8 @@ bool parse_integral(const char* s, TValue& result, int base)
 {
     // TODO: at least one test that base is forwarded
     char* end;
+
+    errno = 0;
     auto tmp = string_to_integral_converter<TValue>::convert(s, &end, base);
 
     if constexpr (sizeof(decltype(tmp)) <= sizeof(TValue))
