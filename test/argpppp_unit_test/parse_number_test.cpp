@@ -1,0 +1,184 @@
+// SPDX-FileCopyrightText: 2025 Thomas Mathys
+// SPDX-License-Identifier: MIT
+
+#include <catch2/catch_test_macros.hpp>
+#include <concepts>
+#include <cstdlib>
+#include <type_traits>
+
+import argpppp;
+
+namespace argpppp_unit_test
+{
+
+// TODO: for the time being this is all just prototyping
+namespace
+{
+
+template <std::signed_integral TResult>
+auto str_to_integral(const char* s, char** end, int base)
+{
+    // Select between strtoll and strtol, depending on desired result type
+
+    // TODO: recheck, but probably we really want <= and not ==
+    //       => If somebody manages to use a bigger result type than long long, things will still work correctly,
+    //          except that we're unable to use the full range of the result type.
+    // TODO: we can screw up by using the wrong function: have unit test that tests this? (even though it will be a compilation test, mostly?)
+    if constexpr (sizeof(long long) <= sizeof(TResult))
+    {
+        return strtoll(s, end, base);
+    }
+    else
+    {
+        return strtol(s, end, base);
+    }
+}
+
+template <std::unsigned_integral TResult>
+auto str_to_integral(const char* s, char** end, int base)
+{
+    // Select between strtoull and strtoul, depending on desired result type
+
+    // TODO: recheck, but probably we really want <= and not ==
+    //       => If somebody manages to use a bigger result type than long long, things will still work correctly,
+    //          except that we're unable to use the full range of the result type.
+    // TODO: we can screw up by using the wrong function: have unit test that tests this? (even though it will be a compilation test, mostly?)
+    //       Explanation: I managed to call strtoll and strtol here (signed rather than unsigned variants, and things still compiled)
+    if constexpr (sizeof(unsigned long long) <= sizeof(TResult))
+    {
+        return strtoull(s, end, base);
+    }
+    else
+    {
+        return strtoul(s, end, base);
+    }
+}
+
+// TODO: probably silly, but this actually does compile for TValue=bool
+//       Question is, probably the range check should be handled specially.
+//       There should be NO range check. Instead, it should convert zero to false and nonzero to true.
+//       That, or it should not support bool at all.
+template <std::integral TValue>
+bool parse_integral(const char* s, TValue& result, int base)
+{
+    char* end;
+    auto tmp = str_to_integral<TValue>(s, &end, base); // TODO: forbid ADL?
+
+    // TODO: this is missing *all* error handling
+    // TODO: missing: error/range check of strtoll/strtol: look at result, errno (and end?)
+    // TODO: missing: is there junk at end of input: look at end
+
+    if constexpr (sizeof(decltype(tmp)) <= sizeof(TValue))
+    {
+        result = tmp;
+    }
+    else
+    {
+        // TODO: missing: we're converting from long to something smaller, so we need an additional range check. For starters we simply cast,
+        //       but we really need a range check
+        result = static_cast<TValue>(tmp);
+    }
+
+    return true;
+}
+
+template <std::floating_point TResult>
+class str_to_floating_point;
+
+template <>
+class str_to_floating_point<long double>
+{
+public:
+    static long double convert(const char* s, char** end)
+    {
+        return strtold(s, end);
+    }
+};
+
+template <>
+class str_to_floating_point<double>
+{
+public:
+    static double convert(const char* s, char** end)
+    {
+        return strtod(s, end);
+    }
+};
+
+template <>
+class str_to_floating_point<float>
+{
+public:
+    static float convert(const char* s, char** end)
+    {
+        return strtof(s, end);
+    }
+};
+
+template <std::floating_point TResult>
+bool parse_floating_point(const char* s, TResult& result)
+{
+    char* end;
+    auto tmp = str_to_floating_point<TResult>::convert(s, &end);
+
+    // TODO: this is missing *all* error handling
+    // TODO: missing: generic error handling for strtof/strtod/strtold
+
+    result = tmp;
+    return true;
+}
+
+}
+
+TEST_CASE("parse_number_prototyping")
+{
+    // TODO: what about char and unsigned char? => It's probably OK, but should receive some testing
+    long long ll;
+    long l;
+    int i;
+    short s;
+    unsigned long long ull;
+    unsigned short us;
+    bool b;
+    long double ld;
+    double d;
+    float f;
+
+    CHECK(parse_integral("123", ll, 10) == true);
+    CHECK(ll == 123);
+
+    CHECK(parse_integral("456", l, 10) == true);
+    CHECK(l == 456);
+
+    CHECK(parse_integral("789", i, 10) == true);
+    CHECK(i == 789);
+
+    CHECK(parse_integral("1023", s, 10) == true);
+    CHECK(s == 1023);
+
+    CHECK(parse_integral("12345678", ull, 10) == true);
+    CHECK(ull == 12345678);
+
+    CHECK(parse_integral("65535", us, 10) == true);
+    CHECK(us == 65535);
+
+    CHECK(parse_integral("23", b, 10) == true);
+    CHECK(b == true);
+
+    CHECK(parse_integral("0", b, 10) == true);
+    CHECK(b == false);
+
+    CHECK(parse_integral("1", b, 10) == true);
+    CHECK(b == true);
+
+    CHECK(parse_floating_point("0.03125", ld) == true);
+    CHECK(ld == 0.03125);
+
+    CHECK(parse_floating_point("0.125", d) == true);
+    CHECK(d == 0.125);
+
+    CHECK(parse_floating_point("0.25", f) == true);
+    CHECK(f == 0.25f);
+}
+
+}
