@@ -18,9 +18,6 @@ namespace
 template <std::signed_integral TResult>
 auto str_to_integral(const char* s, char** end, int base)
 {
-    // TODO: recheck, but probably we really want <= and not ==
-    //       => If somebody manages to use a bigger result type than long long, things will still work correctly,
-    //          except that we're unable to use the full range of the result type.
     if constexpr (sizeof(long long) <= sizeof(TResult))
     {
         return strtoll(s, end, base);
@@ -34,9 +31,6 @@ auto str_to_integral(const char* s, char** end, int base)
 template <std::unsigned_integral TResult>
 auto str_to_integral(const char* s, char** end, int base)
 {
-    // TODO: recheck, but probably we really want <= and not ==
-    //       => If somebody manages to use a bigger result type than long long, things will still work correctly,
-    //          except that we're unable to use the full range of the result type.
     if constexpr (sizeof(unsigned long long) <= sizeof(TResult))
     {
         return strtoull(s, end, base);
