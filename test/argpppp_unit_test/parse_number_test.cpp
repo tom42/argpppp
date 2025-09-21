@@ -23,7 +23,6 @@ auto str_to_integral(const char* s, char** end, int base)
     // TODO: recheck, but probably we really want <= and not ==
     //       => If somebody manages to use a bigger result type than long long, things will still work correctly,
     //          except that we're unable to use the full range of the result type.
-    // TODO: we can screw up by using the wrong function: have unit test that tests this? (even though it will be a compilation test, mostly?)
     if constexpr (sizeof(long long) <= sizeof(TResult))
     {
         return strtoll(s, end, base);
@@ -42,8 +41,6 @@ auto str_to_integral(const char* s, char** end, int base)
     // TODO: recheck, but probably we really want <= and not ==
     //       => If somebody manages to use a bigger result type than long long, things will still work correctly,
     //          except that we're unable to use the full range of the result type.
-    // TODO: we can screw up by using the wrong function: have unit test that tests this? (even though it will be a compilation test, mostly?)
-    //       Explanation: I managed to call strtoll and strtol here (signed rather than unsigned variants, and things still compiled)
     if constexpr (sizeof(unsigned long long) <= sizeof(TResult))
     {
         return strtoull(s, end, base);
