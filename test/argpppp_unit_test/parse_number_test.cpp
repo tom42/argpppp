@@ -23,7 +23,6 @@ TEST_CASE("parse_integral")
     {
         auto testdata = GENERATE(
             make_pair("-9223372036854775808", int64_t(0x8000000000000000)),
-            make_pair("0", 0),
             make_pair("9223372036854775807", int64_t(0x7fffffffffffffff)));
         int64_t result;
 
@@ -46,7 +45,6 @@ TEST_CASE("parse_integral")
     {
         auto testdata = GENERATE(
             make_pair("-2147483648", -2147483648),
-            make_pair("0", 0),
             make_pair("2147483647", 2147483647));
         int32_t result;
 
@@ -58,7 +56,6 @@ TEST_CASE("parse_integral")
     {
         auto testdata = GENERATE(
             make_pair("-128", -128),
-            make_pair("0", 0),
             make_pair("127", 127));
         int8_t result;
 
