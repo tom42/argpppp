@@ -19,6 +19,9 @@ using std::make_pair;
 
 TEST_CASE("parse_integral")
 {
+    // TODO: add tests that are '1 too small' and '1 too big' to those tests we called 'valid values'
+    //       Rationale: it is then simpler to verify that all values are good.
+    //       Obviously this means we have to parameterize the expected return value, but that's fine
     SECTION("int64_t, valid values")
     {
         auto testdata = GENERATE(
