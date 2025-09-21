@@ -11,6 +11,7 @@ namespace argpppp
 {
 
 // TODO: implement, test
+ARGPPPP_EXPORT_FOR_UNIT_TESTING
 template <std::integral TValue>
 void parse_integral(const char* s, TValue& result, int base);
 
