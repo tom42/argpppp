@@ -29,4 +29,14 @@ public:
     }
 };
 
+template <>
+class string_to_floating_point_converter<double> final
+{
+public:
+    static auto convert(const char* s, char** end)
+    {
+        return strtod(s, end);
+    }
+};
+
 }
