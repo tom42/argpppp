@@ -17,7 +17,7 @@ TEMPLATE_TEST_CASE("string_to_floating_point_converter_test", "", float, double,
     auto result = string_to_floating_point_converter<TestType>::convert("0.25!", &end);
 
     CHECK(std::is_same_v<TestType, decltype(result)>);
-    CHECK(result == 0.25f);
+    CHECK(result == 0.25);
     CHECK(*end == '!');
 }
 
