@@ -52,6 +52,17 @@ TEST_CASE("parse_integral")
         CHECK(result == testdata.second);
     }
 
+    SECTION("uint32_t, valid values")
+    {
+        auto testdata = GENERATE(
+            make_pair("0", 0u),
+            make_pair("4294967295", 0xffffffffu));
+        uint32_t result;
+
+        CHECK(parse_integral<uint32_t>(testdata.first, result, 10) == true);
+        CHECK(result == testdata.second);
+    }
+
     SECTION("int8_t, valid values")
     {
         auto testdata = GENERATE(
