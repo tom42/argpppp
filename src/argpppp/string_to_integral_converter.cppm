@@ -23,6 +23,7 @@ class string_to_integral_converter<TResult> final
 public:
     static auto convert(const char* s, char** end, int base)
     {
+        // Select between strtoll and strtol, depending on the size of the desired result type.
         if constexpr (sizeof(TResult) >= sizeof(long long))
         {
             return strtoll(s, end, base);
@@ -40,6 +41,7 @@ class string_to_integral_converter<TResult> final
 public:
     static auto convert(const char* s, char** end, int base)
     {
+        // Select between strtoull and strtoul, depending on the size of the desired result type.
         if constexpr (sizeof(TResult) >= sizeof(unsigned long long))
         {
             return strtoull(s, end, base);
