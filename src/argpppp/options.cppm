@@ -136,7 +136,7 @@ std::vector<argp_option> get_argp_options(const options& o);
 // TODO: does this need / have tests?
 std::map<int, std::shared_ptr<option_handler>> get_option_handlers(const options& o);
 
-// TODO: does this need a test?
+ARGPPPP_EXPORT_FOR_UNIT_TESTING
 const option& find_option_or_throw(const options& options, int key);
 
 }

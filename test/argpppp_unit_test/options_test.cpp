@@ -133,6 +133,19 @@ TEST_CASE("options_test")
         CHECK(argp_options[0].flags == 0);
         CHECK(argp_options[0].group == 123);
     }
+
+    SECTION("find_option_or_throw")
+    {
+        options.add({ 'a', "an option" }, null_option_handler());
+        options.add({ 'b', "another option", }, null_option_handler());
+
+        CHECK(find_option_or_throw(options, 'a').name() == "an option");
+        CHECK(find_option_or_throw(options, 'b').name() == "another option");
+        CHECK_THROWS_MATCHES(
+            find_option_or_throw(options, 'c'),
+            std::logic_error,
+            Catch::Matchers::Message("find_option_or_throw: option not found"));
+    }
 }
 
 }
