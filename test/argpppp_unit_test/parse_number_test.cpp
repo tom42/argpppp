@@ -11,6 +11,20 @@ import argpppp;
 namespace argpppp_unit_test
 {
 
+TEST_CASE("parse_integral")
+{
+    // TODO: what do we need to test?
+    //       * long long, long, small type
+    //       * unsigned long long, unsigned long, small type
+    //       * Happy path (which type?)
+    //       * Min/max value
+    //       * Underflow/overflow
+    //       * Complete garbage (empty string, junk at beginning of string)
+    //       * Junk after input: "5x", "5 x"
+}
+
+// TODO: redo stuff below
+/*
 // TODO: for the time being this is all just prototyping
 namespace
 {
@@ -107,6 +121,6 @@ TEST_CASE("parse_number_prototyping")
 
     CHECK(parse_floating_point("0.25", f) == true);
     CHECK(f == 0.25f);
-}
+}*/
 
 }
