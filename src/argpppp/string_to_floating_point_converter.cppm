@@ -13,8 +13,6 @@ export module argpppp:string_to_floating_point_converter;
 namespace argpppp
 {
 
-// TODO: specialize this for float, double and long double
-// TODO: obviously, test this
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 template <std::floating_point TResult>
 class string_to_floating_point_converter;
