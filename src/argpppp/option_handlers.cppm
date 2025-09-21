@@ -16,6 +16,29 @@ import :option_error;
 namespace argpppp
 {
 
+// TODO: prototype code below, needs a test, probably
+namespace
+{
+
+// std::signed_integer: use strtoll, alternatively, use strtoll or strtol when possible
+//                      * Basically
+//                        * Ignore initial spaces => we get this for free
+//                        * Bark on initial junk
+//                        * Ignore trailing spaces
+//                        * Bark on trailing junk. This also includes cases such as '5  x', e.g. trailing spaces (which is OK) followed by junk
+//                        * Bark on underflow
+//                        * Bark on overflow
+// std::unsigned_integer: use strtoull, or strtoul when possible, otherwise same as signed_integer, also test cases.
+// float:               strtof, actually it's all the same test cases
+// double:              strtod, actually it's all the same test cases
+// long double:         strtold, actually it's all the same test cases
+template <typename TValue>
+bool parse_number(const char* str, TValue& result)
+{
+}
+
+}
+
 export using option_handler_result = std::variant<bool, option_error>;
 
 export class option_handler
@@ -91,6 +114,7 @@ private:
 //       * signed integers
 //       * unsigned integers
 //       * all types of floating point values
+//         * Not sure how well this can be unified: integer conversions support a base, floating point conversions don't
 template <std::signed_integral TValue>
 class value<TValue> : public option_handler
 {
