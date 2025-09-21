@@ -44,43 +44,10 @@ bool parse_integral(const char* s, TValue& result, int base)
 }
 
 template <std::floating_point TResult>
-class str_to_floating_point;
-
-template <>
-class str_to_floating_point<long double>
-{
-public:
-    static long double convert(const char* s, char** end)
-    {
-        return strtold(s, end);
-    }
-};
-
-template <>
-class str_to_floating_point<double>
-{
-public:
-    static double convert(const char* s, char** end)
-    {
-        return strtod(s, end);
-    }
-};
-
-template <>
-class str_to_floating_point<float>
-{
-public:
-    static float convert(const char* s, char** end)
-    {
-        return strtof(s, end);
-    }
-};
-
-template <std::floating_point TResult>
 bool parse_floating_point(const char* s, TResult& result)
 {
     char* end;
-    auto tmp = str_to_floating_point<TResult>::convert(s, &end);
+    auto tmp = argpppp::string_to_floating_point_converter<TResult>::convert(s, &end);
 
     // TODO: this is missing *all* error handling
     // TODO: missing: generic error handling for strtof/strtod/strtold
