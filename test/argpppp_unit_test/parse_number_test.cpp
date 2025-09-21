@@ -15,32 +15,6 @@ namespace argpppp_unit_test
 namespace
 {
 
-template <std::signed_integral TResult>
-auto str_to_integral(const char* s, char** end, int base)
-{
-    if constexpr (sizeof(long long) <= sizeof(TResult))
-    {
-        return strtoll(s, end, base);
-    }
-    else
-    {
-        return strtol(s, end, base);
-    }
-}
-
-template <std::unsigned_integral TResult>
-auto str_to_integral(const char* s, char** end, int base)
-{
-    if constexpr (sizeof(unsigned long long) <= sizeof(TResult))
-    {
-        return strtoull(s, end, base);
-    }
-    else
-    {
-        return strtoul(s, end, base);
-    }
-}
-
 // TODO: probably silly, but this actually does compile for TValue=bool
 //       Question is, probably the range check should be handled specially.
 //       There should be NO range check. Instead, it should convert zero to false and nonzero to true.
@@ -49,7 +23,7 @@ template <std::integral TValue>
 bool parse_integral(const char* s, TValue& result, int base)
 {
     char* end;
-    auto tmp = str_to_integral<TValue>(s, &end, base); // TODO: forbid ADL?
+    auto tmp = argpppp::string_to_integral_converter<TValue>::convert(s, &end, base);
 
     // TODO: this is missing *all* error handling
     // TODO: missing: error/range check of strtoll/strtol: look at result, errno (and end?)
