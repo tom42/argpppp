@@ -10,7 +10,8 @@ add_executable(
   options_test.cpp
   parse_number_test.cpp
   parse_result_test.cpp
-  pf_test.cpp)
+  pf_test.cpp
+  string_to_floating_point_converter_test.cpp)
 vtg_target_enable_warnings(argpppp_unit_test)
 target_link_libraries(argpppp_unit_test PRIVATE argpppp_unit_testing Catch2::Catch2WithMain)
 catch_discover_tests(argpppp_unit_test)

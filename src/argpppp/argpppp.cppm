@@ -10,3 +10,4 @@ export import :option_handlers;
 export import :optional_string;
 export import :options;
 export import :pf;
+export import :string_to_floating_point_converter;
