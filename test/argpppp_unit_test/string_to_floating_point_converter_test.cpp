@@ -11,7 +11,7 @@ namespace argpppp_unit_test
 
 using argpppp::string_to_floating_point_converter;
 
-TEMPLATE_TEST_CASE("string_to_floating_point_converter_test", "", float, double)
+TEMPLATE_TEST_CASE("string_to_floating_point_converter_test", "", float, double, long double)
 {
     char* end;
     auto result = string_to_floating_point_converter<TestType>::convert("0.25!", &end);

@@ -39,4 +39,14 @@ public:
     }
 };
 
+template <>
+class string_to_floating_point_converter<long double> final
+{
+public:
+    static auto convert(const char* s, char** end)
+    {
+        return strtold(s, end);
+    }
+};
+
 }
