@@ -15,6 +15,7 @@ namespace argpppp_unit_test
 {
 
 using argpppp::parse_integral;
+using argpppp::parse_integral_result;
 using std::make_pair;
 
 TEST_CASE("parse_integral")
@@ -29,7 +30,7 @@ TEST_CASE("parse_integral")
             make_pair("9223372036854775807", int64_t(0x7fffffffffffffff)));
         int64_t result;
 
-        CHECK(parse_integral<int64_t>(testdata.first, result, 10) == true);
+        CHECK(parse_integral<int64_t>(testdata.first, result, 10) == parse_integral_result::success);
         CHECK(result == testdata.second);
     }
 
@@ -40,7 +41,7 @@ TEST_CASE("parse_integral")
             make_pair("18446744073709551615", uint64_t(0xffffffffffffffff)));
         uint64_t result;
 
-        CHECK(parse_integral<uint64_t>(testdata.first, result, 10) == true);
+        CHECK(parse_integral<uint64_t>(testdata.first, result, 10) == parse_integral_result::success);
         CHECK(result == testdata.second);
     }
 
@@ -51,7 +52,7 @@ TEST_CASE("parse_integral")
             make_pair("2147483647", 2147483647));
         int32_t result;
 
-        CHECK(parse_integral<int32_t>(testdata.first, result, 10) == true);
+        CHECK(parse_integral<int32_t>(testdata.first, result, 10) == parse_integral_result::success);
         CHECK(result == testdata.second);
     }
 
@@ -62,7 +63,7 @@ TEST_CASE("parse_integral")
             make_pair("4294967295", 0xffffffffu));
         uint32_t result;
 
-        CHECK(parse_integral<uint32_t>(testdata.first, result, 10) == true);
+        CHECK(parse_integral<uint32_t>(testdata.first, result, 10) == parse_integral_result::success);
         CHECK(result == testdata.second);
     }
 
@@ -73,7 +74,7 @@ TEST_CASE("parse_integral")
             make_pair("127", 127));
         int8_t result;
 
-        CHECK(parse_integral<int8_t>(testdata.first, result, 10) == true);
+        CHECK(parse_integral<int8_t>(testdata.first, result, 10) == parse_integral_result::success);
         CHECK(result == testdata.second);
     }
 

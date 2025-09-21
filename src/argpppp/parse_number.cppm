@@ -12,10 +12,17 @@ import :string_to_integral_converter;
 namespace argpppp
 {
 
+ARGPPPP_EXPORT_FOR_UNIT_TESTING
+enum class parse_integral_result
+{
+    success
+    // TODO: add more result codes here. What if parse_integral returned std::expect? Then again, why bother?
+};
+
 // TODO: implement, test
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 template <std::integral TValue>
-bool parse_integral(const char* s, TValue& result, int base)
+parse_integral_result parse_integral(const char* s, TValue& result, int base)
 {
     // TODO: do we want a check for valid base? (cppreference: The set of valid values for base is {0, 2, 3, ..., 36})
     // TODO: at least one test that base is forwarded
@@ -45,7 +52,7 @@ bool parse_integral(const char* s, TValue& result, int base)
     //       * VALUE TOO SMALL
     //       * VALUE TOO BIG
     //       => Question is, which ones do we actually want/need?
-    return true;
+    return parse_integral_result::success;
 }
 
 // TODO: implement, test
