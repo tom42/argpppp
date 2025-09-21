@@ -17,6 +17,7 @@ ARGPPPP_EXPORT_FOR_UNIT_TESTING
 template <std::integral TValue>
 bool parse_integral(const char* s, TValue& result, int base)
 {
+    // TODO: do we want a check for valid base? (cppreference: The set of valid values for base is {0, 2, 3, ..., 36})
     // TODO: at least one test that base is forwarded
     char* end;
 
@@ -30,12 +31,16 @@ bool parse_integral(const char* s, TValue& result, int base)
     else
     {
         // TODO: we're converting from long (returned by strtol) to something smaller, so we need an additional range check here!
+        //       To be consistent:
+        //       * If in range: do nothing
+        //       * If too small: correct output to min of TValue and set "too small" / "out of range"
+        //       * If too big: correct output to max of TValue and set "too big" / "out of range"
         result = static_cast<TValue>(tmp);
     }
 
     // TODO: we want more information, right? We can distinguish the following cases:
     //       * GOOD
-    //       * TRAILING JUNK
+    //       * TRAILING JUNK (also stuff like "5 x") => So we want to scan to the end of the string, no?
     //       * INVALID NUMERIC STRING
     //       * VALUE TOO SMALL
     //       * VALUE TOO BIG
