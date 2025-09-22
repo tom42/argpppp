@@ -23,7 +23,7 @@ enum class parse_integral_result
 // TODO: implement, test
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 template <std::integral TValue>
-parse_integral_result parse_integral(const char* s, TValue& result, int base)
+parse_integral_result parse_integral(const char* s, TValue& value, int base)
 {
     // TODO: do we want a check for valid base? (cppreference: The set of valid values for base is {0, 2, 3, ..., 36})
     // TODO: at least one test that base is forwarded
@@ -34,7 +34,7 @@ parse_integral_result parse_integral(const char* s, TValue& result, int base)
 
     if constexpr (sizeof(decltype(tmp)) <= sizeof(TValue))
     {
-        result = tmp;
+        value = tmp;
     }
     else
     {
@@ -43,7 +43,7 @@ parse_integral_result parse_integral(const char* s, TValue& result, int base)
         //       * If in range: do nothing
         //       * If too small: correct output to min of TValue and set "too small" / "out of range"
         //       * If too big: correct output to max of TValue and set "too big" / "out of range"
-        result = static_cast<TValue>(tmp);
+        value = static_cast<TValue>(tmp);
     }
 
     // TODO: we want more information, right? We can distinguish the following cases:
@@ -58,13 +58,13 @@ parse_integral_result parse_integral(const char* s, TValue& result, int base)
 
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 template <std::integral TValue>
-parse_integral_result parse_integral(const std::string& s, TValue& result, int base)
+parse_integral_result parse_integral(const std::string& s, TValue& value, int base)
 {
-    return parse_integral(s.c_str(), result, base);
+    return parse_integral(s.c_str(), value, base);
 }
 
 // TODO: implement, test
 template <std::floating_point TValue>
-void parse_floating_point(const char* s, TValue& result);
+void parse_floating_point(const char* s, TValue& value);
 
 }
