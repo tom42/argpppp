@@ -73,10 +73,10 @@ TEST_CASE("parse_integral")
         auto testdata = GENERATE(
             make_pair("-2147483648", -2147483648),
             make_pair("2147483647", 2147483647));
-        int32_t result; // TODO: rename all result to value
+        int32_t value;
 
-        CHECK(parse_integral<int32_t>(testdata.first, result, 10) == parse_integral_result::success);
-        CHECK(result == testdata.second);
+        CHECK(parse_integral<int32_t>(testdata.first, value, 10) == parse_integral_result::success);
+        CHECK(value == testdata.second);
     }
 
     SECTION("uint32_t, valid values")
@@ -84,10 +84,10 @@ TEST_CASE("parse_integral")
         auto testdata = GENERATE(
             make_pair("0", 0u),
             make_pair("4294967295", 0xffffffffu));
-        uint32_t result;
+        uint32_t value;
 
-        CHECK(parse_integral<uint32_t>(testdata.first, result, 10) == parse_integral_result::success);
-        CHECK(result == testdata.second);
+        CHECK(parse_integral<uint32_t>(testdata.first, value, 10) == parse_integral_result::success);
+        CHECK(value == testdata.second);
     }
 
     SECTION("int8_t, valid values")
@@ -95,10 +95,10 @@ TEST_CASE("parse_integral")
         auto testdata = GENERATE(
             make_pair("-128", -128),
             make_pair("127", 127));
-        int8_t result;
+        int8_t value;
 
-        CHECK(parse_integral<int8_t>(testdata.first, result, 10) == parse_integral_result::success);
-        CHECK(result == testdata.second);
+        CHECK(parse_integral<int8_t>(testdata.first, value, 10) == parse_integral_result::success);
+        CHECK(value == testdata.second);
     }
 
     // TODO: what do we need to test?
