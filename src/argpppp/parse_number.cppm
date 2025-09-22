@@ -27,10 +27,20 @@ parse_integral_result parse_integral(const char* s, TValue& value, int base)
 {
     // TODO: do we want a check for valid base? (cppreference: The set of valid values for base is {0, 2, 3, ..., 36})
     // TODO: at least one test that base is forwarded
+    parse_integral_result parse_result = parse_integral_result::success;
     char* end;
 
     errno = 0;
     auto tmp = string_to_integral_converter<TValue>::convert(s, &end, base);
+
+    // TODO: check end ptr (where does it point to, what does it point to)
+
+    // TODO: check errno
+    if (errno == ERANGE)
+    {
+        // TODO: set parse_result accordingly
+        // TODO: also: do we need to fix up a value?
+    }
 
     if constexpr (sizeof(decltype(tmp)) <= sizeof(TValue))
     {
@@ -53,7 +63,7 @@ parse_integral_result parse_integral(const char* s, TValue& value, int base)
     //       * VALUE TOO SMALL
     //       * VALUE TOO BIG
     //       => Question is, which ones do we actually want/need?
-    return parse_integral_result::success;
+    return parse_result;
 }
 
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
