@@ -120,6 +120,7 @@ TEST_CASE("parse_integral")
             testdata(" ", 0, parse_integral_result::invalid_numeric_string),
             testdata("!", 0, parse_integral_result::invalid_numeric_string),
             testdata("!?", 0, parse_integral_result::invalid_numeric_string),
+            testdata("!5", 0, parse_integral_result::invalid_numeric_string),
             testdata("5x", 5, parse_integral_result::trailing_garbage),
             testdata("5 x", 5, parse_integral_result::trailing_garbage));
         long value;
@@ -139,10 +140,6 @@ TEST_CASE("parse_integral")
         CHECK(parse_integral<long>(data.input, value, 10) == data.expected_parse_result);
         CHECK(value == data.expected_value);
     }
-
-    // TODO: what do we need to test?
-    //       * Complete garbage (empty string, junk at beginning of string)
-    //       * Junk after input: "5x", "5 x"
 }
 
 // TODO: redo stuff below
@@ -175,52 +172,14 @@ bool parse_integral(const char* s, TValue& result, int base)
     return true;
 }
 
-template <std::floating_point TResult>
-bool parse_floating_point(const char* s, TResult& result)
-{
-    char* end;
-    auto tmp = argpppp::string_to_floating_point_converter<TResult>::convert(s, &end);
-
-    // TODO: this is missing *all* error handling
-    // TODO: missing: generic error handling for strtof/strtod/strtold
-
-    result = tmp;
-    return true;
-}
-
 }
 
 TEST_CASE("parse_number_prototyping")
 {
-    // TODO: what about char and unsigned char? => It's probably OK, but should receive some testing
-    long long ll;
-    long l;
-    int i;
-    short s;
-    unsigned long long ull;
-    unsigned short us;
     bool b;
     long double ld;
     double d;
     float f;
-
-    CHECK(parse_integral("123", ll, 10) == true);
-    CHECK(ll == 123);
-
-    CHECK(parse_integral("456", l, 10) == true);
-    CHECK(l == 456);
-
-    CHECK(parse_integral("789", i, 10) == true);
-    CHECK(i == 789);
-
-    CHECK(parse_integral("1023", s, 10) == true);
-    CHECK(s == 1023);
-
-    CHECK(parse_integral("12345678", ull, 10) == true);
-    CHECK(ull == 12345678);
-
-    CHECK(parse_integral("65535", us, 10) == true);
-    CHECK(us == 65535);
 
     CHECK(parse_integral("23", b, 10) == true);
     CHECK(b == true);

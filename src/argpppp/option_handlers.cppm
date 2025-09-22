@@ -16,30 +16,6 @@ import :option_error;
 namespace argpppp
 {
 
-// TODO: prototype code below, needs a test, probably
-namespace
-{
-
-// std::signed_integer: use strtoll, alternatively, use strtoll or strtol when possible
-//                      * Basically
-//                        * Ignore initial spaces => we get this for free
-//                        * Bark on initial junk
-//                        * Ignore trailing spaces
-//                        * Bark on trailing junk. This also includes cases such as '5  x', e.g. trailing spaces (which is OK) followed by junk
-//                        * Bark on underflow
-//                        * Bark on overflow
-// std::unsigned_integer: use strtoull, or strtoul when possible, otherwise same as signed_integer, also test cases.
-//                      do we REALLY want to support unsigned types, braindead how strtoul/strotoull handle minus signs?
-// float:               strtof, actually it's all the same test cases
-// double:              strtod, actually it's all the same test cases
-// long double:         strtold, actually it's all the same test cases
-template <typename TValue>
-bool parse_number(const char* str, TValue& result)
-{
-}
-
-}
-
 export using option_handler_result = std::variant<bool, option_error>;
 
 export class option_handler
@@ -113,7 +89,7 @@ private:
 
 // TODO: can we write this in a way it works for
 //       * signed integers
-//       * unsigned integers
+//       * unsigned integers => Do we really want to support this? seems silly, since strtoul/strtoull accept minus signs...
 //       * all types of floating point values
 //         * Not sure how well this can be unified: integer conversions support a base, floating point conversions don't
 template <std::signed_integral TValue>
@@ -124,7 +100,7 @@ public:
 
     option_handler_result handle_option(const char* arg) override
     {
-        // TODO: real implementation
+        // TODO: real implementation: strop parse_integral in here
         //       * Parse value into long (strol or whatever), fail on error
         //         * We fail if end does not point to the terminating character
         //         * Ugh: I think we also need to check errno (e.g. if number is too bug to fit into a long long). See cpppreference

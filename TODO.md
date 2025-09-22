@@ -27,6 +27,7 @@ SPDX-License-Identifier: MIT
   * Our handler base class is far from complete: it needs the argument string, so we can parse it
   * Then we can try writing a value class, which converts arguments directly and stores them in fields
   * And the same we'd like to have for delegating to a storer function, I guess
+* callback(): demonstrate, and document that arg may be nullptr for switches and options with optional arguments?
 
 * ----------new_api_test.cpp--------------------------------------------------------
 
