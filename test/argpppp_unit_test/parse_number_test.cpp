@@ -44,13 +44,13 @@ TEST_CASE("parse_integral")
     //       Obviously this means we have to parameterize the expected return value, but that's fine
     SECTION("int64_t, valid values")
     {
-        auto testdata = GENERATE(
-            make_pair("-9223372036854775808", int64_t(0x8000000000000000)),
-            make_pair("9223372036854775807", int64_t(0x7fffffffffffffff)));
+        auto data = GENERATE(
+            testdata("-9223372036854775808", int64_t(0x8000000000000000), parse_integral_result::success),
+            testdata("9223372036854775807", int64_t(0x7fffffffffffffff), parse_integral_result::success));
         int64_t result;
 
-        CHECK(parse_integral<int64_t>(testdata.first, result, 10) == parse_integral_result::success);
-        CHECK(result == testdata.second);
+        CHECK(parse_integral<int64_t>(data.input, result, 10) == data.expected_parse_result);
+        CHECK(result == data.expected_value);
     }
 
     SECTION("uint64_t, valid values")
