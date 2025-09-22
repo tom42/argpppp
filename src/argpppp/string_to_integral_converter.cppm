@@ -80,21 +80,22 @@ public:
 
     static constexpr auto min()
     {
-        if constexpr (sizeof(TResult) >= sizeof(long long))
+        // TODO: can we not simplify this? Zero is zero?
+        if constexpr (sizeof(TResult) >= sizeof(unsigned long long))
         {
-            // TODO: return what? Test?
-            return 0;
+            // TODO: return what? Test? (document why we do not bother specifying the type?)
+            return 0u;
         }
         else
         {
-            // TODO: return what? Test?
-            return 0;
+            // TODO: return what? Test? (document why we do not bother specifying the type?)
+            return 0u;
         }
     }
 
     static constexpr auto max()
     {
-        if constexpr (sizeof(TResult) >= sizeof(long long))
+        if constexpr (sizeof(TResult) >= sizeof(unsigned long long))
         {
             // TODO: return what? Test?
             return ULLONG_MAX;

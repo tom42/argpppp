@@ -70,13 +70,15 @@ TEST_CASE("parse_integral")
 
     SECTION("parse int32_t")
     {
-        auto testdata = GENERATE(
-            make_pair("-2147483648", -2147483648),
-            make_pair("2147483647", 2147483647));
+        auto data = GENERATE(
+            testdata("-2147483649", int32_t(0x80000000), parse_integral_result::underflow),
+            testdata("-2147483648", int32_t(0x80000000), parse_integral_result::success),
+            testdata(" 2147483647", int32_t(0x7fffffff), parse_integral_result::success),
+            testdata(" 2147483648", int32_t(0x7fffffff), parse_integral_result::overflow));
         int32_t value;
 
-        CHECK(parse_integral<int32_t>(testdata.first, value, 10) == parse_integral_result::success);
-        CHECK(value == testdata.second);
+        CHECK(parse_integral<int32_t>(data.input, value, 10) == data.expected_parse_result);
+        CHECK(value == data.expected_value);
     }
 
     SECTION("parse uint32_t")
