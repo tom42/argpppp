@@ -80,16 +80,15 @@ public:
 
     static constexpr auto min()
     {
-        // TODO: can we not simplify this? Zero is zero?
         if constexpr (sizeof(TResult) >= sizeof(unsigned long long))
         {
-            // TODO: return what? Test? (document why we do not bother specifying the type?)
-            return 0u;
+            // TODO: return what? Test?
+            return 0ull;
         }
         else
         {
-            // TODO: return what? Test? (document why we do not bother specifying the type?)
-            return 0u;
+            // TODO: return what? Test?
+            return 0ul;
         }
     }
 
