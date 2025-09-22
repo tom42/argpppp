@@ -8,7 +8,6 @@
 #include <cstdlib>
 #include <string>
 #include <type_traits>
-#include <utility>
 
 import argpppp;
 
@@ -17,7 +16,6 @@ namespace argpppp_unit_test
 
 using argpppp::parse_integral;
 using argpppp::parse_integral_result;
-using std::make_pair; // TODO: remove (also utility header above)
 
 namespace
 {
