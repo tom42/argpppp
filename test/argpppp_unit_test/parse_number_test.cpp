@@ -6,6 +6,7 @@
 #include <concepts>
 #include <cstdint>
 #include <cstdlib>
+#include <string>
 #include <type_traits>
 #include <utility>
 
@@ -17,6 +18,24 @@ namespace argpppp_unit_test
 using argpppp::parse_integral;
 using argpppp::parse_integral_result;
 using std::make_pair;
+
+namespace
+{
+
+struct testdata final
+{
+    testdata(std::string input, long long expected_value, parse_integral_result expected_parse_result)
+        : input(input)
+        , expected_value(expected_value)
+        , expected_parse_result(expected_parse_result)
+    {}
+
+    std::string input;
+    long long expected_value;
+    parse_integral_result expected_parse_result;
+};
+
+}
 
 TEST_CASE("parse_integral")
 {
