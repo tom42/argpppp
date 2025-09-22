@@ -31,13 +31,50 @@ parse_integral_result parse_integral(const char* s, TValue& value, int base)
     // TODO: at least one test that base is forwarded
     parse_integral_result parse_result = parse_integral_result::success;
 
-    // Call strtol or stroull, depending on TValue
+    // Call strtol/strtoll/strtoul/strtoull, depending on TValue.
     char* end;
     errno = 0;
     auto tmp = string_to_integral_converter<TValue>::convert(s, &end, base);
 
-    // TODO: check end ptr (where does it point to, what does it point to)
-    // TODO: theortically this may be overriden by further checks below. Do we care? => Well we can move this test AFTER, may possibly make more sense, no?
+    // Report underflow or overflow errors signalled by strtol/strtoll/strtoul/strtoull to caller.
+    if (errno == ERANGE)
+    {
+        if (tmp == string_to_integral_converter<TValue>::min())
+        {
+            parse_result = parse_integral_result::underflow;
+        }
+        else if (tmp == string_to_integral_converter<TValue>::max())
+        {
+            parse_result = parse_integral_result::overflow;
+        }
+    }
+
+    // Assign return value of strtol/strtoll/strtoul/strtoull to output variable.
+    if constexpr (sizeof(decltype(tmp)) <= sizeof(TValue))
+    {
+        value = tmp;
+    }
+    else
+    {
+        // The type of the output variable is more narrow than the return type of strtol/strtoll/strtoul/strtoull.
+        // Check for underflow or overflow, clamp the value if necessary and report underflow or overflow to caller.
+        if (tmp < std::numeric_limits<TValue>::min())
+        {
+            value = std::numeric_limits<TValue>::min();
+            parse_result = parse_integral_result::underflow;
+        }
+        else if (tmp > std::numeric_limits<TValue>::max())
+        {
+            value = std::numeric_limits<TValue>::max();
+            parse_result = parse_integral_result::overflow;
+        }
+        else
+        {
+            value = static_cast<TValue>(tmp);
+        }
+    }
+
+    // Finally check whether input was malformed
     if (end == s)
     {
         parse_result = parse_integral_result::invalid_numeric_string;
@@ -55,46 +92,6 @@ parse_integral_result parse_integral(const char* s, TValue& value, int base)
         }
     }
 
-    if (errno == ERANGE)
-    {
-        // TODO: also: do we need to fix up a value? (tmp, what we write into the final thing)
-        if (tmp == string_to_integral_converter<TValue>::min())
-        {
-            parse_result = parse_integral_result::underflow;
-        }
-        else if (tmp == string_to_integral_converter<TValue>::max())
-        {
-            parse_result = parse_integral_result::overflow;
-        }
-    }
-
-    if constexpr (sizeof(decltype(tmp)) <= sizeof(TValue))
-    {
-        value = tmp;
-    }
-    else
-    {
-        // We're converting from (unsigned) long as returned by strtol/strtoul to a smaller type.
-        // Check for underflow/overflow and clamp the value if necessary.
-        if (tmp < std::numeric_limits<TValue>::min())
-        {
-            value = std::numeric_limits<TValue>::min();
-            parse_result = parse_integral_result::underflow;
-        }
-        else if (tmp > std::numeric_limits<TValue>::max())
-        {
-            value = std::numeric_limits<TValue>::max();
-            parse_result = parse_integral_result::overflow;
-        }
-        else
-        {
-            value = static_cast<TValue>(tmp);
-        }
-    }
-
-    // TODO: we want more information, right? We can distinguish the following cases:
-    //       * TRAILING JUNK (also stuff like "5 x") => So we want to scan to the end of the string, no?
-    //       * INVALID NUMERIC STRING
     return parse_result;
 }
 
