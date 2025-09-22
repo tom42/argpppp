@@ -16,7 +16,9 @@ namespace argpppp
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 enum class parse_integral_result
 {
-    success
+    success,
+    underflow,
+    overflow,
     // TODO: add more result codes here. What if parse_integral returned std::expect? Then again, why bother?
 };
 
@@ -38,6 +40,10 @@ parse_integral_result parse_integral(const char* s, TValue& value, int base)
     // TODO: check errno
     if (errno == ERANGE)
     {
+        if (tmp == LLONG_MIN) // TODO: do we not need to templatize this? Get it off the converter?
+        {
+            parse_result = parse_integral_result::underflow;
+        }
         // TODO: set parse_result accordingly
         // TODO: also: do we need to fix up a value?
     }

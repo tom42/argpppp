@@ -45,6 +45,7 @@ TEST_CASE("parse_integral")
     SECTION("int64_t, valid values")
     {
         auto data = GENERATE(
+            testdata("-9223372036854775809", int64_t(0x8000000000000000), parse_integral_result::underflow),
             testdata("-9223372036854775808", int64_t(0x8000000000000000), parse_integral_result::success),
             testdata(" 9223372036854775807", int64_t(0x7fffffffffffffff), parse_integral_result::success));
         int64_t result;
