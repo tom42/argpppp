@@ -28,7 +28,6 @@ template <std::integral TValue>
 parse_integral_result parse_integral(const char* s, TValue& value, int base)
 {
     // TODO: do we want a check for valid base? (cppreference: The set of valid values for base is {0, 2, 3, ..., 36})
-    // TODO: at least one test that base is forwarded
     parse_integral_result parse_result = parse_integral_result::success;
 
     // Call strtol/strtoll/strtoul/strtoull, depending on TValue.

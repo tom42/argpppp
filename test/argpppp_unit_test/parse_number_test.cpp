@@ -140,6 +140,13 @@ TEST_CASE("parse_integral")
         CHECK(parse_integral<long>(data.input, value, 10) == data.expected_parse_result);
         CHECK(value == data.expected_value);
     }
+
+    SECTION("base other than 10")
+    {
+        int value;
+        CHECK(parse_integral("20", value, 16) == parse_integral_result::success);
+        CHECK(value == 32);
+    }
 }
 
 // TODO: redo stuff below
