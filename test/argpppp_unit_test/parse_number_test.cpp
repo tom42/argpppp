@@ -17,21 +17,22 @@ namespace argpppp_unit_test
 
 using argpppp::parse_integral;
 using argpppp::parse_integral_result;
-using std::make_pair;
+using std::make_pair; // TODO: remove (also utility header above)
 
 namespace
 {
 
-struct testdata final
+template <std::integral TValue>
+struct testdata final // TODO: move out of the way, or can we use template as is?
 {
-    testdata(std::string input, long long expected_value, parse_integral_result expected_parse_result)
+    testdata(std::string input, TValue expected_value, parse_integral_result expected_parse_result)
         : input(input)
         , expected_value(expected_value)
         , expected_parse_result(expected_parse_result)
     {}
 
     std::string input;
-    long long expected_value;
+    TValue expected_value;
     parse_integral_result expected_parse_result;
 };
 
@@ -49,21 +50,22 @@ TEST_CASE("parse_integral")
             testdata("-9223372036854775808", int64_t(0x8000000000000000), parse_integral_result::success),
             testdata(" 9223372036854775807", int64_t(0x7fffffffffffffff), parse_integral_result::success),
             testdata(" 9223372036854775808", int64_t(0x7fffffffffffffff), parse_integral_result::overflow));
-        int64_t result;
+        int64_t value;
 
-        CHECK(parse_integral<int64_t>(data.input, result, 10) == data.expected_parse_result);
-        CHECK(result == data.expected_value);
+        CHECK(parse_integral<int64_t>(data.input, value, 10) == data.expected_parse_result);
+        CHECK(value == data.expected_value);
     }
 
     SECTION("uint64_t, valid values")
     {
-        auto testdata = GENERATE(
-            make_pair("0", uint64_t(0)),
-            make_pair("18446744073709551615", uint64_t(0xffffffffffffffff)));
-        uint64_t result;
+        auto data = GENERATE(
+            testdata("0", uint64_t(0), parse_integral_result::success),
+            testdata("18446744073709551615", uint64_t(0xffffffffffffffff), parse_integral_result::success),
+            testdata("18446744073709551616", uint64_t(0xffffffffffffffff), parse_integral_result::overflow));
+        uint64_t value;
 
-        CHECK(parse_integral<uint64_t>(testdata.first, result, 10) == parse_integral_result::success);
-        CHECK(result == testdata.second);
+        CHECK(parse_integral<uint64_t>(data.input, value, 10) == data.expected_parse_result);
+        CHECK(value == data.expected_value);
     }
 
     SECTION("int32_t, valid values")
@@ -71,7 +73,7 @@ TEST_CASE("parse_integral")
         auto testdata = GENERATE(
             make_pair("-2147483648", -2147483648),
             make_pair("2147483647", 2147483647));
-        int32_t result;
+        int32_t result; // TODO: rename all result to value
 
         CHECK(parse_integral<int32_t>(testdata.first, result, 10) == parse_integral_result::success);
         CHECK(result == testdata.second);

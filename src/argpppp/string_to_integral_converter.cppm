@@ -32,6 +32,34 @@ public:
             return strtol(s, end, base);
         }
     }
+
+    static constexpr auto min()
+    {
+        if constexpr (sizeof(TResult) >= sizeof(long long))
+        {
+            // TODO: return what? Test?
+            return LLONG_MIN;
+        }
+        else
+        {
+            // TODO: return what? Test?
+            return LONG_MIN;
+        }
+    }
+
+    static constexpr auto max()
+    {
+        if constexpr (sizeof(TResult) >= sizeof(long long))
+        {
+            // TODO: return what? Test?
+            return LLONG_MAX;
+        }
+        else
+        {
+            // TODO: return what? Test?
+            return LONG_MAX;
+        }
+    }
 };
 
 template <std::unsigned_integral TResult>
@@ -47,6 +75,34 @@ public:
         else
         {
             return strtoul(s, end, base);
+        }
+    }
+
+    static constexpr auto min()
+    {
+        if constexpr (sizeof(TResult) >= sizeof(long long))
+        {
+            // TODO: return what? Test?
+            return 0;
+        }
+        else
+        {
+            // TODO: return what? Test?
+            return 0;
+        }
+    }
+
+    static constexpr auto max()
+    {
+        if constexpr (sizeof(TResult) >= sizeof(long long))
+        {
+            // TODO: return what? Test?
+            return ULLONG_MAX;
+        }
+        else
+        {
+            // TODO: return what? Test?
+            return ULONG_MAX;
         }
     }
 };

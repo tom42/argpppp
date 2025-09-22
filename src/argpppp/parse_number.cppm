@@ -44,7 +44,7 @@ parse_integral_result parse_integral(const char* s, TValue& value, int base)
         {
             parse_result = parse_integral_result::underflow;
         }
-        else if (tmp == LLONG_MAX)
+        else if (tmp == string_to_integral_converter<TValue>::max())
         {
             parse_result = parse_integral_result::overflow;
         }
