@@ -40,7 +40,7 @@ parse_integral_result parse_integral(const char* s, TValue& value, int base)
     if (errno == ERANGE)
     {
         // TODO: also: do we need to fix up a value? (tmp, what we write into the final thing)
-        if (tmp == string_to_integral_converter<TValue>::min()) // TODO: do we not need to templatize this? Get it off the converter?
+        if (tmp == string_to_integral_converter<TValue>::min())
         {
             parse_result = parse_integral_result::underflow;
         }
