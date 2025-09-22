@@ -43,7 +43,7 @@ TEST_CASE("parse_integral")
     // TODO: add tests that are '1 too small' and '1 too big' to those tests we called 'valid values'
     //       Rationale: it is then simpler to verify that all values are good.
     //       Obviously this means we have to parameterize the expected return value, but that's fine
-    SECTION("int64_t, valid values")
+    SECTION("parse int64_t")
     {
         auto data = GENERATE(
             testdata("-9223372036854775809", int64_t(0x8000000000000000), parse_integral_result::underflow),
@@ -56,7 +56,7 @@ TEST_CASE("parse_integral")
         CHECK(value == data.expected_value);
     }
 
-    SECTION("uint64_t, valid values")
+    SECTION("parse uint64_t")
     {
         auto data = GENERATE(
             testdata("0", uint64_t(0), parse_integral_result::success),
@@ -68,7 +68,7 @@ TEST_CASE("parse_integral")
         CHECK(value == data.expected_value);
     }
 
-    SECTION("int32_t, valid values")
+    SECTION("parse int32_t")
     {
         auto testdata = GENERATE(
             make_pair("-2147483648", -2147483648),
@@ -79,7 +79,7 @@ TEST_CASE("parse_integral")
         CHECK(value == testdata.second);
     }
 
-    SECTION("uint32_t, valid values")
+    SECTION("parse uint32_t")
     {
         auto testdata = GENERATE(
             make_pair("0", 0u),
@@ -90,7 +90,7 @@ TEST_CASE("parse_integral")
         CHECK(value == testdata.second);
     }
 
-    SECTION("int8_t, valid values")
+    SECTION("parse int8_t")
     {
         auto testdata = GENERATE(
             make_pair("-128", -128),
