@@ -19,7 +19,8 @@ enum class parse_integral_result
     success,
     underflow,
     overflow,
-    // TODO: add more result codes here. What if parse_integral returned std::expect? Then again, why bother?
+    invalid_numeric_string,
+    trailing_garbage
 };
 
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
@@ -29,12 +30,30 @@ parse_integral_result parse_integral(const char* s, TValue& value, int base)
     // TODO: do we want a check for valid base? (cppreference: The set of valid values for base is {0, 2, 3, ..., 36})
     // TODO: at least one test that base is forwarded
     parse_integral_result parse_result = parse_integral_result::success;
-    char* end;
 
+    // Call strtol or stroull, depending on TValue
+    char* end;
     errno = 0;
     auto tmp = string_to_integral_converter<TValue>::convert(s, &end, base);
 
     // TODO: check end ptr (where does it point to, what does it point to)
+    // TODO: theortically this may be overriden by further checks below. Do we care? => Well we can move this test AFTER, may possibly make more sense, no?
+    if (end == s)
+    {
+        parse_result = parse_integral_result::invalid_numeric_string;
+    }
+    else
+    {
+        while (isspace(*end))
+        {
+            ++end;
+        }
+
+        if (*end != '\0')
+        {
+            parse_result = parse_integral_result::trailing_garbage;
+        }
+    }
 
     if (errno == ERANGE)
     {

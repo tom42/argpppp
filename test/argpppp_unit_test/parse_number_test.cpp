@@ -113,6 +113,33 @@ TEST_CASE("parse_integral")
         CHECK(value == data.expected_value);
     }
 
+    SECTION("garbage input")
+    {
+        auto data = GENERATE(
+            testdata("", 0, parse_integral_result::invalid_numeric_string),
+            testdata(" ", 0, parse_integral_result::invalid_numeric_string),
+            testdata("!", 0, parse_integral_result::invalid_numeric_string),
+            testdata("!?", 0, parse_integral_result::invalid_numeric_string),
+            testdata("5x", 5, parse_integral_result::trailing_garbage),
+            testdata("5 x", 5, parse_integral_result::trailing_garbage));
+        long value;
+
+        CHECK(parse_integral<long>(data.input, value, 10) == data.expected_parse_result);
+        CHECK(value == data.expected_value);
+    }
+
+    SECTION("leading and trailing whitespace")
+    {
+        auto data = GENERATE(
+            testdata(" 5", 5, parse_integral_result::success),
+            testdata(" 5 ", 5, parse_integral_result::success),
+            testdata(" 5 \t\n", 5, parse_integral_result::success));
+        long value;
+
+        CHECK(parse_integral<long>(data.input, value, 10) == data.expected_parse_result);
+        CHECK(value == data.expected_value);
+    }
+
     // TODO: what do we need to test?
     //       * Complete garbage (empty string, junk at beginning of string)
     //       * Junk after input: "5x", "5 x"
