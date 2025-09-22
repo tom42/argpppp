@@ -47,7 +47,8 @@ TEST_CASE("parse_integral")
         auto data = GENERATE(
             testdata("-9223372036854775809", int64_t(0x8000000000000000), parse_integral_result::underflow),
             testdata("-9223372036854775808", int64_t(0x8000000000000000), parse_integral_result::success),
-            testdata(" 9223372036854775807", int64_t(0x7fffffffffffffff), parse_integral_result::success));
+            testdata(" 9223372036854775807", int64_t(0x7fffffffffffffff), parse_integral_result::success),
+            testdata(" 9223372036854775808", int64_t(0x7fffffffffffffff), parse_integral_result::overflow));
         int64_t result;
 
         CHECK(parse_integral<int64_t>(data.input, result, 10) == data.expected_parse_result);

@@ -37,15 +37,17 @@ parse_integral_result parse_integral(const char* s, TValue& value, int base)
 
     // TODO: check end ptr (where does it point to, what does it point to)
 
-    // TODO: check errno
     if (errno == ERANGE)
     {
+        // TODO: also: do we need to fix up a value? (tmp, what we write into the final thing)
         if (tmp == LLONG_MIN) // TODO: do we not need to templatize this? Get it off the converter?
         {
             parse_result = parse_integral_result::underflow;
         }
-        // TODO: set parse_result accordingly
-        // TODO: also: do we need to fix up a value?
+        else if (tmp == LLONG_MAX)
+        {
+            parse_result = parse_integral_result::overflow;
+        }
     }
 
     if constexpr (sizeof(decltype(tmp)) <= sizeof(TValue))
