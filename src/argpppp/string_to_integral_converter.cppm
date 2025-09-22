@@ -37,12 +37,10 @@ public:
     {
         if constexpr (sizeof(TResult) >= sizeof(long long))
         {
-            // TODO: return what? Test?
             return LLONG_MIN;
         }
         else
         {
-            // TODO: return what? Test?
             return LONG_MIN;
         }
     }
@@ -51,12 +49,10 @@ public:
     {
         if constexpr (sizeof(TResult) >= sizeof(long long))
         {
-            // TODO: return what? Test?
             return LLONG_MAX;
         }
         else
         {
-            // TODO: return what? Test?
             return LONG_MAX;
         }
     }
@@ -82,12 +78,10 @@ public:
     {
         if constexpr (sizeof(TResult) >= sizeof(unsigned long long))
         {
-            // TODO: return what? Test?
             return 0ull;
         }
         else
         {
-            // TODO: return what? Test?
             return 0ul;
         }
     }
@@ -96,12 +90,10 @@ public:
     {
         if constexpr (sizeof(TResult) >= sizeof(unsigned long long))
         {
-            // TODO: return what? Test?
             return ULLONG_MAX;
         }
         else
         {
-            // TODO: return what? Test?
             return ULONG_MAX;
         }
     }
