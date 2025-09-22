@@ -29,6 +29,7 @@ namespace
 //                        * Bark on underflow
 //                        * Bark on overflow
 // std::unsigned_integer: use strtoull, or strtoul when possible, otherwise same as signed_integer, also test cases.
+//                      do we REALLY want to support unsigned types, braindead how strtoul/strotoull handle minus signs?
 // float:               strtof, actually it's all the same test cases
 // double:              strtod, actually it's all the same test cases
 // long double:         strtold, actually it's all the same test cases

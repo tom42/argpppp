@@ -122,7 +122,6 @@ TEST_CASE("parse_integral")
     //       * long long, long, small type
     //       * unsigned long long, unsigned long, small type
     //       * Happy path (which type?)
-    //       * Underflow/overflow => Do we need to check underflow for unsigned types?
     //       * Complete garbage (empty string, junk at beginning of string)
     //       * Junk after input: "5x", "5 x"
 }
