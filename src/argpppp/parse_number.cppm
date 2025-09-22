@@ -22,7 +22,6 @@ enum class parse_integral_result
     // TODO: add more result codes here. What if parse_integral returned std::expect? Then again, why bother?
 };
 
-// TODO: implement, test
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 template <std::integral TValue>
 parse_integral_result parse_integral(const char* s, TValue& value, int base)
@@ -75,12 +74,8 @@ parse_integral_result parse_integral(const char* s, TValue& value, int base)
     }
 
     // TODO: we want more information, right? We can distinguish the following cases:
-    //       * GOOD
     //       * TRAILING JUNK (also stuff like "5 x") => So we want to scan to the end of the string, no?
     //       * INVALID NUMERIC STRING
-    //       * VALUE TOO SMALL
-    //       * VALUE TOO BIG
-    //       => Question is, which ones do we actually want/need?
     return parse_result;
 }
 
