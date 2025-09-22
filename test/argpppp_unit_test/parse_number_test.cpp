@@ -95,14 +95,18 @@ TEST_CASE("parse_integral")
 
     SECTION("parse int8_t")
     {
-        auto testdata = GENERATE(
-            make_pair("-128", -128),
-            make_pair("127", 127));
+        auto data = GENERATE(
+            testdata("-129", -128, parse_integral_result::underflow),
+            testdata("-128", -128, parse_integral_result::success),
+            testdata("127", 127, parse_integral_result::success),
+            testdata("128", 127, parse_integral_result::overflow));
         int8_t value;
 
-        CHECK(parse_integral<int8_t>(testdata.first, value, 10) == parse_integral_result::success);
-        CHECK(value == testdata.second);
+        CHECK(parse_integral<int8_t>(data.input, value, 10) == data.expected_parse_result);
+        CHECK(value == data.expected_value);
     }
+
+    // TODO: for the sake of completeness, also have a test for uint8_t. That should then suffice.
 
     // TODO: what do we need to test?
     //       * long long, long, small type
