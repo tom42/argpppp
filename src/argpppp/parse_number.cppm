@@ -56,14 +56,17 @@ parse_integral_result parse_integral(const char* s, TValue& value, int base)
     }
     else
     {
-        // TODO: we're converting from long (returned by strtol) to something smaller, so we need an additional range check here!
-        //       To be consistent:
-        //       * If in range: do nothing
-        //       * If too big: correct output to max of TValue and set "too big" / "out of range"
+        // We're converting from (unsigned) long as returned by strtol/strtoul to a smaller type.
+        // Check for underflow/overflow and clamp the value if necessary.
         if (tmp < std::numeric_limits<TValue>::min())
         {
             value = std::numeric_limits<TValue>::min();
             parse_result = parse_integral_result::underflow;
+        }
+        else if (tmp > std::numeric_limits<TValue>::max())
+        {
+            value = std::numeric_limits<TValue>::max();
+            parse_result = parse_integral_result::overflow;
         }
         else
         {
