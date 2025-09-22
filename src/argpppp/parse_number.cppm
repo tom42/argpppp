@@ -5,6 +5,7 @@ module;
 
 #include <cerrno>
 #include <concepts>
+#include <string>
 
 export module argpppp:parse_number;
 import :string_to_integral_converter;
@@ -53,6 +54,13 @@ parse_integral_result parse_integral(const char* s, TValue& result, int base)
     //       * VALUE TOO BIG
     //       => Question is, which ones do we actually want/need?
     return parse_integral_result::success;
+}
+
+ARGPPPP_EXPORT_FOR_UNIT_TESTING
+template <std::integral TValue>
+parse_integral_result parse_integral(const std::string& s, TValue& result, int base)
+{
+    return parse_integral(s.c_str(), result, base);
 }
 
 // TODO: implement, test
