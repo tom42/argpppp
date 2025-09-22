@@ -19,7 +19,7 @@ TEST_CASE("string_to_integral_converter_test, long long")
     char* end;
     auto result = string_to_integral_converter<long long>::convert("-077!", &end, auto_detect_base);
 
-    CHECK(std::is_same_v<long long, decltype(result)>);
+    CHECK(std::is_same_v<decltype(result), long long>);
     CHECK(result == -63);
     CHECK(*end == '!');
 }
