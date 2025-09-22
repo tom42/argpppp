@@ -83,13 +83,14 @@ TEST_CASE("parse_integral")
 
     SECTION("parse uint32_t")
     {
-        auto testdata = GENERATE(
-            make_pair("0", 0u),
-            make_pair("4294967295", 0xffffffffu));
+        auto data = GENERATE(
+            testdata("0", uint32_t(0), parse_integral_result::success),
+            testdata("4294967295", uint32_t(0xffffffff), parse_integral_result::success),
+            testdata("4294967296", uint32_t(0xffffffff), parse_integral_result::overflow));
         uint32_t value;
 
-        CHECK(parse_integral<uint32_t>(testdata.first, value, 10) == parse_integral_result::success);
-        CHECK(value == testdata.second);
+        CHECK(parse_integral<uint32_t>(data.input, value, 10) == data.expected_parse_result);
+        CHECK(value == data.expected_value);
     }
 
     SECTION("parse int8_t")
@@ -115,10 +116,6 @@ TEST_CASE("parse_integral")
 
 // TODO: redo stuff below
 /*
-// TODO: for the time being this is all just prototyping
-namespace
-{
-
 // TODO: probably silly, but this actually does compile for TValue=bool
 //       Question is, probably the range check should be handled specially.
 //       There should be NO range check. Instead, it should convert zero to false and nonzero to true.
