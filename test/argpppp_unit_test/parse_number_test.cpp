@@ -106,14 +106,23 @@ TEST_CASE("parse_integral")
         CHECK(value == data.expected_value);
     }
 
-    // TODO: for the sake of completeness, also have a test for uint8_t. That should then suffice.
+    SECTION("parse uint8_t")
+    {
+        auto data = GENERATE(
+            testdata("0", 0, parse_integral_result::success),
+            testdata("255", 255, parse_integral_result::success),
+            testdata("256", 255, parse_integral_result::overflow));
+        uint8_t value;
+
+        CHECK(parse_integral<uint8_t>(data.input, value, 10) == data.expected_parse_result);
+        CHECK(value == data.expected_value);
+    }
 
     // TODO: what do we need to test?
     //       * long long, long, small type
     //       * unsigned long long, unsigned long, small type
     //       * Happy path (which type?)
-    //       * Min/max value
-    //       * Underflow/overflow
+    //       * Underflow/overflow => Do we need to check underflow for unsigned types?
     //       * Complete garbage (empty string, junk at beginning of string)
     //       * Junk after input: "5x", "5 x"
 }
