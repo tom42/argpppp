@@ -186,7 +186,10 @@ TEST_CASE("parse_integral")
 //       There should be NO range check. Instead, it should convert zero to false and nonzero to true.
 //       That, or it should not support bool at all.
 template <std::integral TValue>
-bool parse_integral(const char* s, TValue& result, int base) { /* ... */ }
+bool parse_integral(const char* s, TValue& result, int base)
+{
+    // ...
+}
 
 }
 
