@@ -3,6 +3,8 @@
 
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
+#include <catch2/matchers/catch_matchers.hpp>
+#include <catch2/matchers/catch_matchers_exception.hpp>
 #include <concepts>
 #include <cstdint>
 #include <cstdlib>
@@ -147,6 +149,34 @@ TEST_CASE("parse_integral")
         CHECK(parse_integral("20", value, 16) == parse_integral_result::success);
         CHECK(value == 32);
     }
+
+    SECTION("valid base")
+    {
+        int base = GENERATE(0, 2, 36);
+
+        int value;
+        CHECK(parse_integral("1", value, base) == parse_integral_result::success);
+        CHECK(value == 1);
+    }
+
+    SECTION("invalid base")
+    {
+        int base = GENERATE(-1, 1, 37);
+
+        int value;
+        CHECK_THROWS_MATCHES(
+            parse_integral("", value, base),
+            std::invalid_argument,
+            Catch::Matchers::Message("parse_integral: invalid base"));
+    }
+
+    SECTION("base is forwarded to strtoxx")
+    {
+        int value;
+
+        CHECK(parse_integral("0x10", value, 0) == parse_integral_result::success);
+        CHECK(value == 16);
+    }
 }
 
 // TODO: redo stuff below
@@ -156,28 +186,7 @@ TEST_CASE("parse_integral")
 //       There should be NO range check. Instead, it should convert zero to false and nonzero to true.
 //       That, or it should not support bool at all.
 template <std::integral TValue>
-bool parse_integral(const char* s, TValue& result, int base)
-{
-    char* end;
-    auto tmp = argpppp::string_to_integral_converter<TValue>::convert(s, &end, base);
-
-    // TODO: this is missing *all* error handling
-    // TODO: missing: error/range check of strtoll/strtol: look at result, errno (and end?)
-    // TODO: missing: is there junk at end of input: look at end
-
-    if constexpr (sizeof(decltype(tmp)) <= sizeof(TValue))
-    {
-        result = tmp;
-    }
-    else
-    {
-        // TODO: missing: we're converting from long to something smaller, so we need an additional range check. For starters we simply cast,
-        //       but we really need a range check
-        result = static_cast<TValue>(tmp);
-    }
-
-    return true;
-}
+bool parse_integral(const char* s, TValue& result, int base) { /* ... */ }
 
 }
 

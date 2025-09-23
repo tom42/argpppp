@@ -5,6 +5,7 @@ module;
 
 #include <cerrno>
 #include <concepts>
+#include <stdexcept>
 #include <string>
 
 export module argpppp:parse_number;
@@ -23,14 +24,27 @@ enum class parse_integral_result
     trailing_garbage
 };
 
+bool is_valid_base(int base)
+{
+    if ((base == 0) || ((2 <= base) && (base <= 36)))
+    {
+        return true;
+    }
+
+    return false;
+}
+
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 template <std::integral TValue>
 parse_integral_result parse_integral(const char* s, TValue& value, int base)
 {
-    // TODO: do we want a check for valid base? (cppreference: The set of valid values for base is {0, 2, 3, ..., 36})
-    parse_integral_result parse_result = parse_integral_result::success;
+    if (!is_valid_base(base))
+    {
+        throw std::invalid_argument("parse_integral: invalid base");
+    }
 
     // Call strtol/strtoll/strtoul/strtoull, depending on TValue.
+    parse_integral_result parse_result = parse_integral_result::success;
     char* end;
     errno = 0;
     auto tmp = string_to_integral_converter<TValue>::convert(s, &end, base);
