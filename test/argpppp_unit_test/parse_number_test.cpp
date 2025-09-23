@@ -38,7 +38,7 @@ struct testdata final
 
 }
 
-TEST_CASE("parse_integral")
+TEST_CASE("parse_integral_test")
 {
     SECTION("parse int64_t")
     {
@@ -179,6 +179,17 @@ TEST_CASE("parse_integral")
     }
 }
 
+// TODO: add tests
+//       * parse long double
+//       * parse double
+//       * parse float
+//       * garbage input (leading/trailing junk)
+//       * leading/trailing whitespace
+//       * anything else?
+TEST_CASE("parse_floating_point_test")
+{
+}
+
 // TODO: redo stuff below
 /*
 // TODO: probably silly, but this actually does compile for TValue=bool
@@ -193,7 +204,7 @@ bool parse_integral(const char* s, TValue& result, int base)
 
 }
 
-TEST_CASE("parse_number_prototyping")
+TEST_CASE("parse_number_prototyping_test")
 {
     bool b;
     long double ld;
