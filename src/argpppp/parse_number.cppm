@@ -9,11 +9,13 @@ module;
 #include <string>
 
 export module argpppp:parse_number;
+import :string_to_floating_point_converter;
 import :string_to_integral_converter;
 
 namespace argpppp
 {
 
+// TODO: rename this enum if it turns out we're going to use it for both floating point and integral parsing
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 enum class parse_integral_result
 {
@@ -118,11 +120,17 @@ parse_integral_result parse_integral(const std::string& s, TValue& value, int ba
 // TODO: implement, test
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 template <std::floating_point TValue>
-void parse_floating_point(const char* s, TValue& value);
+parse_integral_result parse_floating_point(const char* s, TValue& value)
+{
+    // TODO: this is missing all error handling. See parse_integral on what to handle
+    char* end;
+    value = string_to_floating_point_converter<TValue>::convert(s, &end);
+    return parse_integral_result::success;
+}
 
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 template <std::floating_point TValue>
-void parse_floating_point(const std::string& s, TValue& value)
+parse_integral_result parse_floating_point(const std::string& s, TValue& value)
 {
     return parse_floating_point(s.c_str(), value);
 }

@@ -16,6 +16,7 @@ import argpppp;
 namespace argpppp_unit_test
 {
 
+using argpppp::parse_floating_point;
 using argpppp::parse_integral;
 using argpppp::parse_integral_result;
 
@@ -188,6 +189,15 @@ TEST_CASE("parse_integral_test")
 //       * anything else?
 TEST_CASE("parse_floating_point_test")
 {
+    SECTION("parse double")
+    {
+        double value;
+
+        // TODO: test more values? (min/max does not make much sense, since it's hard to tell what they should be?)
+        // TODO: test overflow (again, how?). Underflow makes no sense since it is not reported by library functions => Either way, also test another good value, and parameterize the test
+        CHECK(parse_floating_point("0.5", value) == parse_integral_result::success);
+        CHECK(value == 0.5);
+    }
 }
 
 // TODO: redo stuff below
