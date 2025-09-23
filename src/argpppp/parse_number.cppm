@@ -102,7 +102,15 @@ parse_integral_result parse_integral(const std::string& s, TValue& value, int ba
 }
 
 // TODO: implement, test
+ARGPPPP_EXPORT_FOR_UNIT_TESTING
 template <std::floating_point TValue>
 void parse_floating_point(const char* s, TValue& value);
+
+ARGPPPP_EXPORT_FOR_UNIT_TESTING
+template <std::floating_point TValue>
+void parse_floating_point(const std::string& s, TValue& value)
+{
+    return parse_floating_point(s.c_str(), value);
+}
 
 }
