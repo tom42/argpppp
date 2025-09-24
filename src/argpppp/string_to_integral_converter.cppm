@@ -5,6 +5,7 @@
 
 module;
 
+#include <climits>
 #include <concepts>
 #include <cstdlib>
 

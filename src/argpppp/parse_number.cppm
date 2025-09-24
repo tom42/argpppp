@@ -26,7 +26,7 @@ enum class parse_integral_result
     trailing_garbage
 };
 
-bool is_valid_base(int base)
+inline bool is_valid_base(int base)
 {
     if ((base == 0) || ((2 <= base) && (base <= 36)))
     {
