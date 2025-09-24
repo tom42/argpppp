@@ -27,12 +27,6 @@ namespace
 template <std::integral TValue>
 struct testdata final
 {
-    testdata(std::string input, TValue expected_value, parse_integral_result expected_parse_result)
-        : input(input)
-        , expected_value(expected_value)
-        , expected_parse_result(expected_parse_result)
-    {}
-
     std::string input;
     TValue expected_value;
     parse_integral_result expected_parse_result;
@@ -45,10 +39,10 @@ TEST_CASE("parse_integral_test")
     SECTION("parse int64_t")
     {
         auto data = GENERATE(
-            testdata<int64_t>("-9223372036854775809", int64_t(0x8000000000000000), parse_integral_result::underflow),
-            testdata<int64_t>("-9223372036854775808", int64_t(0x8000000000000000), parse_integral_result::success),
-            testdata<int64_t>(" 9223372036854775807", 0x7fffffffffffffff, parse_integral_result::success),
-            testdata<int64_t>(" 9223372036854775808", 0x7fffffffffffffff, parse_integral_result::overflow));
+            testdata<int64_t>{"-9223372036854775809", int64_t(0x8000000000000000), parse_integral_result::underflow},
+            testdata<int64_t>{"-9223372036854775808", int64_t(0x8000000000000000), parse_integral_result::success},
+            testdata<int64_t>{" 9223372036854775807", 0x7fffffffffffffff, parse_integral_result::success},
+            testdata<int64_t>{" 9223372036854775808", 0x7fffffffffffffff, parse_integral_result::overflow});
         int64_t value;
 
         CHECK(parse_integral<int64_t>(data.input, value, 10) == data.expected_parse_result);
@@ -58,9 +52,9 @@ TEST_CASE("parse_integral_test")
     SECTION("parse uint64_t")
     {
         auto data = GENERATE(
-            testdata<uint64_t>("0", 0, parse_integral_result::success),
-            testdata<uint64_t>("18446744073709551615", 0xffffffffffffffff, parse_integral_result::success),
-            testdata<uint64_t>("18446744073709551616", 0xffffffffffffffff, parse_integral_result::overflow));
+            testdata<uint64_t>{"0", 0, parse_integral_result::success},
+            testdata<uint64_t>{"18446744073709551615", 0xffffffffffffffff, parse_integral_result::success},
+            testdata<uint64_t>{"18446744073709551616", 0xffffffffffffffff, parse_integral_result::overflow});
         uint64_t value;
 
         CHECK(parse_integral<uint64_t>(data.input, value, 10) == data.expected_parse_result);
@@ -70,10 +64,10 @@ TEST_CASE("parse_integral_test")
     SECTION("parse int32_t")
     {
         auto data = GENERATE(
-            testdata<int32_t>("-2147483649", int32_t(0x80000000), parse_integral_result::underflow),
-            testdata<int32_t>("-2147483648", int32_t(0x80000000), parse_integral_result::success),
-            testdata<int32_t>(" 2147483647", 0x7fffffff, parse_integral_result::success),
-            testdata<int32_t>(" 2147483648", 0x7fffffff, parse_integral_result::overflow));
+            testdata<int32_t>{"-2147483649", int32_t(0x80000000), parse_integral_result::underflow},
+            testdata<int32_t>{"-2147483648", int32_t(0x80000000), parse_integral_result::success},
+            testdata<int32_t>{" 2147483647", 0x7fffffff, parse_integral_result::success},
+            testdata<int32_t>{" 2147483648", 0x7fffffff, parse_integral_result::overflow});
         int32_t value;
 
         CHECK(parse_integral<int32_t>(data.input, value, 10) == data.expected_parse_result);
@@ -83,9 +77,9 @@ TEST_CASE("parse_integral_test")
     SECTION("parse uint32_t")
     {
         auto data = GENERATE(
-            testdata<uint32_t>("0", 0, parse_integral_result::success),
-            testdata<uint32_t>("4294967295", 0xffffffff, parse_integral_result::success),
-            testdata<uint32_t>("4294967296", 0xffffffff, parse_integral_result::overflow));
+            testdata<uint32_t>{"0", 0, parse_integral_result::success},
+            testdata<uint32_t>{"4294967295", 0xffffffff, parse_integral_result::success},
+            testdata<uint32_t>{"4294967296", 0xffffffff, parse_integral_result::overflow});
         uint32_t value;
 
         CHECK(parse_integral<uint32_t>(data.input, value, 10) == data.expected_parse_result);
@@ -95,10 +89,10 @@ TEST_CASE("parse_integral_test")
     SECTION("parse int8_t")
     {
         auto data = GENERATE(
-            testdata("-129", -128, parse_integral_result::underflow),
-            testdata("-128", -128, parse_integral_result::success),
-            testdata("127", 127, parse_integral_result::success),
-            testdata("128", 127, parse_integral_result::overflow));
+            testdata{"-129", -128, parse_integral_result::underflow},
+            testdata{"-128", -128, parse_integral_result::success},
+            testdata{"127", 127, parse_integral_result::success},
+            testdata{"128", 127, parse_integral_result::overflow});
         int8_t value;
 
         CHECK(parse_integral<int8_t>(data.input, value, 10) == data.expected_parse_result);
@@ -108,9 +102,9 @@ TEST_CASE("parse_integral_test")
     SECTION("parse uint8_t")
     {
         auto data = GENERATE(
-            testdata("0", 0, parse_integral_result::success),
-            testdata("255", 255, parse_integral_result::success),
-            testdata("256", 255, parse_integral_result::overflow));
+            testdata{"0", 0, parse_integral_result::success},
+            testdata{"255", 255, parse_integral_result::success},
+            testdata{"256", 255, parse_integral_result::overflow});
         uint8_t value;
 
         CHECK(parse_integral<uint8_t>(data.input, value, 10) == data.expected_parse_result);
@@ -120,13 +114,13 @@ TEST_CASE("parse_integral_test")
     SECTION("garbage input")
     {
         auto data = GENERATE(
-            testdata("", 0, parse_integral_result::invalid_numeric_string),
-            testdata(" ", 0, parse_integral_result::invalid_numeric_string),
-            testdata("!", 0, parse_integral_result::invalid_numeric_string),
-            testdata("!?", 0, parse_integral_result::invalid_numeric_string),
-            testdata("!5", 0, parse_integral_result::invalid_numeric_string),
-            testdata("5x", 5, parse_integral_result::trailing_garbage),
-            testdata("5 x", 5, parse_integral_result::trailing_garbage));
+            testdata{"", 0, parse_integral_result::invalid_numeric_string},
+            testdata{" ", 0, parse_integral_result::invalid_numeric_string},
+            testdata{"!", 0, parse_integral_result::invalid_numeric_string},
+            testdata{"!?", 0, parse_integral_result::invalid_numeric_string},
+            testdata{"!5", 0, parse_integral_result::invalid_numeric_string},
+            testdata{"5x", 5, parse_integral_result::trailing_garbage},
+            testdata{"5 x", 5, parse_integral_result::trailing_garbage});
         long value;
 
         CHECK(parse_integral<long>(data.input, value, 10) == data.expected_parse_result);
@@ -136,9 +130,9 @@ TEST_CASE("parse_integral_test")
     SECTION("leading and trailing whitespace")
     {
         auto data = GENERATE(
-            testdata(" 5", 5, parse_integral_result::success),
-            testdata(" 5 ", 5, parse_integral_result::success),
-            testdata(" 5 \t\n", 5, parse_integral_result::success));
+            testdata{" 5", 5, parse_integral_result::success},
+            testdata{" 5 ", 5, parse_integral_result::success},
+            testdata{" 5 \t\n", 5, parse_integral_result::success});
         long value;
 
         CHECK(parse_integral<long>(data.input, value, 10) == data.expected_parse_result);
