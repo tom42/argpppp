@@ -24,7 +24,7 @@ class string_to_integral_converter<TResult> final
 public:
     static auto convert(const char* s, char** end, int base)
     {
-        if constexpr (sizeof(TResult) >= sizeof(long long))
+        if constexpr (use_strtoll())
         {
             return strtoll(s, end, base);
         }
@@ -36,7 +36,7 @@ public:
 
     static constexpr auto min()
     {
-        if constexpr (sizeof(TResult) >= sizeof(long long))
+        if constexpr (use_strtoll())
         {
             return LLONG_MIN;
         }
@@ -48,7 +48,7 @@ public:
 
     static constexpr auto max()
     {
-        if constexpr (sizeof(TResult) >= sizeof(long long))
+        if constexpr (use_strtoll())
         {
             return LLONG_MAX;
         }
@@ -56,6 +56,12 @@ public:
         {
             return LONG_MAX;
         }
+    }
+
+private:
+    static constexpr bool use_strtoll()
+    {
+        return (sizeof(TResult) >= sizeof(long long)) && !std::is_same_v<TResult, long>;
     }
 };
 
@@ -65,7 +71,7 @@ class string_to_integral_converter<TResult> final
 public:
     static auto convert(const char* s, char** end, int base)
     {
-        if constexpr (sizeof(TResult) >= sizeof(unsigned long long))
+        if constexpr (use_strtoull())
         {
             return strtoull(s, end, base);
         }
@@ -77,7 +83,7 @@ public:
 
     static constexpr auto min()
     {
-        if constexpr (sizeof(TResult) >= sizeof(unsigned long long))
+        if constexpr (use_strtoull())
         {
             return 0ull;
         }
@@ -89,7 +95,7 @@ public:
 
     static constexpr auto max()
     {
-        if constexpr (sizeof(TResult) >= sizeof(unsigned long long))
+        if constexpr (use_strtoull())
         {
             return ULLONG_MAX;
         }
@@ -97,6 +103,12 @@ public:
         {
             return ULONG_MAX;
         }
+    }
+
+private:
+    static constexpr bool use_strtoull()
+    {
+        return (sizeof(TResult) >= sizeof(unsigned long long)) && !std::is_same_v<TResult, unsigned long>;
     }
 };
 
