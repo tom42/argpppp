@@ -10,6 +10,7 @@
 #include <cstdlib>
 #include <string>
 #include <type_traits>
+#include "argpppp_unit_test_utility.hpp"
 
 import argpppp;
 
@@ -196,7 +197,7 @@ TEST_CASE("parse_floating_point_test")
         // TODO: test more values? (min/max does not make much sense, since it's hard to tell what they should be?)
         // TODO: test overflow (again, how?). Underflow makes no sense since it is not reported by library functions => Either way, also test another good value, and parameterize the test
         CHECK(parse_floating_point("0.5", value) == parse_integral_result::success);
-        CHECK(value == 0.5);
+        CHECK(float_equal_no_warning(value, 0.5));
     }
 }
 
