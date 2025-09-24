@@ -1,5 +1,5 @@
-// SPDX - FileCopyrightText: 2025 Thomas Mathys
-// SPDX - License - Identifier: MIT
+// SPDX-FileCopyrightText: 2025 Thomas Mathys
+// SPDX-License-Identifier: MIT
 
 #include <cstdlib>
 #include <iomanip>
