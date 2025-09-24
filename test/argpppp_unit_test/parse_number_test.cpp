@@ -5,6 +5,7 @@
 #include <catch2/generators/catch_generators.hpp>
 #include <catch2/matchers/catch_matchers.hpp>
 #include <catch2/matchers/catch_matchers_exception.hpp>
+#include <cmath>
 #include <concepts>
 #include <cstdint>
 #include <cstdlib>
@@ -24,7 +25,7 @@ using argpppp::parse_integral_result;
 namespace
 {
 
-template <std::integral TValue>
+template <typename TValue>
 struct testdata final
 {
     std::string input;
@@ -177,7 +178,6 @@ TEST_CASE("parse_integral_test")
 
 // TODO: add tests
 //       * parse long double
-//       * parse double
 //       * parse float
 //       * garbage input (leading/trailing junk)
 //       * leading/trailing whitespace
@@ -186,12 +186,15 @@ TEST_CASE("parse_floating_point_test")
 {
     SECTION("parse double")
     {
-        double value;
+        auto data = GENERATE(
+            testdata<double>{"-1e1000", -HUGE_VAL, parse_integral_result::underflow},
+            testdata<double>{"0.25", 0.25, parse_integral_result::success},
+            testdata<double>{"0.5", 0.5, parse_integral_result::success},
+            testdata<double>{"1e1000", HUGE_VAL, parse_integral_result::overflow});
 
-        // TODO: test more values? (min/max does not make much sense, since it's hard to tell what they should be?)
-        // TODO: test overflow (again, how?). Underflow makes no sense since it is not reported by library functions => Either way, also test another good value, and parameterize the test
-        CHECK(parse_floating_point("0.5", value) == parse_integral_result::success);
-        CHECK(float_equal_no_warning(value, 0.5));
+        double value;
+        CHECK(parse_floating_point<double>(data.input, value) == data.expected_parse_result);
+        CHECK(float_equal_no_warning(value, data.expected_value));
     }
 }
 

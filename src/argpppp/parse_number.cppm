@@ -122,10 +122,29 @@ ARGPPPP_EXPORT_FOR_UNIT_TESTING
 template <std::floating_point TValue>
 parse_integral_result parse_floating_point(const char* s, TValue& value)
 {
-    // TODO: this is missing all error handling. See parse_integral on what to handle
+    // Call strtof/strtod/strtold, depending on TValue.
+    parse_integral_result parse_result = parse_integral_result::success;
     char* end;
+    errno = 0;
     value = string_to_floating_point_converter<TValue>::convert(s, &end);
-    return parse_integral_result::success;
+
+    // Report underflow or overflow errors signalled by strtof/strtod/strtold to caller.
+    if (errno == ERANGE)
+    {
+        if (value == -HUGE_VAL) // TODO: that should not occur according to cppreference? Still, it does happen, so let's handle it I guess.
+        {
+            parse_result = parse_integral_result::underflow;
+        }
+        else if (value == HUGE_VAL)
+        {
+            parse_result = parse_integral_result::overflow;
+        }
+    }
+
+    // TODO: Check for bad input (leading or trailing garbage)
+    //       * Can we share this code somehow with integer parsing?
+
+    return parse_result;
 }
 
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
