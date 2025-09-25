@@ -4,6 +4,7 @@
 module;
 
 #include <cerrno>
+#include <cmath>
 #include <concepts>
 #include <stdexcept>
 #include <string>
