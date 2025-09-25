@@ -37,6 +37,14 @@ inline bool is_valid_base(int base)
     return false;
 }
 
+template <std::floating_point TFloatingPoint>
+bool float_equal_no_warning(TFloatingPoint a, TFloatingPoint b)
+{
+    // Compare floating point values for equality without warning, even in the presense of -Wfloat-equal.
+    // Takes advantage of the fact that warnings are not enabled for library headers.
+    return std::equal_to<TFloatingPoint>()(a, b);
+}
+
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 template <std::integral TValue>
 parse_integral_result parse_integral(const char* s, TValue& value, int base)
@@ -132,11 +140,11 @@ parse_integral_result parse_floating_point(const char* s, TValue& value)
     // Report underflow or overflow errors signalled by strtof/strtod/strtold to caller.
     if (errno == ERANGE)
     {
-        if (value == -HUGE_VAL) // TODO: that should not occur according to cppreference? Still, it does happen, so let's handle it I guess.
+        if (float_equal_no_warning(value, -HUGE_VAL)) // TODO: that should not occur according to cppreference? Still, it does happen, so let's handle it I guess.
         {
             parse_result = parse_integral_result::underflow;
         }
-        else if (value == HUGE_VAL)
+        else if (float_equal_no_warning(value, HUGE_VAL))
         {
             parse_result = parse_integral_result::overflow;
         }
