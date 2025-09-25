@@ -37,6 +37,7 @@ inline bool is_valid_base(int base)
     return false;
 }
 
+ARGPPPP_EXPORT_FOR_UNIT_TESTING
 template <std::floating_point TFloatingPoint>
 bool float_equal_no_warning(TFloatingPoint a, TFloatingPoint b)
 {

@@ -11,13 +11,13 @@
 #include <cstdlib>
 #include <string>
 #include <type_traits>
-#include "argpppp_unit_test_utility.hpp"
 
 import argpppp;
 
 namespace argpppp_unit_test
 {
 
+using argpppp::float_equal_no_warning;
 using argpppp::parse_floating_point;
 using argpppp::parse_integral;
 using argpppp::parse_integral_result;
