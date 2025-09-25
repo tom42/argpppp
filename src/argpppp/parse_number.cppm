@@ -141,6 +141,7 @@ parse_integral_result parse_floating_point(const char* s, TValue& value)
     // Report underflow or overflow errors signalled by strtof/strtod/strtold to caller.
     if (errno == ERANGE)
     {
+        // TODO: templatize HUGE_VAL!
         if (float_equal_no_warning(value, -HUGE_VAL)) // TODO: that should not occur according to cppreference? Still, it does happen, so let's handle it I guess.
         {
             parse_result = parse_integral_result::underflow;
