@@ -29,7 +29,7 @@ public:
 
 }
 
-TEST_CASE("options_test")
+TEST_CASE("options")
 {
     options options;
 

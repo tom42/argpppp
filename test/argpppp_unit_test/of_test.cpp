@@ -10,7 +10,7 @@ namespace argpppp_unit_test
 
 using argpppp::of;
 
-TEST_CASE("of_test")
+TEST_CASE("of")
 {
     SECTION("bitwise or")
     {

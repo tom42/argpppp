@@ -20,7 +20,7 @@ using argpppp::option;
 using argpppp::optional_string;
 using std::nullopt;
 
-TEST_CASE("option_test")
+TEST_CASE("option")
 {
     SECTION("constructor, all arguments specified")
     {

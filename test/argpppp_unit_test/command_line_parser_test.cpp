@@ -81,7 +81,7 @@ protected:
 
 }
 
-TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser_test")
+TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser")
 {
     SECTION("Unlimited number of arguments")
     {

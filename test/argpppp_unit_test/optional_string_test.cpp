@@ -12,7 +12,7 @@ namespace argpppp_unit_test
 using argpppp::c_str;
 using argpppp::optional_string;
 
-TEST_CASE("optional_string_test")
+TEST_CASE("optional_string")
 {
     SECTION("c_str, optional_string contains no string")
     {

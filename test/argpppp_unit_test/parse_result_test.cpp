@@ -10,7 +10,7 @@ namespace argpppp_unit_test
 
 using parse_result = argpppp::parse_result;
 
-TEST_CASE("parse_result_test")
+TEST_CASE("parse_result")
 {
     SECTION("success")
     {
