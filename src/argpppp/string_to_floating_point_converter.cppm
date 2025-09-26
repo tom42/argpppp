@@ -5,6 +5,7 @@
 
 module;
 
+#include <cmath>
 #include <concepts>
 #include <cstdlib>
 
@@ -25,6 +26,12 @@ public:
     {
         return strtof(s, end);
     }
+
+    // TODO: test?
+    static constexpr float huge_val()
+    {
+        return HUGE_VALF;
+    }
 };
 
 template <>
@@ -34,6 +41,12 @@ public:
     static auto convert(const char* s, char** end)
     {
         return strtod(s, end);
+    }
+
+    // TODO: test?
+    static constexpr double huge_val()
+    {
+        return HUGE_VAL;
     }
 };
 

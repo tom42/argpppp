@@ -142,11 +142,12 @@ parse_integral_result parse_floating_point(const char* s, TValue& value)
     if (errno == ERANGE)
     {
         // TODO: templatize HUGE_VAL!
-        if (float_equal_no_warning(value, -HUGE_VAL)) // TODO: that should not occur according to cppreference? Still, it does happen, so let's handle it I guess.
+        if (float_equal_no_warning(value, -string_to_floating_point_converter<TValue>::huge_val()))
         {
+            // TODO: that should not occur according to cppreference? Still, it does happen, so let's handle it I guess.
             parse_result = parse_integral_result::underflow;
         }
-        else if (float_equal_no_warning(value, HUGE_VAL))
+        else if (float_equal_no_warning(value, string_to_floating_point_converter<TValue>::huge_val()))
         {
             parse_result = parse_integral_result::overflow;
         }
