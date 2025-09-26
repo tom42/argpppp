@@ -16,9 +16,8 @@ import :string_to_integral_converter;
 namespace argpppp
 {
 
-// TODO: rename this enum if it turns out we're going to use it for both floating point and integral parsing
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
-enum class parse_integral_result
+enum class parse_number_result
 {
     success,
     underflow,
@@ -48,7 +47,7 @@ bool float_equal_no_warning(TFloatingPoint a, TFloatingPoint b)
 
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 template <std::integral TValue>
-parse_integral_result parse_integral(const char* s, TValue& value, int base)
+parse_number_result parse_integral(const char* s, TValue& value, int base)
 {
     if (!is_valid_base(base))
     {
@@ -56,7 +55,7 @@ parse_integral_result parse_integral(const char* s, TValue& value, int base)
     }
 
     // Call strtol/strtoll/strtoul/strtoull, depending on TValue.
-    parse_integral_result parse_result = parse_integral_result::success;
+    parse_number_result parse_result = parse_number_result::success;
     char* end;
     errno = 0;
     auto tmp = string_to_integral_converter<TValue>::convert(s, &end, base);
@@ -66,11 +65,11 @@ parse_integral_result parse_integral(const char* s, TValue& value, int base)
     {
         if (tmp == string_to_integral_converter<TValue>::min())
         {
-            parse_result = parse_integral_result::underflow;
+            parse_result = parse_number_result::underflow;
         }
         else if (tmp == string_to_integral_converter<TValue>::max())
         {
-            parse_result = parse_integral_result::overflow;
+            parse_result = parse_number_result::overflow;
         }
     }
 
@@ -86,12 +85,12 @@ parse_integral_result parse_integral(const char* s, TValue& value, int base)
         if (tmp < std::numeric_limits<TValue>::min())
         {
             value = std::numeric_limits<TValue>::min();
-            parse_result = parse_integral_result::underflow;
+            parse_result = parse_number_result::underflow;
         }
         else if (tmp > std::numeric_limits<TValue>::max())
         {
             value = std::numeric_limits<TValue>::max();
-            parse_result = parse_integral_result::overflow;
+            parse_result = parse_number_result::overflow;
         }
         else
         {
@@ -102,7 +101,7 @@ parse_integral_result parse_integral(const char* s, TValue& value, int base)
     // Finally check whether input was malformed
     if (end == s)
     {
-        parse_result = parse_integral_result::invalid_numeric_string;
+        parse_result = parse_number_result::invalid_numeric_string;
     }
     else
     {
@@ -113,7 +112,7 @@ parse_integral_result parse_integral(const char* s, TValue& value, int base)
 
         if (*end != '\0')
         {
-            parse_result = parse_integral_result::trailing_garbage;
+            parse_result = parse_number_result::trailing_garbage;
         }
     }
 
@@ -122,7 +121,7 @@ parse_integral_result parse_integral(const char* s, TValue& value, int base)
 
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 template <std::integral TValue>
-parse_integral_result parse_integral(const std::string& s, TValue& value, int base)
+parse_number_result parse_integral(const std::string& s, TValue& value, int base)
 {
     return parse_integral(s.c_str(), value, base);
 }
@@ -130,10 +129,10 @@ parse_integral_result parse_integral(const std::string& s, TValue& value, int ba
 // TODO: implement, test
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 template <std::floating_point TValue>
-parse_integral_result parse_floating_point(const char* s, TValue& value)
+parse_number_result parse_floating_point(const char* s, TValue& value)
 {
     // Call strtof/strtod/strtold, depending on TValue.
-    parse_integral_result parse_result = parse_integral_result::success;
+    parse_number_result parse_result = parse_number_result::success;
     char* end;
     errno = 0;
     value = string_to_floating_point_converter<TValue>::convert(s, &end);
@@ -144,11 +143,11 @@ parse_integral_result parse_floating_point(const char* s, TValue& value)
         if (float_equal_no_warning(value, -string_to_floating_point_converter<TValue>::huge_val()))
         {
             // TODO: that should not occur according to cppreference? Still, it does happen, so let's handle it I guess.
-            parse_result = parse_integral_result::underflow;
+            parse_result = parse_number_result::underflow;
         }
         else if (float_equal_no_warning(value, string_to_floating_point_converter<TValue>::huge_val()))
         {
-            parse_result = parse_integral_result::overflow;
+            parse_result = parse_number_result::overflow;
         }
     }
 
@@ -160,7 +159,7 @@ parse_integral_result parse_floating_point(const char* s, TValue& value)
 
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 template <std::floating_point TValue>
-parse_integral_result parse_floating_point(const std::string& s, TValue& value)
+parse_number_result parse_floating_point(const std::string& s, TValue& value)
 {
     return parse_floating_point(s.c_str(), value);
 }
