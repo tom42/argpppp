@@ -178,7 +178,6 @@ TEST_CASE("parse_integral")
 
 // TODO: add tests
 //       * garbage input (leading/trailing junk)
-//       * leading/trailing whitespace
 //       * anything else?
 TEST_CASE("parse_floating_point")
 {
@@ -218,6 +217,18 @@ TEST_CASE("parse_floating_point")
 
         float value;
         CHECK(parse_floating_point<float>(data.input, value) == data.expected_parse_result);
+        CHECK(float_equal_no_warning(value, data.expected_value));
+    }
+
+    SECTION("leading and trailing whitespace")
+    {
+        auto data = GENERATE(
+            testdata{" 2.5", 2.5, parse_number_result::success},
+            testdata{" 2.5 ", 2.5, parse_number_result::success},
+            testdata{" 2.5 \t\n", 2.5, parse_number_result::success});
+        double value;
+
+        CHECK(parse_floating_point<double>(data.input, value) == data.expected_parse_result);
         CHECK(float_equal_no_warning(value, data.expected_value));
     }
 }
