@@ -182,7 +182,7 @@ TEST_CASE("parse_integral")
 //       * anything else?
 TEST_CASE("parse_floating_point")
 {
-    SECTION("long double")
+    SECTION("parse long double")
     {
         auto data = GENERATE(
             testdata<long double>{"-1e10000", -HUGE_VALL, parse_number_result::underflow},
