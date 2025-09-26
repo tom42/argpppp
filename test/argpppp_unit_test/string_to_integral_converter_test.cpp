@@ -15,7 +15,7 @@ using argpppp::string_to_integral_converter;
 
 inline constexpr int auto_detect_base = 0;
 
-TEST_CASE("string_to_integral_converter_test, long long")
+TEST_CASE("string_to_integral_converter, long long")
 {
     char* end;
     auto result = string_to_integral_converter<long long>::convert("-077!", &end, auto_detect_base);
@@ -29,7 +29,7 @@ TEST_CASE("string_to_integral_converter_test, long long")
     CHECK(std::is_same_v<decltype(string_to_integral_converter<long long>::max()), long long>);
 }
 
-TEMPLATE_TEST_CASE("string_to_integral_converter_test, signed types more narrow than long long", "", long, int, short, signed char)
+TEMPLATE_TEST_CASE("string_to_integral_converter, signed types more narrow than long long", "", long, int, short, signed char)
 {
     char* end;
     auto result = string_to_integral_converter<TestType>::convert("-077!", &end, auto_detect_base);
@@ -43,7 +43,7 @@ TEMPLATE_TEST_CASE("string_to_integral_converter_test, signed types more narrow 
     CHECK(std::is_same_v<decltype(string_to_integral_converter<TestType>::max()), long>);
 }
 
-TEST_CASE("string_to_integral_converter_test, unsigned long long")
+TEST_CASE("string_to_integral_converter, unsigned long long")
 {
     char* end;
     auto result = string_to_integral_converter<unsigned long long>::convert("0377!", &end, auto_detect_base);
@@ -57,7 +57,7 @@ TEST_CASE("string_to_integral_converter_test, unsigned long long")
     CHECK(std::is_same_v<decltype(string_to_integral_converter<unsigned long long>::max()), unsigned long long>);
 }
 
-TEMPLATE_TEST_CASE("string_to_integral_converter_test, unsigned types more narrow than unsigned long long", "", unsigned long, unsigned int, unsigned short, unsigned char)
+TEMPLATE_TEST_CASE("string_to_integral_converter, unsigned types more narrow than unsigned long long", "", unsigned long, unsigned int, unsigned short, unsigned char)
 {
     char* end;
     auto result = string_to_integral_converter<TestType>::convert("0377!", &end, auto_detect_base);
