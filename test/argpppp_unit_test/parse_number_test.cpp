@@ -239,9 +239,6 @@ bool parse_integral(const char* s, TValue& result, int base)
 TEST_CASE("parse_number_prototyping")
 {
     bool b;
-    long double ld;
-    double d;
-    float f;
 
     CHECK(parse_integral("23", b, 10) == true);
     CHECK(b == true);
@@ -251,15 +248,6 @@ TEST_CASE("parse_number_prototyping")
 
     CHECK(parse_integral("1", b, 10) == true);
     CHECK(b == true);
-
-    CHECK(parse_floating_point("0.03125", ld) == true);
-    CHECK(ld == 0.03125);
-
-    CHECK(parse_floating_point("0.125", d) == true);
-    CHECK(d == 0.125);
-
-    CHECK(parse_floating_point("0.25", f) == true);
-    CHECK(f == 0.25f);
 }*/
 
 }
