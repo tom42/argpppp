@@ -196,6 +196,19 @@ TEST_CASE("parse_floating_point_test")
         CHECK(parse_floating_point<double>(data.input, value) == data.expected_parse_result);
         CHECK(float_equal_no_warning(value, data.expected_value));
     }
+
+    SECTION("parse float")
+    {
+        auto data = GENERATE(
+            testdata<float>{"-1e1000", -HUGE_VALF, parse_integral_result::underflow},
+            testdata<float>{"0.25", 0.25f, parse_integral_result::success},
+            testdata<float>{"0.5", 0.5f, parse_integral_result::success},
+            testdata<float>{"1e1000", HUGE_VALF, parse_integral_result::overflow});
+
+        float value;
+        CHECK(parse_floating_point<float>(data.input, value) == data.expected_parse_result);
+        CHECK(float_equal_no_warning(value, data.expected_value));
+    }
 }
 
 // TODO: redo stuff below
