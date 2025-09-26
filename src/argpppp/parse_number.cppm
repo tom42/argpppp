@@ -36,6 +36,11 @@ inline bool is_valid_base(int base)
     return false;
 }
 
+inline parse_number_result check_for_leading_and_trailing_garbage()
+{
+    return parse_number_result::success;
+}
+
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 template <std::floating_point TFloatingPoint>
 bool float_equal_no_warning(TFloatingPoint a, TFloatingPoint b)
