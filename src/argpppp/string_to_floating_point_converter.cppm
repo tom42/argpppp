@@ -27,7 +27,6 @@ public:
         return strtof(s, end);
     }
 
-    // TODO: test?
     static constexpr float huge_val()
     {
         return HUGE_VALF;
@@ -43,7 +42,6 @@ public:
         return strtod(s, end);
     }
 
-    // TODO: test?
     static constexpr double huge_val()
     {
         return HUGE_VAL;
@@ -59,7 +57,6 @@ public:
         return strtold(s, end);
     }
 
-    // TODO: test?
     static constexpr long double huge_val()
     {
         return HUGE_VALL;
