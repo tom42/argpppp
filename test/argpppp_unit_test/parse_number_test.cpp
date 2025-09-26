@@ -177,13 +177,24 @@ TEST_CASE("parse_integral_test")
 }
 
 // TODO: add tests
-//       * parse long double
-//       * parse float
 //       * garbage input (leading/trailing junk)
 //       * leading/trailing whitespace
 //       * anything else?
 TEST_CASE("parse_floating_point_test")
 {
+    SECTION("long double")
+    {
+        auto data = GENERATE(
+            testdata<long double>{"-1e10000", -HUGE_VALL, parse_integral_result::underflow},
+            testdata<long double>{"0.25", 0.25L, parse_integral_result::success},
+            testdata<long double>{"0.5", 0.5L, parse_integral_result::success},
+            testdata<long double>{"1e10000", HUGE_VALL, parse_integral_result::overflow});
+
+        long double value;
+        CHECK(parse_floating_point<long double>(data.input, value) == data.expected_parse_result);
+        CHECK(float_equal_no_warning(value, data.expected_value));
+    }
+
     SECTION("parse double")
     {
         auto data = GENERATE(

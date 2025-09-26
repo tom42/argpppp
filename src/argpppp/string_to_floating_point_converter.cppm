@@ -58,6 +58,12 @@ public:
     {
         return strtold(s, end);
     }
+
+    // TODO: test?
+    static constexpr long double huge_val()
+    {
+        return HUGE_VALL;
+    }
 };
 
 }
