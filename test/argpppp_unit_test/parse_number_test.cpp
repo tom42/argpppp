@@ -187,10 +187,10 @@ TEST_CASE("parse_floating_point_test")
     SECTION("parse double")
     {
         auto data = GENERATE(
-            testdata<double>{"-1e1000", -HUGE_VAL, parse_integral_result::underflow},
+            testdata<double>{"-1e10000", -HUGE_VAL, parse_integral_result::underflow},
             testdata<double>{"0.25", 0.25, parse_integral_result::success},
             testdata<double>{"0.5", 0.5, parse_integral_result::success},
-            testdata<double>{"1e1000", HUGE_VAL, parse_integral_result::overflow});
+            testdata<double>{"1e10000", HUGE_VAL, parse_integral_result::overflow});
 
         double value;
         CHECK(parse_floating_point<double>(data.input, value) == data.expected_parse_result);
@@ -200,10 +200,10 @@ TEST_CASE("parse_floating_point_test")
     SECTION("parse float")
     {
         auto data = GENERATE(
-            testdata<float>{"-1e1000", -HUGE_VALF, parse_integral_result::underflow},
+            testdata<float>{"-1e10000", -HUGE_VALF, parse_integral_result::underflow},
             testdata<float>{"0.25", 0.25f, parse_integral_result::success},
             testdata<float>{"0.5", 0.5f, parse_integral_result::success},
-            testdata<float>{"1e1000", HUGE_VALF, parse_integral_result::overflow});
+            testdata<float>{"1e10000", HUGE_VALF, parse_integral_result::overflow});
 
         float value;
         CHECK(parse_floating_point<float>(data.input, value) == data.expected_parse_result);
