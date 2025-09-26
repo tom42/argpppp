@@ -126,7 +126,6 @@ parse_number_result parse_integral(const std::string& s, TValue& value, int base
     return parse_integral(s.c_str(), value, base);
 }
 
-// TODO: implement, test
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 template <std::floating_point TValue>
 parse_number_result parse_floating_point(const char* s, TValue& value)
@@ -142,7 +141,8 @@ parse_number_result parse_floating_point(const char* s, TValue& value)
     {
         if (float_equal_no_warning(value, -string_to_floating_point_converter<TValue>::huge_val()))
         {
-            // TODO: that should not occur according to cppreference? Still, it does happen, so let's handle it I guess.
+            // cppreference does not mention strtof/strtol/strtold returning *minus* HUGE_VALF/HUGE_VAL/HUGE_VALL.
+            // Still, I can see it happening on two systems of mine, so we handle it.
             parse_result = parse_number_result::underflow;
         }
         else if (float_equal_no_warning(value, string_to_floating_point_converter<TValue>::huge_val()))
