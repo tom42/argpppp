@@ -120,7 +120,7 @@ parse_number_result parse_integral(const char* s, TValue& value, int base) requi
     }
 
     // Finally check for invalid characters
-    //check_for_invalid_characters(s, end, parse_result);
+    check_for_invalid_characters(s, end, parse_result);
 
     return parse_result;
 }
