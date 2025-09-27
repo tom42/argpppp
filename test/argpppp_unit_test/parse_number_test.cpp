@@ -230,7 +230,7 @@ TEST_CASE("parse_floating_point")
         double value;
 
         CHECK(parse_floating_point<double>(data.input, value) == data.expected_parse_result);
-        CHECK(value == data.expected_value);
+        CHECK(float_equal_no_warning(value, data.expected_value));
     }
 
     SECTION("leading and trailing whitespace")
