@@ -118,7 +118,7 @@ TEST_CASE("parse_integral")
             testdata{"", 0, parse_number_result::leading_garbage},
             testdata{" ", 0, parse_number_result::leading_garbage},
             testdata{"!", 0, parse_number_result::leading_garbage},
-            testdata{"!?", 0, parse_number_result::leading_garbage},
+            testdata{" !", 0, parse_number_result::leading_garbage},
             testdata{"!5", 0, parse_number_result::leading_garbage},
             testdata{"5x", 5, parse_number_result::trailing_garbage},
             testdata{"5 x", 5, parse_number_result::trailing_garbage});
@@ -226,7 +226,7 @@ TEST_CASE("parse_floating_point")
             testdata<double>{"", 0, parse_number_result::leading_garbage},
             testdata<double>{" ", 0, parse_number_result::leading_garbage},
             testdata<double>{"!", 0, parse_number_result::leading_garbage},
-            testdata<double>{"!?", 0, parse_number_result::leading_garbage},
+            testdata<double>{" !", 0, parse_number_result::leading_garbage},
             testdata<double>{"!2.5", 0, parse_number_result::leading_garbage},
             testdata<double>{"2.5x", 2.5, parse_number_result::trailing_garbage},
             testdata<double>{"2.5 x", 2.5, parse_number_result::trailing_garbage});
