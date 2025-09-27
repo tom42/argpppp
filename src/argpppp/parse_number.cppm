@@ -68,7 +68,7 @@ bool float_equal_no_warning(TFloatingPoint a, TFloatingPoint b)
 
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 template <std::integral TValue>
-parse_number_result parse_integral(const char* s, TValue& value, int base) requires !std::is_same_v<TValue, bool>
+parse_number_result parse_integral(const char* s, TValue& value, int base) requires (!std::is_same_v<TValue, bool>)
 {
     if (!is_valid_base(base))
     {
@@ -127,7 +127,7 @@ parse_number_result parse_integral(const char* s, TValue& value, int base) requi
 
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 template <std::integral TValue>
-parse_number_result parse_integral(const std::string& s, TValue& value, int base) requires !std::is_same_v<TValue, bool>
+parse_number_result parse_integral(const std::string& s, TValue& value, int base) requires (!std::is_same_v<TValue, bool>)
 {
     return parse_integral(s.c_str(), value, base);
 }
