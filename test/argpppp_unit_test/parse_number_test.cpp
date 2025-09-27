@@ -220,6 +220,22 @@ TEST_CASE("parse_floating_point")
         CHECK(float_equal_no_warning(value, data.expected_value));
     }
 
+    SECTION("garbage input")
+    {
+        auto data = GENERATE(
+            testdata<double>{"", 0, parse_number_result::invalid_numeric_string},
+            testdata<double>{" ", 0, parse_number_result::invalid_numeric_string},
+            testdata<double>{"!", 0, parse_number_result::invalid_numeric_string},
+            testdata<double>{"!?", 0, parse_number_result::invalid_numeric_string},
+            testdata<double>{"!2.5", 0, parse_number_result::invalid_numeric_string},
+            testdata<double>{"2.5x", 2.5, parse_number_result::trailing_garbage},
+            testdata<double>{"2.5 x", 2.5, parse_number_result::trailing_garbage});
+        double value;
+
+        CHECK(parse_floating_point<double>(data.input, value) == data.expected_parse_result);
+        CHECK(value == data.expected_value);
+    }
+
     SECTION("leading and trailing whitespace")
     {
         auto data = GENERATE(
