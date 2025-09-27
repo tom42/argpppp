@@ -89,9 +89,12 @@ private:
 
 // TODO: can we write this in a way it works for
 //       * signed integers
-//       * unsigned integers => Do we really want to support this? seems silly, since strtoul/strtoull accept minus signs...
 //       * all types of floating point values
 //         * Not sure how well this can be unified: integer conversions support a base, floating point conversions don't
+
+// Note: std::unsigned_integral is currently not supported due to how strtoul and strtoull handle minus signs.
+// A minus sign is not considered bad input but is accepted and the resulting number is cast to unsigned.
+// This sounds very broken, so for the time being we don't support it at all.
 template <std::signed_integral TValue>
 class value<TValue> : public option_handler
 {
@@ -108,7 +111,7 @@ public:
         //         * This is important, because we'll have to store to e.g. int, but we always parse into long long
         //       * Test entire class (separate unit test, no need to go through parser class)
         char* end;
-        auto value = strtoll(arg, &end, 10); // TODO: a base of 0 gives support for decimal, octal and hexadecimal. question is, do we want this by default?
+        auto value = strtoll(arg, &end, 10); // TODO: a base of 0 gives support for decimal, octal and hexadecimal. question is, do we want this by default? => Nope, make it an option, 10 is default
         m_target_variable = static_cast<TValue>(value);
         return true;
     }
