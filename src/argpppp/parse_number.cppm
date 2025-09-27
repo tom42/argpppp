@@ -36,11 +36,11 @@ inline bool is_valid_base(int base)
     return false;
 }
 
-inline parse_number_result check_for_invalid_characters(const char* s, char* end)
+inline void check_for_invalid_characters(const char* s, char* end, parse_number_result& result)
 {
     if (end == s)
     {
-        return parse_number_result::leading_garbage;
+        result = parse_number_result::leading_garbage;
     }
     else
     {
@@ -51,11 +51,9 @@ inline parse_number_result check_for_invalid_characters(const char* s, char* end
 
         if (*end != '\0')
         {
-            return parse_number_result::trailing_garbage;
+            result = parse_number_result::trailing_garbage;
         }
     }
-
-    return parse_number_result::success;
 }
 
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
@@ -120,23 +118,8 @@ parse_number_result parse_integral(const char* s, TValue& value, int base)
         }
     }
 
-    // Finally check whether input was malformed
-    if (end == s)
-    {
-        parse_result = parse_number_result::leading_garbage;
-    }
-    else
-    {
-        while (isspace(*end))
-        {
-            ++end;
-        }
-
-        if (*end != '\0')
-        {
-            parse_result = parse_number_result::trailing_garbage;
-        }
-    }
+    // Finally check for invalid characters
+    //check_for_invalid_characters(s, end, parse_result);
 
     return parse_result;
 }
@@ -173,11 +156,8 @@ parse_number_result parse_floating_point(const char* s, TValue& value)
         }
     }
 
-    // TODO: better naming for x and the function?
-    if (auto x = check_for_invalid_characters(s, end); x != parse_number_result::success)
-    {
-        parse_result = x;
-    }
+    // Finally check for invalid characters
+    check_for_invalid_characters(s, end, parse_result);
 
     return parse_result;
 }

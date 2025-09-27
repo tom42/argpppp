@@ -176,9 +176,6 @@ TEST_CASE("parse_integral")
     }
 }
 
-// TODO: add tests
-//       * garbage input (leading/trailing junk)
-//       * anything else?
 TEST_CASE("parse_floating_point")
 {
     SECTION("parse long double")
