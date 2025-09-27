@@ -246,32 +246,4 @@ TEST_CASE("parse_floating_point")
     }
 }
 
-// TODO: redo stuff below
-/*
-// TODO: probably silly, but this actually does compile for TValue=bool
-//       Question is, probably the range check should be handled specially.
-//       There should be NO range check. Instead, it should convert zero to false and nonzero to true.
-//       That, or it should not support bool at all.
-template <std::integral TValue>
-bool parse_integral(const char* s, TValue& result, int base)
-{
-    // ...
-}
-
-}
-
-TEST_CASE("parse_number_prototyping")
-{
-    bool b;
-
-    CHECK(parse_integral("23", b, 10) == true);
-    CHECK(b == true);
-
-    CHECK(parse_integral("0", b, 10) == true);
-    CHECK(b == false);
-
-    CHECK(parse_integral("1", b, 10) == true);
-    CHECK(b == true);
-}*/
-
 }
