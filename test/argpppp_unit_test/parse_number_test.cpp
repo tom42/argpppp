@@ -115,11 +115,11 @@ TEST_CASE("parse_integral")
     SECTION("garbage input")
     {
         auto data = GENERATE(
-            testdata{"", 0, parse_number_result::invalid_numeric_string},
-            testdata{" ", 0, parse_number_result::invalid_numeric_string},
-            testdata{"!", 0, parse_number_result::invalid_numeric_string},
-            testdata{"!?", 0, parse_number_result::invalid_numeric_string},
-            testdata{"!5", 0, parse_number_result::invalid_numeric_string},
+            testdata{"", 0, parse_number_result::leading_garbage},
+            testdata{" ", 0, parse_number_result::leading_garbage},
+            testdata{"!", 0, parse_number_result::leading_garbage},
+            testdata{"!?", 0, parse_number_result::leading_garbage},
+            testdata{"!5", 0, parse_number_result::leading_garbage},
             testdata{"5x", 5, parse_number_result::trailing_garbage},
             testdata{"5 x", 5, parse_number_result::trailing_garbage});
         long value;
@@ -223,11 +223,11 @@ TEST_CASE("parse_floating_point")
     SECTION("garbage input")
     {
         auto data = GENERATE(
-            testdata<double>{"", 0, parse_number_result::invalid_numeric_string},
-            testdata<double>{" ", 0, parse_number_result::invalid_numeric_string},
-            testdata<double>{"!", 0, parse_number_result::invalid_numeric_string},
-            testdata<double>{"!?", 0, parse_number_result::invalid_numeric_string},
-            testdata<double>{"!2.5", 0, parse_number_result::invalid_numeric_string},
+            testdata<double>{"", 0, parse_number_result::leading_garbage},
+            testdata<double>{" ", 0, parse_number_result::leading_garbage},
+            testdata<double>{"!", 0, parse_number_result::leading_garbage},
+            testdata<double>{"!?", 0, parse_number_result::leading_garbage},
+            testdata<double>{"!2.5", 0, parse_number_result::leading_garbage},
             testdata<double>{"2.5x", 2.5, parse_number_result::trailing_garbage},
             testdata<double>{"2.5 x", 2.5, parse_number_result::trailing_garbage});
         double value;

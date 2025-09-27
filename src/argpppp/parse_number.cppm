@@ -22,7 +22,7 @@ enum class parse_number_result
     success,
     underflow,
     overflow,
-    invalid_numeric_string,
+    leading_garbage,
     trailing_garbage
 };
 
@@ -106,7 +106,7 @@ parse_number_result parse_integral(const char* s, TValue& value, int base)
     // Finally check whether input was malformed
     if (end == s)
     {
-        parse_result = parse_number_result::invalid_numeric_string;
+        parse_result = parse_number_result::leading_garbage;
     }
     else
     {
