@@ -36,8 +36,25 @@ inline bool is_valid_base(int base)
     return false;
 }
 
-inline parse_number_result check_for_leading_and_trailing_garbage()
+inline parse_number_result check_for_invalid_characters(const char* s, char* end)
 {
+    if (end == s)
+    {
+        return parse_number_result::leading_garbage;
+    }
+    else
+    {
+        while (isspace(*end))
+        {
+            ++end;
+        }
+
+        if (*end != '\0')
+        {
+            return parse_number_result::trailing_garbage;
+        }
+    }
+
     return parse_number_result::success;
 }
 
@@ -156,8 +173,11 @@ parse_number_result parse_floating_point(const char* s, TValue& value)
         }
     }
 
-    // TODO: Check for bad input (leading or trailing garbage)
-    //       * Can we share this code somehow with integer parsing?
+    // TODO: better naming for x and the function?
+    if (auto x = check_for_invalid_characters(s, end); x != parse_number_result::success)
+    {
+        parse_result = x;
+    }
 
     return parse_result;
 }
