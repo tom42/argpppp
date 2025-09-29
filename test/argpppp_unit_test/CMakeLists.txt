@@ -4,6 +4,7 @@
 add_executable(
   argpppp_unit_test
   command_line_parser_test.cpp
+  interval_test.cpp
   of_test.cpp
   option_handlers_test.cpp
   option_test.cpp

@@ -14,6 +14,7 @@ namespace argpppp
 //       * default values
 //       * non-default values/setters
 //       * contains
+ARGPPPP_EXPORT_FOR_UNIT_TESTING
 template <typename TNumeric>
 class interval final
 {
