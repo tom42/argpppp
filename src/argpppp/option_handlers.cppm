@@ -124,13 +124,13 @@ public:
 
     value& min(TValue min)
     {
-        m_min = min;
+        m_interval.min(min);
         return *this;
     }
 
     value& max(TValue max)
     {
-        m_max = max;
+        m_interval.max(max);
         return *this;
     }
 

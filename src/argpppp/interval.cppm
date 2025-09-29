@@ -14,12 +14,19 @@ namespace argpppp
 //       * default values
 //       * non-default values/setters
 //       * contains
-// TODO: do we call it interval instead? because that's what it is, and to reduce possible confusion with C++ ranges?
 template <typename TNumeric>
 class interval final
 {
 public:
-    // TODO: setters?
+    void min(TNumeric min)
+    {
+        m_min = min;
+    }
+
+    void max(TNumeric max)
+    {
+        m_max = max;
+    }
 
 private:
     TNumeric m_min = std::numeric_limits<TNumeric>::min();
