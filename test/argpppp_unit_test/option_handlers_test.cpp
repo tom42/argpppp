@@ -55,7 +55,6 @@ TEST_CASE("value<std::signed_integral>")
         CHECK(target == 16);
     }
 
-    // TODO: test too small/too big => appropriate error message
     // TODO: test bad input => appropriate error message
     // TODO: test alternate base setting (e.g. 0 for autodetect and maybe some nonstandard base such as 6 or something)
 }
