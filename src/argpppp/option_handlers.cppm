@@ -12,6 +12,7 @@ module;
 
 export module argpppp:option_handlers;
 import :option_error;
+import :parse_number;
 
 namespace argpppp
 {
@@ -110,8 +111,12 @@ public:
         //       * Check range, fail on error
         //         * This is important, because we'll have to store to e.g. int, but we always parse into long long
         //       * Test entire class (separate unit test, no need to go through parser class)
-        char* end;
-        auto value = strtoll(arg, &end, m_base);
+        TValue value;
+        /*auto parse_result = */ parse_integral(arg, value, m_base);
+
+        // TODO: evaluate parse_result
+        // TODO: check custom range => yes but please, introduce range class for this, OK?
+
         m_target_variable = static_cast<TValue>(value);
         return true;
     }

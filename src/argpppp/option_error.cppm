@@ -16,6 +16,9 @@ public:
     explicit option_error(const std::string& message) : m_message(message) {}
 
     const std::string& message() const { return m_message; }
+
+    bool operator==(const option_error&) const = default;
+
 private:
     std::string m_message;
 };

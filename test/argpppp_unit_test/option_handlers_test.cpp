@@ -11,6 +11,8 @@ import argpppp;
 namespace argpppp_unit_test
 {
 
+using option_error = argpppp::option_error;
+
 TEST_CASE("value<std::signed_integral>")
 {
     int32_t target;
@@ -25,6 +27,17 @@ TEST_CASE("value<std::signed_integral>")
         CHECK(target == 2147483647);
 
         // TODO: do we need to test that base is 10 by default and not auto-detect?
+    }
+
+    SECTION("parsed value is out of range")
+    {
+        value.min(0).max(10);
+
+        CHECK(std::get<option_error>(value.handle_option("-1")) == option_error("meh"));
+        CHECK(target == -1);
+
+        // TODO: check parsing 10 fails with error message
+        // TODO: do we need to check 0 and 10 pass? (in principle yes)
     }
 
     SECTION("successful parsing with auto-detection of base")
