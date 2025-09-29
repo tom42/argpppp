@@ -28,6 +28,11 @@ public:
         m_max = max;
     }
 
+    bool includes(TNumeric x) const
+    {
+        return (min() <= x) && (x <= max());
+    }
+
 private:
     TNumeric m_min = std::numeric_limits<TNumeric>::min();
     TNumeric m_max = std::numeric_limits<TNumeric>::max();
