@@ -34,7 +34,7 @@ TEST_CASE("value<std::signed_integral>")
         value.min(0).max(10);
 
         CHECK(std::get<option_error>(value.handle_option("-1")) == option_error("meh"));
-        CHECK(target == -1);
+        CHECK(target == -1); // TODO: that should not have happened, right?
 
         // TODO: check parsing 10 fails with error message
         // TODO: do we need to check 0 and 10 pass? (in principle yes)
