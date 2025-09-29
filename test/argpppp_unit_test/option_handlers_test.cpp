@@ -55,8 +55,15 @@ TEST_CASE("value<std::signed_integral>")
         CHECK(target == 16);
     }
 
+    SECTION("successful parsing with non-standard base")
+    {
+        value.base(6);
+
+        CHECK(std::get<bool>(value.handle_option("20")) == true);
+        CHECK(target == 12);
+    }
+
     // TODO: test bad input => appropriate error message
-    // TODO: test alternate base setting (e.g. 0 for autodetect and maybe some nonstandard base such as 6 or something)
 }
 
 }

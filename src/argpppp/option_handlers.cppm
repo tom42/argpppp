@@ -140,7 +140,14 @@ public:
 
     value& auto_detect_base()
     {
-        m_base = 0;
+        base(0);
+        return *this;
+    }
+
+    value& base(int base)
+    {
+        // TODO: do we range-check base here? Probably should do so, so we can detect errors as early as possible, no?
+        m_base = base;
         return *this;
     }
 
