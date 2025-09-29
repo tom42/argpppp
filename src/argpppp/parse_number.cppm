@@ -58,7 +58,7 @@ inline void check_for_invalid_characters(const char* s, char* end, parse_number_
 }
 
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
-template <std::floating_point TFloatingPoint>
+template <typename TFloatingPoint> // TODO: this allows any type, so also integer values. While this does not produce wrong results it is really silly. Do we want to do this anyway?
 bool float_equal_no_warning(TFloatingPoint a, TFloatingPoint b)
 {
     // Compare floating point values for equality without warning, even in the presense of -Wfloat-equal.
