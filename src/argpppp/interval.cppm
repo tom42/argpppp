@@ -10,8 +10,6 @@ export module argpppp:interval;
 namespace argpppp
 {
 
-// TODO: does this need a unit test?
-//       * contains
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 template <typename TNumeric>
 class interval final

@@ -29,6 +29,17 @@ TEMPLATE_TEST_CASE("interval", "", int, double)
         CHECK(float_equal_no_warning(interval.min(), TestType(0)));
         CHECK(float_equal_no_warning(interval.max(), TestType(10)));
     }
+
+    SECTION("includes")
+    {
+        interval.min(0);
+        interval.max(10);
+
+        CHECK(interval.includes(-1) == false);
+        CHECK(interval.includes(0) == true);
+        CHECK(interval.includes(10) == true);
+        CHECK(interval.includes(11) == false);
+    }
 }
 
 }
