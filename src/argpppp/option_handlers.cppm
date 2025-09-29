@@ -111,7 +111,7 @@ public:
         //         * This is important, because we'll have to store to e.g. int, but we always parse into long long
         //       * Test entire class (separate unit test, no need to go through parser class)
         char* end;
-        auto value = strtoll(arg, &end, 10); // TODO: a base of 0 gives support for decimal, octal and hexadecimal. question is, do we want this by default? => Nope, make it an option, 10 is default
+        auto value = strtoll(arg, &end, m_base);
         m_target_variable = static_cast<TValue>(value);
         return true;
     }
@@ -128,9 +128,16 @@ public:
         return *this;
     }
 
+    value& auto_detect_base()
+    {
+        m_base = 0;
+        return *this;
+    }
+
 private:
     TValue m_min = std::numeric_limits<TValue>::min();
     TValue m_max = std::numeric_limits<TValue>::max();
+    int m_base = 10;
     TValue& m_target_variable;
 };
 

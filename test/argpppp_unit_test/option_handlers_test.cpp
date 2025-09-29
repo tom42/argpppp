@@ -23,6 +23,19 @@ TEST_CASE("value<std::signed_integral>")
 
         CHECK(std::get<bool>(value.handle_option("2147483647")) == true);
         CHECK(target == 2147483647);
+
+        // TODO: do we need to test that base is 10 by default and not auto-detect?
+    }
+
+    SECTION("successful parsing with auto-detection of base")
+    {
+        value.auto_detect_base();
+
+        CHECK(std::get<bool>(value.handle_option("010")) == true);
+        CHECK(target == 8);
+
+        CHECK(std::get<bool>(value.handle_option("0x10")) == true);
+        CHECK(target == 16);
     }
 
     // TODO: test too small/too big => appropriate error message
