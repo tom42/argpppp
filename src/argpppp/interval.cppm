@@ -18,9 +18,19 @@ template <typename TNumeric>
 class interval final
 {
 public:
+    TNumeric min() const
+    {
+        return m_min;
+    }
+
     void min(TNumeric min)
     {
         m_min = min;
+    }
+
+    TNumeric max() const
+    {
+        return m_max;
     }
 
     void max(TNumeric max)
