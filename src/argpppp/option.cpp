@@ -12,21 +12,10 @@ module;
 #include <vector>
 
 module argpppp;
+import :interval;
 
 namespace argpppp
 {
-
-namespace
-{
-
-// TODO: remove, use class interval for this
-template <std::integral T>
-bool in_closed_range(T x, T min, T max)
-{
-    return (min <= x) && (x <= max);
-}
-
-}
 
 option::option(int key, const optional_string& name, const optional_string& doc, const optional_string& arg, of flags, int group)
     : m_key(key)
@@ -45,8 +34,10 @@ option::option(int key, const optional_string& name, const optional_string& doc,
 bool is_printable_key(int key)
 {
     // key may be outside the range [0, 255].
-    // Except for EOF, isprint is not defined for values outside this range.
-    return in_closed_range(key, 0, UCHAR_MAX) && isprint(key);
+    // Except for EOF, the behavior of isprint() is not defined for values outside this range.
+    // We must therefore check the range oursevles first before we can delegate to isprint().
+    interval<int> interval(0, UCHAR_MAX);
+    return interval.includes(key) && isprint(key);
 }
 
 bool need_long_name(int key)

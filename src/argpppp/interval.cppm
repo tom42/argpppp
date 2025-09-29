@@ -15,6 +15,14 @@ template <typename TNumeric>
 class interval final
 {
 public:
+    interval() : interval(std::numeric_limits<TNumeric>::min(), std::numeric_limits<TNumeric>::max()) {}
+
+    // TODO: test this ctor
+    interval(TNumeric min, TNumeric max)
+        : m_min(min)
+        , m_max(max)
+    {}
+
     TNumeric min() const
     {
         return m_min;
@@ -41,8 +49,8 @@ public:
     }
 
 private:
-    TNumeric m_min = std::numeric_limits<TNumeric>::min();
-    TNumeric m_max = std::numeric_limits<TNumeric>::max();
+    TNumeric m_min;
+    TNumeric m_max;
 };
 
 }
