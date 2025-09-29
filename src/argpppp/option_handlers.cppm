@@ -114,9 +114,22 @@ public:
         //         * This is important, because we'll have to store to e.g. int, but we always parse into long long
         //       * Test entire class (separate unit test, no need to go through parser class)
         TValue value;
-        /*auto parse_result = */ parse_integral(arg, value, m_base);
+        auto parse_result = parse_integral(arg, value, m_base);
+        switch (parse_result)
+        {
+            case parse_number_result::success:
+                // Success, nothing to do then
+                break;
+                // TODO: handle ERANGE from strtoll and friends
+            case parse_number_result::leading_garbage:
+            case parse_number_result::trailing_garbage:
+                return option_error("meh"); // TODO: real error message
+                break;
+            default:
+                // TODO: throw exception here or what?
+                break;
+        }
 
-        // TODO: evaluate parse_result
         if (!m_interval.includes(value))
         {
             return option_error(std::format("value should be in range [{}, {}]", m_interval.min(), m_interval.max()));

@@ -75,10 +75,10 @@ TEST_CASE("value<std::signed_integral>")
         CHECK(target == 12);
     }
 
-    // TODO: test bad input => appropriate error message
     SECTION("garbage input")
     {
-        CHECK(std::get<option_error>(value.handle_option("invalid number")) == option_error("meh")); // TODO: real error message
+        CHECK(std::get<option_error>(value.handle_option("invalid number")) == option_error("meh"));
+        CHECK(target == default_target_value);
     }
 }
 
