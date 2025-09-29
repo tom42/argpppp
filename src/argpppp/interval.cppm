@@ -17,7 +17,6 @@ class interval final
 public:
     interval() : interval(std::numeric_limits<TNumeric>::min(), std::numeric_limits<TNumeric>::max()) {}
 
-    // TODO: test this ctor
     interval(TNumeric min, TNumeric max)
         : m_min(min)
         , m_max(max)
