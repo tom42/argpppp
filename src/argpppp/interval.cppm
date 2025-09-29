@@ -11,7 +11,6 @@ namespace argpppp
 {
 
 // TODO: does this need a unit test?
-//       * non-default values/setters
 //       * contains
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 template <typename TNumeric>

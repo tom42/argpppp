@@ -13,12 +13,21 @@ using argpppp::float_equal_no_warning;
 
 TEMPLATE_TEST_CASE("interval", "", int, double)
 {
+    argpppp::interval<TestType> interval;
+
     SECTION("constructor")
     {
-        argpppp::interval<TestType> interval;
-
         CHECK(float_equal_no_warning(interval.min(), std::numeric_limits<TestType>::min()));
         CHECK(float_equal_no_warning(interval.max(), std::numeric_limits<TestType>::max()));
+    }
+
+    SECTION("get and set min")
+    {
+        interval.min(0);
+        interval.max(10);
+
+        CHECK(float_equal_no_warning(interval.min(), TestType(0)));
+        CHECK(float_equal_no_warning(interval.max(), TestType(10)));
     }
 }
 
