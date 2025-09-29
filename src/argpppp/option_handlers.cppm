@@ -11,6 +11,7 @@ module;
 #include <variant>
 
 export module argpppp:option_handlers;
+import :interval;
 import :option_error;
 import :parse_number;
 
@@ -140,8 +141,7 @@ public:
     }
 
 private:
-    TValue m_min = std::numeric_limits<TValue>::min();
-    TValue m_max = std::numeric_limits<TValue>::max();
+    interval<TValue> m_interval;
     int m_base = 10;
     TValue& m_target_variable;
 };

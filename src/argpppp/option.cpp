@@ -19,6 +19,7 @@ namespace argpppp
 namespace
 {
 
+// TODO: remove, use class interval for this
 template <std::integral T>
 bool in_closed_range(T x, T min, T max)
 {

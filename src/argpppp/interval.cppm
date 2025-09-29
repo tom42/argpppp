@@ -19,7 +19,6 @@ template <typename TNumeric>
 class interval final
 {
 public:
-    // TODO: default constructor?
     // TODO: setters?
 
 private:
