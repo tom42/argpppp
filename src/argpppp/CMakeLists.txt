@@ -6,6 +6,7 @@ set(
   PUBLIC FILE_SET CXX_MODULES FILES
   argpppp.cppm
   command_line_parser.cppm
+  interval.cppm
   of.cppm
   option.cppm
   option_error.cppm
@@ -14,7 +15,6 @@ set(
   options.cppm
   parse_number.cppm
   pf.cppm
-  range.cppm
   string_to_floating_point_converter.cppm
   string_to_integral_converter.cppm
   PRIVATE
