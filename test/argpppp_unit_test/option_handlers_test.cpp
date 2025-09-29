@@ -3,6 +3,7 @@
 
 #include <catch2/catch_test_macros.hpp>
 #include <cstdint>
+#include <limits>
 #include <utility>
 #include <variant>
 
@@ -15,7 +16,8 @@ using option_error = argpppp::option_error;
 
 TEST_CASE("value<std::signed_integral>")
 {
-    int32_t target;
+    constexpr int32_t default_target_value = std::numeric_limits<int32_t>::max();
+    int32_t target = default_target_value;
     argpppp::value<int32_t> value(target);
 
     SECTION("successful parsing with default settings")
@@ -33,10 +35,12 @@ TEST_CASE("value<std::signed_integral>")
     {
         value.min(0).max(10);
 
-        CHECK(std::get<option_error>(value.handle_option("-1")) == option_error("meh"));
-        CHECK(target == -1); // TODO: that should not have happened, right?
+        CHECK(std::get<option_error>(value.handle_option("-1")) == option_error("value should be in range [0, 10]"));
+        CHECK(target == default_target_value);
 
-        // TODO: check parsing 10 fails with error message
+        CHECK(std::get<option_error>(value.handle_option("11")) == option_error("value should be in range [0, 10]"));
+        CHECK(target == default_target_value);
+
         // TODO: do we need to check 0 and 10 pass? (in principle yes)
     }
 

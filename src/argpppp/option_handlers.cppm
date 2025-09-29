@@ -5,6 +5,7 @@ module;
 
 #include <concepts>
 #include <cstdlib>
+#include <format>
 #include <functional>
 #include <limits>
 #include <string>
@@ -116,7 +117,10 @@ public:
         /*auto parse_result = */ parse_integral(arg, value, m_base);
 
         // TODO: evaluate parse_result
-        // TODO: check custom range => yes but please, introduce range class for this, OK?
+        if (!m_interval.includes(value))
+        {
+            return option_error(std::format("value should be in range [{}, {}]", m_interval.min(), m_interval.max()));
+        }
 
         m_target_variable = static_cast<TValue>(value);
         return true;
