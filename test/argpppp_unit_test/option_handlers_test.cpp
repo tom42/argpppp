@@ -44,6 +44,7 @@ TEST_CASE("value<std::signed_integral>")
         CHECK(target == 10);
     }
 
+    // TODO: actually must also test this if it is flagged by strtoll!
     SECTION("parsed value is out of range")
     {
         value.min(custom_min).max(custom_max);
@@ -75,6 +76,10 @@ TEST_CASE("value<std::signed_integral>")
     }
 
     // TODO: test bad input => appropriate error message
+    SECTION("garbage input")
+    {
+        CHECK(std::get<option_error>(value.handle_option("invalid number")) == option_error("meh")); // TODO: real error message
+    }
 }
 
 }
