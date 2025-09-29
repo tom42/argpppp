@@ -1,6 +1,10 @@
 // SPDX-FileCopyrightText: 2025 Thomas Mathys
 // SPDX-License-Identifier: MIT
 
+module;
+
+#include <limits>
+
 export module argpppp:interval;
 
 namespace argpppp
@@ -19,8 +23,8 @@ public:
     // TODO: setters?
 
 private:
-    TNumeric m_min; // TODO: initialize this, no?
-    TNumeric m_max; // TODO: initialize this, no?
+    TNumeric m_min = std::numeric_limits<TNumeric>::min();
+    TNumeric m_max = std::numeric_limits<TNumeric>::max();
 };
 
 }
