@@ -29,8 +29,6 @@ TEST_CASE("value<std::signed_integral>")
 
         CHECK(std::get<bool>(value.handle_option("32767")) == true);
         CHECK(target == 32767);
-
-        // TODO: do we need to test that base is 10 by default and not auto-detect?
     }
 
     SECTION("successful parsing with custom minimum and maximum value")
@@ -86,6 +84,12 @@ TEST_CASE("value<std::signed_integral>")
     SECTION("garbage input")
     {
         CHECK(std::get<option_error>(value.handle_option("invalid number")) == option_error("meh"));
+        CHECK(target == default_target_value);
+    }
+
+    SECTION("auto-detection of base is off by default")
+    {
+        CHECK(std::get<option_error>(value.handle_option("0x10")) == option_error("meh"));
         CHECK(target == default_target_value);
     }
 }
