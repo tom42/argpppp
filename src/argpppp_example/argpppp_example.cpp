@@ -38,6 +38,7 @@ int main(int argc, char* argv[])
         string s = "";
         bool x = false;
         bool y = false;
+        int j = 1;
 
         argpppp::options options;
         options
@@ -48,7 +49,8 @@ int main(int argc, char* argv[])
             .add({ 's', "string", "Option with mandatory string argument", "STRING" }, value(s))
             .add_header("Special options")
             .add({ 'x', {}, "A switch" }, value(x))
-            .add({ 'y', {}, "Another switch" }, value(y));
+            .add({ 'y', {}, "Another switch" }, value(y))
+            .add({ 'j', "another-integer", "Another otion with mandatory integer argument", "INTEGER" }, value(j).min(1).max(10));
 
         // Parse command line.
         // Note that in the case of an error, argp_parse will print error output to stderr and exit with an error code.
@@ -64,6 +66,7 @@ int main(int argc, char* argv[])
         std::cout << "s: '" << s << "'\n";
         std::cout << "x: " << x << "\n";
         std::cout << "y: " << y << "\n";
+        std::cout << "j: " << j << "\n";
 
         // Program arguments are stored in parse_result.args.
         // It is possible to specify the minimum/maximum/exact number of arguments
