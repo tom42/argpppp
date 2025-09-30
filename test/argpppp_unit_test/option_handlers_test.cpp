@@ -16,6 +16,7 @@ using option_error = argpppp::option_error;
 
 TEST_CASE("value<std::signed_integral>")
 {
+    // TODO: consider using a smaller type since that yields shorter text
     constexpr int32_t default_target_value = std::numeric_limits<int32_t>::max();
     constexpr int32_t custom_min = 0;
     constexpr int32_t custom_max = 10;
@@ -44,8 +45,7 @@ TEST_CASE("value<std::signed_integral>")
         CHECK(target == 10);
     }
 
-    // TODO: actually must also test this if it is flagged by strtoll!
-    SECTION("parsed value is out of range")
+    SECTION("parsed value is out of range, custom minimum and maximum value")
     {
         value.min(custom_min).max(custom_max);
 
@@ -53,6 +53,15 @@ TEST_CASE("value<std::signed_integral>")
         CHECK(target == default_target_value);
 
         CHECK(std::get<option_error>(value.handle_option("11")) == option_error("value should be in range [0, 10]"));
+        CHECK(target == default_target_value);
+    }
+
+    SECTION("parsed value is out of range, range limited by type")
+    {
+        CHECK(std::get<option_error>(value.handle_option("-2147483649")) == option_error("value should be in range [-2147483648, 2147483647]"));
+        CHECK(target == default_target_value);
+
+        CHECK(std::get<option_error>(value.handle_option("2147483648")) == option_error("value should be in range [-2147483648, 2147483647]"));
         CHECK(target == default_target_value);
     }
 

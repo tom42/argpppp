@@ -118,16 +118,19 @@ public:
         switch (parse_result)
         {
             case parse_number_result::success:
-                // Success, nothing to do then
+                // Success, nothing to do
                 break;
-                // TODO: handle ERANGE from strtoll and friends
+            case parse_number_result::underflow:
+            case parse_number_result::overflow:
+                // TODO: deduplicate (see below)
+                return option_error(std::format("value should be in range [{}, {}]", m_interval.min(), m_interval.max()));
             case parse_number_result::leading_garbage:
             case parse_number_result::trailing_garbage:
                 return option_error("meh"); // TODO: real error message
                 break;
-            default:
-                // TODO: throw exception here or what?
-                break;
+            // default:
+            //     // TODO: throw exception here or what? (If we wanted to do that we'd have to disable -Wcovered-switch-default)
+            //     break;
         }
 
         if (!m_interval.includes(value))
