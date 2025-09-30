@@ -122,8 +122,7 @@ public:
                 break;
             case parse_number_result::underflow:
             case parse_number_result::overflow:
-                // TODO: deduplicate (see below)
-                return option_error(std::format("value should be in range [{}, {}]", m_interval.min(), m_interval.max()));
+                return out_of_range_error();
             case parse_number_result::leading_garbage:
             case parse_number_result::trailing_garbage:
                 return option_error("meh"); // TODO: real error message
@@ -135,7 +134,7 @@ public:
 
         if (!m_interval.includes(value))
         {
-            return option_error(std::format("value should be in range [{}, {}]", m_interval.min(), m_interval.max()));
+            return out_of_range_error();
         }
 
         m_target_variable = static_cast<TValue>(value);
@@ -168,6 +167,11 @@ public:
     }
 
 private:
+    option_error out_of_range_error() const
+    {
+        return option_error(std::format("value should be in range [{}, {}]", m_interval.min(), m_interval.max()));
+    }
+
     interval<TValue> m_interval;
     int m_base = 10;
     TValue& m_target_variable;
