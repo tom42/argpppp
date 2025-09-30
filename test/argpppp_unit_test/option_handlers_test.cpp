@@ -16,20 +16,19 @@ using option_error = argpppp::option_error;
 
 TEST_CASE("value<std::signed_integral>")
 {
-    // TODO: consider using a smaller type since that yields shorter text
-    constexpr int32_t default_target_value = std::numeric_limits<int32_t>::max();
-    constexpr int32_t custom_min = 0;
-    constexpr int32_t custom_max = 10;
-    int32_t target = default_target_value;
-    argpppp::value<int32_t> value(target);
+    constexpr int16_t default_target_value = std::numeric_limits<int16_t>::max();
+    constexpr int16_t custom_min = 0;
+    constexpr int16_t custom_max = 10;
+    int16_t target = default_target_value;
+    argpppp::value<int16_t> value(target);
 
     SECTION("successful parsing with default settings")
     {
-        CHECK(std::get<bool>(value.handle_option("-2147483648")) == true);
-        CHECK(target == -2147483648);
+        CHECK(std::get<bool>(value.handle_option("-32768")) == true);
+        CHECK(target == -32768);
 
-        CHECK(std::get<bool>(value.handle_option("2147483647")) == true);
-        CHECK(target == 2147483647);
+        CHECK(std::get<bool>(value.handle_option("32767")) == true);
+        CHECK(target == 32767);
 
         // TODO: do we need to test that base is 10 by default and not auto-detect?
     }
@@ -58,10 +57,10 @@ TEST_CASE("value<std::signed_integral>")
 
     SECTION("parsed value is out of range, range limited by type")
     {
-        CHECK(std::get<option_error>(value.handle_option("-2147483649")) == option_error("value should be in range [-2147483648, 2147483647]"));
+        CHECK(std::get<option_error>(value.handle_option("-32769")) == option_error("value should be in range [-32768, 32767]"));
         CHECK(target == default_target_value);
 
-        CHECK(std::get<option_error>(value.handle_option("2147483648")) == option_error("value should be in range [-2147483648, 2147483647]"));
+        CHECK(std::get<option_error>(value.handle_option("32768")) == option_error("value should be in range [-32768, 32767]"));
         CHECK(target == default_target_value);
     }
 
