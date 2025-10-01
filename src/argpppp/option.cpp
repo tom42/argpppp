@@ -17,6 +17,16 @@ import :interval;
 namespace argpppp
 {
 
+namespace
+{
+
+bool is_switch(const option& o)
+{
+    return !o.arg();
+}
+
+}
+
 option::option(int key, const optional_string& name, const optional_string& doc, const optional_string& arg, of flags, int group)
     : m_key(key)
     , m_name(name)
