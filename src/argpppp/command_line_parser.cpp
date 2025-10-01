@@ -164,6 +164,7 @@ error_t command_line_parser::handle_option_handler_result_for_type(bool result, 
     }
     else
     {
+        // TODO: use new get_error_message api here
         auto option = find_option_or_throw(get_context(state)->opts, key);
         auto error_message = get_default_error_message(option, arg);
         report_failure(state, EXIT_FAILURE, 0, error_message);
@@ -173,19 +174,8 @@ error_t command_line_parser::handle_option_handler_result_for_type(bool result, 
 
 error_t command_line_parser::handle_option_handler_result_for_type(const option_error& error, int, char*, argp_state* state) const
 {
-    // TODO: revisit how this should look: possibly we want to print the default error message followed by the custom one?
-    //       So we get:
-    //       * For a switch:                unexpected option '-x'
-    //       * For an option with argument: invalid argument 'quux' for option '-y'
-    //       * Switch, with custom message: unexpected option '-x': this is the custom message providing additional information
-    //       * For an option with argument: invalid argument 'quux' for option '-y': additional info provided by custom message
-    //       * The special case for option with optional argument which returned an error when the argument is missing:
-    //         * invalid argument '' for option '-z'
-    //           - or -
-    //           invalid argument '' for option '-z': additional info from custom message
-    //         * As mentioned elsewhere, this case is silly, but then, accepting an optional argument and then returning an error is silly
-    //       * All of these cases should be tested on parser level (uh, that's silly - can't we test at option level?)
-    //         * The level is irrelevant insofar was we want to have all of htese cases tested, regardless of where we do so
+    // TODO: use new get_error_message api here
+    //       Note: this is probably going to look just like the implementation for bool if bool is false, so refactor!
     report_failure(state, EXIT_FAILURE, 0, error.message());
     return EINVAL;
 }

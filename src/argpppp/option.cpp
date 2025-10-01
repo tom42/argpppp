@@ -90,6 +90,30 @@ std::string get_default_error_message(const option& o, const char* arg)
     }
 }
 
+// TODO: unit test
+// TODO: make use of this
+// TODO: drop this into parser
+// TODO: name of additional_info?
+// TODO: revisit how this should look: possibly we want to print the default error message followed by the custom one?
+//       So we get:
+//       * For a switch:                unexpected option '-x'
+//       * For an option with argument: invalid argument 'quux' for option '-y'
+//       * Switch, with custom message: unexpected option '-x': this is the custom message providing additional information
+//       * For an option with argument: invalid argument 'quux' for option '-y': additional info provided by custom message
+//       * The special case for option with optional argument which returned an error when the argument is missing:
+//         * invalid argument '' for option '-z'
+//           - or -
+//           invalid argument '' for option '-z': additional info from custom message
+//         * As mentioned elsewhere, this case is silly, but then, accepting an optional argument and then returning an error is silly
+//       * All of these cases should be tested on parser level (uh, that's silly - can't we test at option level?)
+//         * The level is irrelevant insofar was we want to have all of htese cases tested, regardless of where we do so
+std::string get_error_message(const option& /*o*/, const char* /*arg*/, const char* /*additional_info*/)
+{
+    // TODO: implement: probably it's going to look mostly like get_default_error_message above but will append additional_info if given?
+    // TODO: replace the term "if (o.arg())" with something like "if (is_switch(o))" (note the inverted logic!)
+    throw std::runtime_error("TODO: implement");
+}
+
 argp_option to_argp_option(const option& o)
 {
     return {c_str(o.name()), o.key(), c_str(o.arg()), to_int(o.flags()), c_str(o.doc()), o.group()};

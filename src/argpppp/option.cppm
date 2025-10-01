@@ -62,8 +62,12 @@ bool need_long_name(int key);
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 std::string get_names(const option& o);
 
+// TODO: do we still need this?
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 std::string get_default_error_message(const option& o, const char* arg);
+
+ARGPPPP_EXPORT_FOR_UNIT_TESTING
+std::string get_error_message(const option& o, const char* arg, const char* additional_info);
 
 // Converts an option to an argp_option which can be passed to argp_parse.
 // Note that the option must not go out of scope while the argp_option is in use.
