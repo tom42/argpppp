@@ -164,20 +164,22 @@ error_t command_line_parser::handle_option_handler_result_for_type(bool result, 
     }
     else
     {
-        // TODO: use new get_error_message api here
-        auto option = find_option_or_throw(get_context(state)->opts, key);
-        auto error_message = get_default_error_message(option, arg);
-        report_failure(state, EXIT_FAILURE, 0, error_message);
+        report_option_error(key, arg, state, nullptr);
         return EINVAL;
     }
 }
 
-error_t command_line_parser::handle_option_handler_result_for_type(const option_error& error, int, char*, argp_state* state) const
+error_t command_line_parser::handle_option_handler_result_for_type(const option_error& error, int key, char* arg, argp_state* state) const
 {
-    // TODO: use new get_error_message api here
-    //       Note: this is probably going to look just like the implementation for bool if bool is false, so refactor!
-    report_failure(state, EXIT_FAILURE, 0, error.message());
+    report_option_error(key, arg, state, error.message().c_str());
     return EINVAL;
+}
+
+void command_line_parser::report_option_error(int key, char* arg, argp_state* state, const char* additional_info) const
+{
+    auto option = find_option_or_throw(get_context(state)->opts, key);
+    auto error_message = get_error_message(option, arg, additional_info);
+    report_failure(state, EXIT_FAILURE, 0, error_message);
 }
 
 void command_line_parser::report_failure(const argp_state* state, int status, int errnum, const std::string& message) const

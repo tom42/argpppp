@@ -25,6 +25,25 @@ bool is_switch(const option& o)
     return !o.arg();
 }
 
+std::string get_error_message(const option& o, const char* arg)
+{
+    if (!arg)
+    {
+        arg = "";
+    }
+
+    if (is_switch(o))
+    {
+        return std::format("unexpected option {}", get_names(o));
+    }
+    else
+    {
+        // This results in a somewhat silly message for an option with optional argument when the argument is not given.
+        // We live with that for the time being.
+        return std::format("invalid argument '{}' for option {}", arg, get_names(o));
+    }
+}
+
 }
 
 option::option(int key, const optional_string& name, const optional_string& doc, const optional_string& arg, of flags, int group)
@@ -81,47 +100,16 @@ std::string get_names(const option& o)
     throw std::invalid_argument("get_names: option has no name");
 }
 
-std::string get_default_error_message(const option& o, const char* arg)
+std::string get_error_message(const option& o, const char* arg, const char* additional_info)
 {
-    if (!arg)
+    std::string error_message = get_error_message(o, arg);
+
+    if (additional_info)
     {
-        arg = "";
+        error_message += std::format(": {}", additional_info);
     }
 
-    if (o.arg())
-    {
-        // This results in a somewhat silly message for an option with optional argument when the argument is not given.
-        // However, an option with optional argument that fails when the argument is not given is somewhat silly, too.
-        return std::format("invalid argument '{}' for option {}", arg, get_names(o));
-    }
-    else
-    {
-        return std::format("unexpected option {}", get_names(o));
-    }
-}
-
-// TODO: unit test
-// TODO: make use of this
-// TODO: drop this into parser
-// TODO: name of additional_info?
-// TODO: revisit how this should look: possibly we want to print the default error message followed by the custom one?
-//       So we get:
-//       * For a switch:                unexpected option '-x'
-//       * For an option with argument: invalid argument 'quux' for option '-y'
-//       * Switch, with custom message: unexpected option '-x': this is the custom message providing additional information
-//       * For an option with argument: invalid argument 'quux' for option '-y': additional info provided by custom message
-//       * The special case for option with optional argument which returned an error when the argument is missing:
-//         * invalid argument '' for option '-z'
-//           - or -
-//           invalid argument '' for option '-z': additional info from custom message
-//         * As mentioned elsewhere, this case is silly, but then, accepting an optional argument and then returning an error is silly
-//       * All of these cases should be tested on parser level (uh, that's silly - can't we test at option level?)
-//         * The level is irrelevant insofar was we want to have all of htese cases tested, regardless of where we do so
-std::string get_error_message(const option& /*o*/, const char* /*arg*/, const char* /*additional_info*/)
-{
-    // TODO: implement: probably it's going to look mostly like get_default_error_message above but will append additional_info if given?
-    // TODO: replace the term "if (o.arg())" with something like "if (is_switch(o))" (note the inverted logic!)
-    throw std::runtime_error("TODO: implement");
+    return error_message;
 }
 
 argp_option to_argp_option(const option& o)

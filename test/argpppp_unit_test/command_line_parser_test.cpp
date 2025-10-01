@@ -194,7 +194,7 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser")
         auto result = parse_command_line("-a -b");
 
         CHECK(result.errnum == EINVAL);
-        CHECK(failure_message == "custom error message");
+        CHECK(failure_message == "unexpected option '-a': custom error message");
         CHECK(a_seen == true);
     }
 

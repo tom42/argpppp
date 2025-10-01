@@ -83,16 +83,28 @@ TEST_CASE("option")
             Catch::Matchers::Message("get_names: option has no name"));
     }
 
-    SECTION("get_default_error_message, option with argument")
+    SECTION("get_error_message")
     {
-        // We do not test optional arguments here. of::arg_optional is not handled.
-        CHECK(get_default_error_message(option('x', {}, "doc", "arg"), "foo") == "invalid argument 'foo' for option '-x'");
-        CHECK(get_default_error_message(option('y', {}, "doc", "arg"), nullptr) == "invalid argument '' for option '-y'");
-    }
+        // We do not test options with optional arguments here. That is, options with of::arg_optional set.
+        // get_error_message() does not look at this flag.
+        const char* any_argument = "argument is ignored for switches";
+        const option switch_option('s');
+        const option option_with_argument('o', {}, {}, "FILENAME");
 
-    SECTION("get_default_error_message, option without argument")
-    {
-        CHECK(get_default_error_message(option('z', {}), nullptr) == "unexpected option '-z'");
+        CHECK(get_error_message(switch_option, any_argument, nullptr) ==
+            "unexpected option '-s'");
+        CHECK(get_error_message(switch_option, any_argument, "option is not allowed on mondays") ==
+            "unexpected option '-s': option is not allowed on mondays");
+        CHECK(get_error_message(option_with_argument, "bad:filename", nullptr) ==
+            "invalid argument 'bad:filename' for option '-o'");
+        CHECK(get_error_message(option_with_argument, "bad:filename", "filename must not contain colons") ==
+            "invalid argument 'bad:filename' for option '-o': filename must not contain colons");
+
+        // Test whether arg=nullptr is handled gracefully, albeit in a silly way in the second case.
+        CHECK(get_error_message(switch_option, nullptr, nullptr) ==
+            "unexpected option '-s'");
+        CHECK(get_error_message(option_with_argument, nullptr, nullptr) ==
+            "invalid argument '' for option '-o'");
     }
 
     SECTION("to_argp_option")
