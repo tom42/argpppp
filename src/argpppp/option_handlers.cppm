@@ -12,7 +12,6 @@ module;
 
 export module argpppp:option_handlers;
 import :interval;
-import :option_error;
 import :optional_string;
 import :parse_number;
 

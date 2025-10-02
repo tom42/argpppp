@@ -9,7 +9,6 @@ module;
 #include <vector>
 
 export module argpppp:command_line_parser;
-import :option_error;
 import :option_handlers;
 import :options;
 import :pf;

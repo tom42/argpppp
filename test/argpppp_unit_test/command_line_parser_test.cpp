@@ -17,7 +17,6 @@ namespace argpppp_unit_test
 
 using callback = argpppp::callback;
 using command_line_parser = argpppp::command_line_parser;
-using option_error = argpppp::option_error;
 using option_handler_result = argpppp::option_handler_result;
 using parse_result = argpppp::parse_result;
 using pf = argpppp::pf;

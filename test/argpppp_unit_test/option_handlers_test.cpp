@@ -12,8 +12,6 @@ import argpppp;
 namespace argpppp_unit_test
 {
 
-using option_error = argpppp::option_error;
-
 // TODO: needs to be redone, does not compile at all anymore
 /*
 TEST_CASE("value<std::signed_integral>")
