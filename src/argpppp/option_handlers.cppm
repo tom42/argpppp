@@ -22,6 +22,8 @@ namespace argpppp
 // TODO: review: no optional_string in here
 // TODO: move into own file
 // TODO: unit test
+// TODO: do we want to have an implicit conversion from bool to option_handler_result?
+//       Problem: mapping true to success() is no big deal, but what would be the default message etc. for false?
 export class option_handler_result
 {
 public:
@@ -86,6 +88,7 @@ public:
     option_handler(const option_handler&) = default;
     virtual ~option_handler() {}
 
+    // TODO: also take the option here so we can incorporate info from it into error messages if we want to
     virtual option_handler_result handle_option(const char* arg) = 0;
 };
 
@@ -221,6 +224,12 @@ private:
     option_handler_result out_of_range_error() const
     {
         // TODO: this will fail tests, since the old implementation included a standard error message with prefix, which is now not the case anymore
+        //       * We need now to supply this ourselves here with the help of the option and get_error_message, which we'll make available to callers
+        //         * This would be a good opportunity to revisit the output of get_error_message
+        //           * In most cases it's probably fine
+        //           * But the missing argument case for an option with optional argument is bothering me
+        //             * In this case it should maybe not say "invalid argument '' for option -x"
+        //             * Instead maybe just "unexpected option -x". It's still somewhat silly, but it's really hard to provide good defaults
         return option_handler_result::error(std::format("value should be in range [{}, {}]", m_interval.min(), m_interval.max()));
     }
 

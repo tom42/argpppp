@@ -173,6 +173,8 @@ error_t command_line_parser::handle_option_handler_result(const option_handler_r
 }
 
 // TODO: remove?
+//       * Well we probably do not need it like this anymore
+//       * What about get_error_message? Well this we probably still want around, because option handlers need it to build standard error messages
 void command_line_parser::report_option_error(int key, char* arg, argp_state* state, const char* additional_info) const
 {
     auto option = find_option_or_throw(get_context(state)->opts, key);
