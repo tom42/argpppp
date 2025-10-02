@@ -161,17 +161,17 @@ error_t command_line_parser::handle_option_handler_result(const option_handler_r
     //return EINVAL;
 
 
-    if (result.is_error())
+    if (!result.is_success())
     {
-        // TODO: print error message
         // TODO: actually we could delegate default error message creation to ARGP (by passing nonzero for errnum, I am just not sure how much sense this makes
         // TODO: get all of this from resultr object
         //       * exit status (EXIT_FAILURE by default)
-        //       * errnum (0 by default, anything else will cause output)
-        report_failure(state, EXIT_FAILURE, 0, /*result.error_message()*/ "meh"); // TODO: get error message from result object
+        //       * errnum (0 by default, anything else will cause output) => do we document this?
+        report_failure(state, result.exit_status(), result.error_number(), result.error_message());
+        return EINVAL;
     }
 
-    return EINVAL;
+    return 0;
 }
 
 // TODO: remove
@@ -207,7 +207,7 @@ void command_line_parser::report_failure(const argp_state* state, int status, in
 {
     if (m_failure_callback)
     {
-        // TODO: should this also get exitcode? should we even have this? Or should we only have it as a test hook?
+        // TODO: should this also get exitcode? should we even have this callback on the public interface for client code? Or should we only have it as a test hook?
         m_failure_callback(errnum, message);
     }
     else

@@ -29,37 +29,64 @@ namespace argpppp
 //export using option_handler_result = std::variant<bool, option_error>;
 
 // TODO: review heavily
+// TODO: review: no optional_string in here
 // TODO: move into own file
 // TODO: unit test
 export class option_handler_result
 {
 public:
+    // TODO: unit test
     static option_handler_result success()
     {
-        return option_handler_result(0, {});
+        // TODO: have constants for defaults here and use them in all ctors (or make them default args...)
+        return option_handler_result(true, {}, {}, {});
     }
 
+    // TODO: unit test
     static option_handler_result error(std::string error_message)
     {
         // TODO: move error message
         // TODO: can we even move T into std::optional_t?
-        return option_handler_result(EINVAL, error_message);
+        return option_handler_result(false, EXIT_FAILURE, 0, error_message);
     }
 
-    bool is_error() const
+    // TODO: unit test
+    bool is_success() const
     {
-        return m_error_code != 0;
+        return m_is_success != 0;
+    }
+
+    // TODO: unit test
+    int exit_status() const
+    {
+        return m_exit_status;
+    }
+
+    // TODO: unit test
+    int error_number() const
+    {
+        return m_error_number;
+    }
+
+    // TODO: unit test
+    const std::string& error_message() const
+    {
+        return m_error_message;
     }
 
 private:
     // TODO: move error message
-    option_handler_result(int error_code, const optional_string& error_message)
-        : m_error_code(error_code)
+    option_handler_result(bool is_success, int exit_status, int error_number, const std::string& error_message)
+        : m_is_success(is_success)
+        , m_exit_status(exit_status)
+        , m_error_number(error_number)
         , m_error_message(error_message)
     {}
 
-    int m_error_code;
-    optional_string m_error_message;
+    bool m_is_success;
+    int m_exit_status;
+    int m_error_number;
+    std::string m_error_message; // TODO: document why this does not need to be optional?
 };
 
 export class option_handler

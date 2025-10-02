@@ -18,6 +18,7 @@ namespace argpppp_unit_test
 using callback = argpppp::callback;
 using command_line_parser = argpppp::command_line_parser;
 using option_error = argpppp::option_error;
+using option_handler_result = argpppp::option_handler_result;
 using parse_result = argpppp::parse_result;
 using pf = argpppp::pf;
 using runtime_error = std::runtime_error;
@@ -139,8 +140,8 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser")
     SECTION("Exceptions abort parsing and are propagated to caller")
     {
         options
-            .add({ 'a' }, callback([](auto) -> bool { throw runtime_error("This exception should occur."); }))
-            .add({ 'b' }, callback([](auto) -> bool { throw runtime_error("This exception should not occur."); }));
+            .add({ 'a' }, callback([](auto) -> option_handler_result { throw runtime_error("This exception should occur."); }))
+            .add({ 'b' }, callback([](auto) -> option_handler_result { throw runtime_error("This exception should not occur."); }));
 
         CHECK_THROWS_MATCHES(
             parse_command_line("-a -b"),
@@ -155,9 +156,9 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser")
         bool c_seen = false;
 
         options
-            .add({ 'a' }, callback([&](auto) { a_seen = true; return true; }))
-            .add({ 'b' }, callback([&](auto) { b_seen = true; return true; }))
-            .add({ 'c' }, callback([&](auto) { c_seen = true; return true; }));
+            .add({ 'a' }, callback([&](auto) { a_seen = true; return option_handler_result::success(); }))
+            .add({ 'b' }, callback([&](auto) { b_seen = true; return option_handler_result::success(); }))
+            .add({ 'c' }, callback([&](auto) { c_seen = true; return option_handler_result::success(); }));
 
         auto result = parse_command_line("-c -a");
 
@@ -168,33 +169,18 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser")
         CHECK(c_seen == true);
     }
 
-    SECTION("Parsing should stop if an option handler returns false")
+    SECTION("Parsing should stop if an option handler returns an error")
     {
         bool a_seen = false;
 
         options
-            .add({ 'a' }, callback([&](auto) { a_seen = true; return false; }))
-            .add({ 'b' }, callback([](auto) -> bool { throw runtime_error("This exception should not occur."); }));
+            .add({ 'a' }, callback([&](auto) -> option_handler_result { a_seen = true; return option_handler_result::error("error message"); }))
+            .add({ 'b' }, callback([](auto) -> option_handler_result { throw runtime_error("This exception should not occur."); }));
 
         auto result = parse_command_line("-a -b");
 
         CHECK(result.errnum == EINVAL);
-        CHECK(failure_message == "unexpected option '-a'");
-        CHECK(a_seen == true);
-    }
-
-    SECTION("Parsing should stop if an option handler returns option_error")
-    {
-        bool a_seen = false;
-
-        options
-            .add({ 'a' }, callback([&](auto) { a_seen = true; return option_error("custom error message"); }))
-            .add({ 'b' }, callback([](auto) -> bool { throw std::runtime_error("This exception should not occur."); }));
-
-        auto result = parse_command_line("-a -b");
-
-        CHECK(result.errnum == EINVAL);
-        CHECK(failure_message == "unexpected option '-a': custom error message");
+        CHECK(failure_message == "error message");
         CHECK(a_seen == true);
     }
 
