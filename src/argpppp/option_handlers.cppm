@@ -19,14 +19,6 @@ import :parse_number;
 namespace argpppp
 {
 
-// TODO: this is absolutely NOT what we option_handler_result want to be (also remove <variant> above)
-// TODO: what we want it to be is this:
-//       * an integer return code, 0 meaning success, anything else being an Unixoid error code
-//       * an optional error message, which must be fully customizable
-//         what we have today is NOT fully customizable, because inside command_line_parser.cpp
-//         we call get_error_message, which has some hardbaked rules on how to format error messages. sigh
-//export using option_handler_result = std::variant<bool, option_error>;
-
 // TODO: review heavily
 // TODO: review: no optional_string in here
 // TODO: move into own file
@@ -55,13 +47,13 @@ public:
         return m_is_success != 0;
     }
 
-    // TODO: unit test
+    // TODO: unit test / do we really want this here
     int exit_status() const
     {
         return m_exit_status;
     }
 
-    // TODO: unit test
+    // TODO: unit test / do we really want this here
     int error_number() const
     {
         return m_error_number;
@@ -74,7 +66,7 @@ public:
     }
 
 private:
-    // TODO: move error message
+    // TODO: move error message (no const& anywhere and then std::move - really? did we not originally say we do not worry about this?)
     option_handler_result(bool is_success, int exit_status, int error_number, const std::string& error_message)
         : m_is_success(is_success)
         , m_exit_status(exit_status)
