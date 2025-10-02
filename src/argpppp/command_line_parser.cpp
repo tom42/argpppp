@@ -9,7 +9,6 @@ module;
 #include <map>
 #include <memory>
 #include <string>
-#include <variant>
 
 module argpppp;
 
@@ -154,16 +153,16 @@ error_t command_line_parser::handle_key_end(argp_state* state) const
 // TODO: see which parameters we still need
 error_t command_line_parser::handle_option_handler_result(const option_handler_result& result, int /*key*/, char* /*arg*/, argp_state* state) const
 {
-    // TODO: redo this
-    //return std::visit([&](const auto& r) { return handle_option_handler_result_for_type(r, key, arg, state); }, result);
-
-    // TODO: real value
-    //return EINVAL;
-
-
     if (!result.is_success())
     {
         // TODO: actually we could delegate default error message creation to ARGP (by passing nonzero for errnum, I am just not sure how much sense this makes
+        //       * Well argp_failure always prints error message (it pretty much expects it to be a non-empty string), followed by the error message for error_number
+        //         if error_number is not zero, so this can only be used to supply additional info (of limited usefulness to be honest)
+        //       * We must also think about doing this in a sane way:
+        //         * If error_number is nonzero, should it then not also be the return value of this function and of argp_parse itself?
+        //         * But what if we want an Unixoid return value but not print it?
+        //           * We'd have to have another flag for this
+        //           * => If we're not willing to implement all of this then we're probably better off not providing it on option_handler_result?
         // TODO: get all of this from resultr object
         //       * exit status (EXIT_FAILURE by default)
         //       * errnum (0 by default, anything else will cause output) => do we document this?
@@ -172,27 +171,6 @@ error_t command_line_parser::handle_option_handler_result(const option_handler_r
     }
 
     return 0;
-}
-
-// TODO: remove
-error_t command_line_parser::handle_option_handler_result_for_type(bool result, int key, char* arg, argp_state* state) const
-{
-    if (result)
-    {
-        return 0;
-    }
-    else
-    {
-        report_option_error(key, arg, state, nullptr);
-        return EINVAL;
-    }
-}
-
-// TODO: remove
-error_t command_line_parser::handle_option_handler_result_for_type(const option_error& error, int key, char* arg, argp_state* state) const
-{
-    report_option_error(key, arg, state, error.message().c_str());
-    return EINVAL;
 }
 
 // TODO: remove?

@@ -9,7 +9,6 @@ module;
 #include <functional>
 #include <limits>
 #include <string>
-#include <variant>
 
 export module argpppp:option_handlers;
 import :interval;
