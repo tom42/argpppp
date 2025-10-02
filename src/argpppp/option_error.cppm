@@ -10,6 +10,7 @@ export module argpppp:option_error;
 namespace argpppp
 {
 
+// TODO: this type and entire file can go
 export class option_error final
 {
 public:

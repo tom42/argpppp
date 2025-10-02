@@ -50,7 +50,7 @@ int main(int argc, char* argv[])
             .add_header("Special options")
             .add({ 'x', {}, "A switch" }, value(x))
             .add({ 'y', {}, "Another switch" }, value(y))
-            .add({ 'j', "another-integer", "Another otion with mandatory integer argument", "INTEGER" }, value(j).min(1).max(10));
+            .add({ 'j', "another-integer", "Another option with mandatory integer argument", "INTEGER" }, value(j).min(1).max(10));
 
         // Parse command line.
         // Note that in the case of an error, argp_parse will print error output to stderr and exit with an error code.

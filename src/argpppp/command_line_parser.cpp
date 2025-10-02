@@ -151,11 +151,27 @@ error_t command_line_parser::handle_key_end(argp_state* state) const
     return 0;
 }
 
-error_t command_line_parser::handle_option_handler_result(const option_handler_result& result, int key, char* arg, argp_state* state) const
+// TODO: see which parameters we still need
+error_t command_line_parser::handle_option_handler_result(const option_handler_result& result, int /*key*/, char* /*arg*/, argp_state* state) const
 {
-    return std::visit([&](const auto& r) { return handle_option_handler_result_for_type(r, key, arg, state); }, result);
+    // TODO: redo this
+    //return std::visit([&](const auto& r) { return handle_option_handler_result_for_type(r, key, arg, state); }, result);
+
+    // TODO: real value
+    //return EINVAL;
+
+
+    if (result.is_error())
+    {
+        // TODO: print error message
+        // TODO: actually we could delegate default error message creation to ARGP (by passing nonzero for errnum, I am just not sure how much sense this makes
+        report_failure(state, EXIT_FAILURE, 0, result.error_message());
+    }
+
+    return result.error_code();
 }
 
+// TODO: remove
 error_t command_line_parser::handle_option_handler_result_for_type(bool result, int key, char* arg, argp_state* state) const
 {
     if (result)
@@ -169,12 +185,14 @@ error_t command_line_parser::handle_option_handler_result_for_type(bool result, 
     }
 }
 
+// TODO: remove
 error_t command_line_parser::handle_option_handler_result_for_type(const option_error& error, int key, char* arg, argp_state* state) const
 {
     report_option_error(key, arg, state, error.message().c_str());
     return EINVAL;
 }
 
+// TODO: remove?
 void command_line_parser::report_option_error(int key, char* arg, argp_state* state, const char* additional_info) const
 {
     auto option = find_option_or_throw(get_context(state)->opts, key);

@@ -14,12 +14,53 @@ module;
 export module argpppp:option_handlers;
 import :interval;
 import :option_error;
+import :optional_string;
 import :parse_number;
 
 namespace argpppp
 {
 
-export using option_handler_result = std::variant<bool, option_error>;
+// TODO: this is absolutely NOT what we option_handler_result want to be (also remove <variant> above)
+// TODO: what we want it to be is this:
+//       * an integer return code, 0 meaning success, anything else being an Unixoid error code
+//       * an optional error message, which must be fully customizable
+//         what we have today is NOT fully customizable, because inside command_line_parser.cpp
+//         we call get_error_message, which has some hardbaked rules on how to format error messages. sigh
+//export using option_handler_result = std::variant<bool, option_error>;
+
+// TODO: review heavily
+// TODO: move into own file
+// TODO: unit test
+export class option_handler_result
+{
+public:
+    static option_handler_result success()
+    {
+        return option_handler_result(0, {});
+    }
+
+    static option_handler_result error(std::string error_message)
+    {
+        // TODO: move error message
+        // TODO: can we even move T into std::optional_t?
+        return option_handler_result(EINVAL, error_message);
+    }
+
+    bool is_error() const
+    {
+        return m_error_code != 0;
+    }
+
+private:
+    // TODO: move error message
+    option_handler_result(int error_code, const optional_string& error_message)
+        : m_error_code(error_code)
+        , m_error_message(error_message)
+    {}
+
+    int m_error_code;
+    optional_string m_error_message;
+};
 
 export class option_handler
 {
@@ -67,7 +108,7 @@ public:
         //       note: this is a problem for any option_handler!
         // TODO: note: a conservative solution would be not to support this for the time being!
         m_target_value = arg;
-        return true;
+        return option_handler_result::success();
     }
 
 private:
@@ -83,7 +124,7 @@ public:
     option_handler_result handle_option(const char*) override
     {
         m_target_variable = true;
-        return true;
+        return option_handler_result::success();
     }
 
 private:
@@ -118,7 +159,7 @@ public:
                 return out_of_range_error();
             case parse_number_result::leading_garbage:
             case parse_number_result::trailing_garbage:
-                return option_error("meh"); // TODO: real error message
+                return option_handler_result::error("meh"); // TODO: real error message
                 break;
             // default:
             //     // TODO: throw exception here or what? (If we wanted to do that we'd have to disable -Wcovered-switch-default)
@@ -131,7 +172,7 @@ public:
         }
 
         m_target_variable = static_cast<TValue>(value);
-        return true;
+        return option_handler_result::success();
     }
 
     value& min(TValue min)
@@ -160,9 +201,10 @@ public:
     }
 
 private:
-    option_error out_of_range_error() const
+    option_handler_result out_of_range_error() const
     {
-        return option_error(std::format("value should be in range [{}, {}]", m_interval.min(), m_interval.max()));
+        // TODO: this will fail tests, since the old implementation included a standard error message with prefix, which is now not the case anymore
+        return option_handler_result::error(std::format("value should be in range [{}, {}]", m_interval.min(), m_interval.max()));
     }
 
     interval<TValue> m_interval;
