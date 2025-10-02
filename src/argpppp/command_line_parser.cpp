@@ -109,7 +109,7 @@ error_t command_line_parser::parse_option(int key, char* arg, argp_state* state)
     if (handler != context->option_handlers.end())
     {
         const auto handler_result = handler->second->handle_option(arg);
-        return handle_option_handler_result(handler_result, key, arg, state);
+        return handle_option_handler_result(handler_result, state);
     }
 
     switch (key)
@@ -150,8 +150,7 @@ error_t command_line_parser::handle_key_end(argp_state* state) const
     return 0;
 }
 
-// TODO: see which parameters we still need
-error_t command_line_parser::handle_option_handler_result(const option_handler_result& result, int /*key*/, char* /*arg*/, argp_state* state) const
+error_t command_line_parser::handle_option_handler_result(const option_handler_result& result, argp_state* state) const
 {
     if (!result.is_success())
     {

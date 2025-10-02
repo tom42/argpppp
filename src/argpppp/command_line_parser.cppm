@@ -55,7 +55,7 @@ private:
 
     error_t handle_key_end(argp_state* state) const;
 
-    error_t handle_option_handler_result(const option_handler_result& result, int key, char* arg, argp_state* state) const;
+    error_t handle_option_handler_result(const option_handler_result& result, argp_state* state) const;
 
     void report_option_error(int key, char* arg, argp_state* state, const char* additional_info) const;
 
