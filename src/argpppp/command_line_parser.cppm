@@ -56,8 +56,6 @@ private:
 
     error_t handle_option_handler_result(const option_handler_result& result, argp_state* state) const;
 
-    void report_option_error(int key, char* arg, argp_state* state, const char* additional_info) const;
-
     void report_failure(const argp_state* state, int status, int errnum, const std::string& message) const;
 
     argpppp::failure_callback m_failure_callback;

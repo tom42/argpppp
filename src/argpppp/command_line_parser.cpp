@@ -163,23 +163,12 @@ error_t command_line_parser::handle_option_handler_result(const option_handler_r
         //           * We'd have to have another flag for this
         //           * => If we're not willing to implement all of this then we're probably better off not providing it on option_handler_result?
         // TODO: get all of this from resultr object
-        //       * exit status (EXIT_FAILURE by default)
         //       * errnum (0 by default, anything else will cause output) => do we document this?
         report_failure(state, result.exit_status(), result.error_number(), result.error_message());
         return EINVAL;
     }
 
     return 0;
-}
-
-// TODO: remove?
-//       * Well we probably do not need it like this anymore
-//       * What about get_error_message? Well this we probably still want around, because option handlers need it to build standard error messages
-void command_line_parser::report_option_error(int key, char* arg, argp_state* state, const char* additional_info) const
-{
-    auto option = find_option_or_throw(get_context(state)->opts, key);
-    auto error_message = get_error_message(option, arg, additional_info);
-    report_failure(state, EXIT_FAILURE, 0, error_message);
 }
 
 void command_line_parser::report_failure(const argp_state* state, int status, int errnum, const std::string& message) const
