@@ -168,6 +168,11 @@ private:
         //           * But the missing argument case for an option with optional argument is bothering me
         //             * In this case it should maybe not say "invalid argument '' for option -x"
         //             * Instead maybe just "unexpected option -x". It's still somewhat silly, but it's really hard to provide good defaults
+        //       * Also something to consider: how do we name options in the error message.
+        //         * Currently we say '-i' if there is only a short name
+        //         * And we say '--integer' if there is only a long name
+        //         * And we say '-i / --integer' if there is both
+        //         => Do we like this, or do we rather use always the long one only IF it is available? Or would that be more confusing?
         return option_handler_result::error(std::format("value should be in range [{}, {}]", m_interval.min(), m_interval.max()));
     }
 

@@ -158,14 +158,17 @@ error_t command_line_parser::handle_option_handler_result(const option_handler_r
         //       * Well argp_failure always prints error message (it pretty much expects it to be a non-empty string), followed by the error message for error_number
         //         if error_number is not zero, so this can only be used to supply additional info (of limited usefulness to be honest)
         //       * We must also think about doing this in a sane way:
-        //         * If error_number is nonzero, should it then not also be the return value of this function and of argp_parse itself?
-        //         * But what if we want an Unixoid return value but not print it?
-        //           * We'd have to have another flag for this
-        //           * => If we're not willing to implement all of this then we're probably better off not providing it on option_handler_result?
-        // TODO: get all of this from resultr object
-        //       * errnum (0 by default, anything else will cause output) => do we document this?
+        //         * If error_number is nonzero, should it then not also be the return value of this function and of argp_parse itself? => Well it is so now, isn't it?
+        //           * Well yes except that nobody ensures that if there is an error, error_number is nonzero => add runtime check? => Yes, but where? Here or the option_handler_result class?
+        //             * Well there is another way:
+        //               * The issue here is that we have a "success flag" AND the error number, but at the same time require error number be nonzero for errors
+        //               * We can merge the two: do away with the separate flag and have
+        //                 * error_number == 0 => success
+        //                 * error_number != 0 => error
+        //                 * We're going to have an additional flag whether to print the standard error text, so that's taken care of too
+        // TODO: do not pass error_number() to report_failure by default, respectively control that by the result object
         report_failure(state, result.exit_status(), result.error_number(), result.error_message());
-        return EINVAL;
+        return result.error_number();
     }
 
     return 0;

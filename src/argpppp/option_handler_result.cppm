@@ -4,6 +4,7 @@
 module;
 
 #include <string>
+#include <utility>
 
 export module argpppp:option_handler_result;
 
@@ -11,7 +12,6 @@ namespace argpppp
 {
 
 // TODO: review heavily
-// TODO: unit test
 // TODO: do we want to have an implicit conversion from bool to option_handler_result?
 //       Problem: mapping true to success() is no big deal, but what would be the default message etc. for false?
 //       true => success
@@ -23,62 +23,52 @@ namespace argpppp
 // TODO: regarding the error code: I think we want to do this differently:
 //       * We always do supply error_number and return that to argp_parse
 //       * We can then have an additional flag telling whether we want to pass the error_number to argp_failure or not
-export class option_handler_result
+export class option_handler_result final
 {
 public:
-    // TODO: unit test
     static option_handler_result success()
     {
-        // TODO: have constants for defaults here and use them in all ctors (or make them default args...)
         return option_handler_result(true, {}, {}, {});
     }
 
-    // TODO: unit test
     static option_handler_result error(std::string error_message)
     {
-        // TODO: move error message
-        // TODO: can we even move T into std::optional_t?
-        return option_handler_result(false, EXIT_FAILURE, 0, error_message);
+        return option_handler_result(false, EXIT_FAILURE, EINVAL, std::move(error_message));
     }
 
-    // TODO: unit test
     bool is_success() const
     {
         return m_is_success != 0;
     }
 
-    // TODO: unit test / do we really want this here
     int exit_status() const
     {
         return m_exit_status;
     }
 
-    // TODO: unit test / do we really want this here
     int error_number() const
     {
         return m_error_number;
     }
 
-    // TODO: unit test
     const std::string& error_message() const
     {
         return m_error_message;
     }
 
 private:
-    // TODO: move error message (no const& anywhere and then std::move - really? did we not originally say we do not worry about this?)
-    option_handler_result(bool is_success, int exit_status, int error_number, const std::string& error_message)
+    option_handler_result(bool is_success, int exit_status, int error_number, std::string error_message)
         : m_is_success(is_success)
         , m_exit_status(exit_status)
         , m_error_number(error_number)
-        , m_error_message(error_message)
+        , m_error_message(std::move(error_message))
     {
     }
 
-    bool m_is_success;
+    bool m_is_success; // TODO: remove this flag. Instead have m_error_number be zero for success and nonzero for not success
     int m_exit_status;
     int m_error_number;
-    std::string m_error_message; // TODO: document why this does not need to be optional?
+    std::string m_error_message;
 };
 
 }
