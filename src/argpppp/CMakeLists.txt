@@ -9,6 +9,7 @@ set(
   interval.cppm
   of.cppm
   option.cppm
+  option_handler_result.cppm
   option_handlers.cppm
   optional_string.cppm
   options.cppm
