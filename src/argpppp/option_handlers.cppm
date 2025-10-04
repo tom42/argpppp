@@ -103,7 +103,7 @@ class value<TValue> : public option_handler
 public:
     explicit value(TValue& target_variable) : m_target_variable(target_variable) {}
 
-    option_handler_result handle_option(const char* arg, const option&) override
+    option_handler_result handle_option(const char* arg, const option& option) override
     {
         TValue value;
         auto parse_result = parse_integral(arg, value, m_base);
@@ -114,7 +114,7 @@ public:
                 break;
             case parse_number_result::underflow:
             case parse_number_result::overflow:
-                return out_of_range_error();
+                return out_of_range_error(arg, option);
             case parse_number_result::leading_garbage:
             case parse_number_result::trailing_garbage:
                 return option_handler_result::error("meh"); // TODO: real error message
@@ -126,7 +126,7 @@ public:
 
         if (!m_interval.includes(value))
         {
-            return out_of_range_error();
+            return out_of_range_error(arg, option);
         }
 
         m_target_variable = static_cast<TValue>(value);
@@ -159,7 +159,7 @@ public:
     }
 
 private:
-    option_handler_result out_of_range_error() const
+    option_handler_result out_of_range_error(const char* /*arg*/, const option& /*option*/) const
     {
         // TODO: this will fail tests, since the old implementation included a standard error message with prefix, which is now not the case anymore
         //       * We need now to supply this ourselves here with the help of the option and get_error_message, which we'll make available to callers
@@ -173,6 +173,13 @@ private:
         //         * And we say '--integer' if there is only a long name
         //         * And we say '-i / --integer' if there is both
         //         => Do we like this, or do we rather use always the long one only IF it is available? Or would that be more confusing?
+
+        // TODO: make use of arg and option: build an error message. Question for me is a bit, how does this look like
+        //       maybe we should have a shitton of overloads of ok() and error(), and one of them takes
+        //       * option          \ these two yield the message prefix
+        //       * argument        /
+        //       * additional info   this yields the message suffix
+        //       * Probably I'd rather not stick this onto option_handler_result, and not option either => so it's factory methods then
         return option_handler_result::error(std::format("value should be in range [{}, {}]", m_interval.min(), m_interval.max()));
     }
 
