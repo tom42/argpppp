@@ -56,6 +56,8 @@ public:
         return m_error_message;
     }
 
+    bool operator==(const option_handler_result&) const = default;
+
 private:
     option_handler_result(bool is_success, int exit_status, int error_number, std::string error_message)
         : m_is_success(is_success)
