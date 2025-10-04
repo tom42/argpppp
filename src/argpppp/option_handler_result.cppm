@@ -11,7 +11,6 @@ export module argpppp:option_handler_result;
 namespace argpppp
 {
 
-// TODO: review heavily
 // TODO: do we want to have an implicit conversion from bool to option_handler_result?
 //       Problem: mapping true to success() is no big deal, but what would be the default message etc. for false?
 //       true => success
@@ -38,7 +37,7 @@ public:
 
     bool is_success() const
     {
-        return m_is_success != 0;
+        return m_is_success != false;
     }
 
     int exit_status() const
