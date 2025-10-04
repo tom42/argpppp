@@ -56,8 +56,7 @@ private:
         , m_exit_status(exit_status)
         , m_error_number(error_number)
         , m_error_message(std::move(error_message))
-    {
-    }
+    {}
 
     bool m_is_success;
     int m_exit_status;
