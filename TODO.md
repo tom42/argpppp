@@ -38,13 +38,6 @@ void store_func(int /*x*/) {}
 
 TEST_CASE("new_api_test")
 {
-    // TODO: ugh. now we have the next problem: If we now go and add a value parameter, then that's fine
-    //       except that the header option needs one too. Ugh. Back to the drawing board again.
-    //       of course there is a number of ways around this problem
-    //       * Go back to non member functions, so we'd have a very generic member function add, but add_header would be a free function: add_header(opts, "Header text", group)
-    //       * Make the value thing part of the option class, so the header() function would simply know it doesn' need to set it
-    //       * Make the value thing an optional argument of some sorts
-    //       * Have an add_header method on the options class itself - why would that be so horrible? It would probably be the absolute exception
     std::string output_file;
     bool verbose = false;
     int compression_level = 0;
