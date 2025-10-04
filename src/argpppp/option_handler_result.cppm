@@ -12,9 +12,6 @@ import :option;
 namespace argpppp
 {
 
-// TODO: regarding the error code: I think we want to do this differently:
-//       * We always do supply error_number and return that to argp_parse
-//       * We can then have an additional flag telling whether we want to pass the error_number to argp_failure or not
 export class option_handler_result final
 {
 public:

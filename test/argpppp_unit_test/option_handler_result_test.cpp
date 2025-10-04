@@ -24,6 +24,7 @@ TEST_CASE("option_handler_result")
         CHECK(result.exit_status() == EXIT_SUCCESS);
         CHECK(result.error_number() == 0);
         CHECK(result.error_message() == "");
+        CHECK(result.include_standard_error_message() == false);
     }
 
     SECTION("error, overload taking single error message")
@@ -34,6 +35,7 @@ TEST_CASE("option_handler_result")
         CHECK(result.exit_status() == EXIT_FAILURE);
         CHECK(result.error_number() == EINVAL);
         CHECK(result.error_message() == "error message");
+        CHECK(result.include_standard_error_message() == false);
     }
 
     SECTION("error, overload taking option, argument and error message as std::string")
@@ -44,6 +46,7 @@ TEST_CASE("option_handler_result")
         CHECK(result.exit_status() == EXIT_FAILURE);
         CHECK(result.error_number() == EINVAL);
         CHECK(result.error_message() == "invalid argument '123' for option '-i': value is too big");
+        CHECK(result.include_standard_error_message() == false);
     }
 
     SECTION("error, overload taking option, argument and error message as const char*")
@@ -54,6 +57,7 @@ TEST_CASE("option_handler_result")
         CHECK(result.exit_status() == EXIT_FAILURE);
         CHECK(result.error_number() == EINVAL);
         CHECK(result.error_message() == "invalid argument '123' for option '-i': value is too big");
+        CHECK(result.include_standard_error_message() == false);
     }
 }
 
