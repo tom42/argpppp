@@ -74,9 +74,9 @@ TEST_CASE("option")
 
     SECTION("get_names")
     {
-        CHECK(get_names(option('s', {})) == "'-s'");
-        CHECK(get_names(option({}, "long-name")) == "'--long-name'");
-        CHECK(get_names(option('s', "long-name")) == "'-s' / '--long-name'");
+        CHECK(get_names(option('s', {})) == "-s");
+        CHECK(get_names(option({}, "long-name")) == "--long-name");
+        CHECK(get_names(option('s', "long-name")) == "--long-name (-s)");
         CHECK_THROWS_MATCHES(
             get_names(option()),
             std::invalid_argument,

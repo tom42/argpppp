@@ -65,17 +65,17 @@ std::string get_names(const option& o)
 {
     if (is_printable_key(o.key()) && o.name())
     {
-        return std::format("'-{:c}' / '--{}'", o.key(), *o.name());
+        return std::format("--{} (-{:c})", *o.name(), o.key());
     }
 
     if (is_printable_key(o.key()))
     {
-        return std::format("'-{:c}'", o.key());
+        return std::format("-{:c}", o.key());
     }
 
     if (o.name())
     {
-        return std::format("'--{}'", *o.name());
+        return std::format("--{}", *o.name());
     }
 
     throw std::invalid_argument("get_names: option has no name");
@@ -90,13 +90,13 @@ std::string get_error_message(const option& o, const char* arg)
 
     if (is_switch(o))
     {
-        return std::format("unexpected option {}", get_names(o));
+        return std::format("unexpected option '{}'", get_names(o));
     }
     else
     {
         // This results in a somewhat silly message for an option with optional argument when the argument is not given.
         // We live with that for the time being.
-        return std::format("invalid argument '{}' for option {}", arg, get_names(o));
+        return std::format("invalid argument '{}' for option '{}'", arg, get_names(o));
     }
 }
 
