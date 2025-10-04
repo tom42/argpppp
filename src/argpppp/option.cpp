@@ -25,25 +25,6 @@ bool is_switch(const option& o)
     return !o.arg();
 }
 
-std::string get_error_message(const option& o, const char* arg)
-{
-    if (!arg)
-    {
-        arg = "";
-    }
-
-    if (is_switch(o))
-    {
-        return std::format("unexpected option {}", get_names(o));
-    }
-    else
-    {
-        // This results in a somewhat silly message for an option with optional argument when the argument is not given.
-        // We live with that for the time being.
-        return std::format("invalid argument '{}' for option {}", arg, get_names(o));
-    }
-}
-
 }
 
 option::option(int key, const optional_string& name, const optional_string& doc, const optional_string& arg, of flags, int group)
@@ -100,16 +81,23 @@ std::string get_names(const option& o)
     throw std::invalid_argument("get_names: option has no name");
 }
 
-std::string get_error_message(const option& o, const char* arg, const char* additional_info)
+std::string get_error_message(const option& o, const char* arg)
 {
-    std::string error_message = get_error_message(o, arg);
-
-    if (additional_info)
+    if (!arg)
     {
-        error_message += std::format(": {}", additional_info);
+        arg = "";
     }
 
-    return error_message;
+    if (is_switch(o))
+    {
+        return std::format("unexpected option {}", get_names(o));
+    }
+    else
+    {
+        // This results in a somewhat silly message for an option with optional argument when the argument is not given.
+        // We live with that for the time being.
+        return std::format("invalid argument '{}' for option {}", arg, get_names(o));
+    }
 }
 
 argp_option to_argp_option(const option& o)

@@ -29,7 +29,7 @@ option_handler_result error(const option& option, const char* arg, const std::st
 
 option_handler_result error(const option& option, const char* arg, const char* message)
 {
-    return error(std::format("{}: {}", get_error_message(option, arg, nullptr), message));
+    return error(std::format("{}: {}", get_error_message(option, arg), message));
 }
 
 }

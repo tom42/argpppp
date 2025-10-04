@@ -91,20 +91,12 @@ TEST_CASE("option")
         const option switch_option('s');
         const option option_with_argument('o', {}, {}, "FILENAME");
 
-        CHECK(get_error_message(switch_option, any_argument, nullptr) ==
-            "unexpected option '-s'");
-        CHECK(get_error_message(switch_option, any_argument, "option is not allowed on mondays") ==
-            "unexpected option '-s': option is not allowed on mondays");
-        CHECK(get_error_message(option_with_argument, "bad:filename", nullptr) ==
-            "invalid argument 'bad:filename' for option '-o'");
-        CHECK(get_error_message(option_with_argument, "bad:filename", "filename must not contain colons") ==
-            "invalid argument 'bad:filename' for option '-o': filename must not contain colons");
+        CHECK(get_error_message(switch_option, any_argument) == "unexpected option '-s'");
+        CHECK(get_error_message(option_with_argument, "bad:filename") == "invalid argument 'bad:filename' for option '-o'");
 
         // Test whether arg=nullptr is handled gracefully, albeit in a silly way in the second case.
-        CHECK(get_error_message(switch_option, nullptr, nullptr) ==
-            "unexpected option '-s'");
-        CHECK(get_error_message(option_with_argument, nullptr, nullptr) ==
-            "invalid argument '' for option '-o'");
+        CHECK(get_error_message(switch_option, nullptr) == "unexpected option '-s'");
+        CHECK(get_error_message(option_with_argument, nullptr) == "invalid argument '' for option '-o'");
     }
 
     SECTION("to_argp_option")
