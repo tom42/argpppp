@@ -84,13 +84,13 @@ TEST_CASE("value<std::signed_integral>")
 
     SECTION("garbage input")
     {
-        CHECK(value.handle_option("invalid number", option) == error("meh"));
+        CHECK(value.handle_option("!?*", option) == error("invalid argument '!?*' for option '-i': not a valid integer number"));
         CHECK(target == default_target_value);
     }
 
     SECTION("auto-detection of base is off by default")
     {
-        CHECK(value.handle_option("0x10", option) == error("meh"));
+        CHECK(value.handle_option("0x10", option) == error("invalid argument '0x10' for option '-i': not a valid integer number"));
         CHECK(target == default_target_value);
     }
 }

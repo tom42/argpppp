@@ -117,7 +117,7 @@ public:
                 return out_of_range_error(arg, option);
             case parse_number_result::leading_garbage:
             case parse_number_result::trailing_garbage:
-                return error("meh"); // TODO: real error message
+                return error(option, arg, "not a valid integer number");
                 break;
             // default:
             //     // TODO: throw exception here or what? (If we wanted to do that we'd have to disable -Wcovered-switch-default)
