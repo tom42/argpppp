@@ -161,12 +161,6 @@ error_t command_line_parser::handle_option_handler_result(const option_handler_r
         //       * We must also think about doing this in a sane way:
         //         * If error_number is nonzero, should it then not also be the return value of this function and of argp_parse itself? => Well it is so now, isn't it?
         //           * Well yes except that nobody ensures that if there is an error, error_number is nonzero => add runtime check? => Yes, but where? Here or the option_handler_result class?
-        //             * Well there is another way:
-        //               * The issue here is that we have a "success flag" AND the error number, but at the same time require error number be nonzero for errors
-        //               * We can merge the two: do away with the separate flag and have
-        //                 * error_number == 0 => success
-        //                 * error_number != 0 => error
-        //                 * We're going to have an additional flag whether to print the standard error text, so that's taken care of too
         int error_number = result.include_standard_error_message() ? result.error_number() : 0;
         report_failure(state, result.exit_status(), error_number, result.error_message());
         return result.error_number(); // TODO: somehow defend against the case that error_number() is zero, which would cause  argp_parse not to exit?
