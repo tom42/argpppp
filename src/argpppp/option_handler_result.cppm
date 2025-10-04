@@ -65,7 +65,7 @@ private:
     {
     }
 
-    bool m_is_success; // TODO: remove this flag. Instead have m_error_number be zero for success and nonzero for not success
+    bool m_is_success;
     int m_exit_status;
     int m_error_number;
     std::string m_error_message;
