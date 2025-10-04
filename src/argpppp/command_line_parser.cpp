@@ -167,8 +167,8 @@ error_t command_line_parser::handle_option_handler_result(const option_handler_r
         //                 * error_number == 0 => success
         //                 * error_number != 0 => error
         //                 * We're going to have an additional flag whether to print the standard error text, so that's taken care of too
-        // TODO: do not pass error_number() to report_failure by default, respectively control that by the result object
-        report_failure(state, result.exit_status(), result.error_number(), result.error_message());
+        int error_number = result.include_standard_error_message() ? result.error_number() : 0;
+        report_failure(state, result.exit_status(), error_number, result.error_message());
         return result.error_number(); // TODO: somehow defend against the case that error_number() is zero, which would cause  argp_parse not to exit?
     }
 
