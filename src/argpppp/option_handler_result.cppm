@@ -12,10 +12,6 @@ import :option;
 namespace argpppp
 {
 
-// TODO: random comments I am not sure I still remember what I meant
-//       * default message
-//         * switch, option with optional argument when it is missing: "unexpected option '-x'"
-//         * sonst: invalid argument 'bla' for option '-z'
 // TODO: regarding the error code: I think we want to do this differently:
 //       * We always do supply error_number and return that to argp_parse
 //       * We can then have an additional flag telling whether we want to pass the error_number to argp_failure or not
