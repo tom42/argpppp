@@ -173,13 +173,6 @@ private:
         //         * And we say '--integer' if there is only a long name
         //         * And we say '-i / --integer' if there is both
         //         => Do we like this, or do we rather use always the long one only IF it is available? Or would that be more confusing?
-
-        // TODO: make use of arg and option: build an error message. Question for me is a bit, how does this look like
-        //       maybe we should have a shitton of overloads of ok() and error(), and one of them takes
-        //       * option          \ these two yield the message prefix
-        //       * argument        /
-        //       * additional info   this yields the message suffix
-        //       * Probably I'd rather not stick this onto option_handler_result, and not option either => so it's factory methods then
         return error(option, arg, std::format("value must be in range [{}, {}]", m_interval.min(), m_interval.max()));
     }
 
