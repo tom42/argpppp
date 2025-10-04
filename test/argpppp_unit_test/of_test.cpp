@@ -12,6 +12,13 @@ using argpppp::of;
 
 TEST_CASE("of")
 {
+    SECTION("bitwise and")
+    {
+        constexpr auto result = of::alias & of::arg_optional;
+        CHECK(result == of(0));
+        CHECK((of::arg_optional & of::arg_optional) == of(1));
+    }
+
     SECTION("bitwise or")
     {
         constexpr auto result = of::arg_optional | of::alias;

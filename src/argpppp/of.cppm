@@ -20,6 +20,11 @@ export enum class of
     no_usage = 0x10
 };
 
+export constexpr of operator&(of l, of r)
+{
+    return of(std::to_underlying(l) & std::to_underlying(r));
+}
+
 export constexpr of operator|(of l, of r)
 {
     return of(std::to_underlying(l) | std::to_underlying(r));
