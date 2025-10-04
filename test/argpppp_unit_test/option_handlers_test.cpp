@@ -47,19 +47,19 @@ TEST_CASE("value<std::signed_integral>")
     {
         value.min(custom_min).max(custom_max);
 
-        CHECK(value.handle_option("-1", option) == error("invalid argument '-1' for option '-i': value should be in range [0, 10]"));
+        CHECK(value.handle_option("-1", option) == error("invalid argument '-1' for option '-i': value must be in range [0, 10]"));
         CHECK(target == default_target_value);
 
-        CHECK(value.handle_option("11", option) == error("invalid argument '11' for option '-i': value should be in range [0, 10]"));
+        CHECK(value.handle_option("11", option) == error("invalid argument '11' for option '-i': value must be in range [0, 10]"));
         CHECK(target == default_target_value);
     }
 
     SECTION("parsed value is out of range, range limited by type")
     {
-        CHECK(value.handle_option("-32769", option) == error("invalid argument '-32769' for option '-i': value should be in range [-32768, 32767]"));
+        CHECK(value.handle_option("-32769", option) == error("invalid argument '-32769' for option '-i': value must be in range [-32768, 32767]"));
         CHECK(target == default_target_value);
 
-        CHECK(value.handle_option("32768", option) == error("invalid argument '32768' for option '-i': value should be in range [-32768, 32767]"));
+        CHECK(value.handle_option("32768", option) == error("invalid argument '32768' for option '-i': value must be in range [-32768, 32767]"));
         CHECK(target == default_target_value);
     }
 

@@ -180,7 +180,7 @@ private:
         //       * argument        /
         //       * additional info   this yields the message suffix
         //       * Probably I'd rather not stick this onto option_handler_result, and not option either => so it's factory methods then
-        return error(option, arg, std::format("value should be in range [{}, {}]", m_interval.min(), m_interval.max()));
+        return error(option, arg, std::format("value must be in range [{}, {}]", m_interval.min(), m_interval.max()));
     }
 
     interval<TValue> m_interval;
