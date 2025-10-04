@@ -25,6 +25,11 @@ bool is_switch(const option& o)
     return !o.arg();
 }
 
+bool is_arg_optional(const option& o)
+{
+    return (o.flags() & of::arg_optional) != of::none;
+}
+
 }
 
 option::option(int key, const optional_string& name, const optional_string& doc, const optional_string& arg, of flags, int group)
@@ -83,19 +88,17 @@ std::string get_names(const option& o)
 
 std::string get_error_message(const option& o, const char* arg)
 {
-    if (!arg)
-    {
-        arg = "";
-    }
-
-    if (is_switch(o))
+    if (is_switch(o) || (is_arg_optional(o) && (arg == nullptr)))
     {
         return std::format("unexpected option '{}'", get_names(o));
     }
     else
     {
-        // This results in a somewhat silly message for an option with optional argument when the argument is not given.
-        // We live with that for the time being.
+        if (arg == nullptr)
+        {
+            arg = "(null)";
+        }
+
         return std::format("invalid argument '{}' for option '{}'", arg, get_names(o));
     }
 }

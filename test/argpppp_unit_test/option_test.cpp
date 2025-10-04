@@ -85,18 +85,18 @@ TEST_CASE("option")
 
     SECTION("get_error_message")
     {
-        // We do not test options with optional arguments here. That is, options with of::arg_optional set.
-        // get_error_message() does not look at this flag.
-        const char* any_argument = "argument is ignored for switches";
         const option switch_option('s');
-        const option option_with_argument('o', {}, {}, "FILENAME");
+        const option option_with_optional_argument('o', {}, {}, "OPTIONAL", of::arg_optional);
+        const option option_with_mandatory_argument('m', {}, {}, "MANDATORY");
 
-        CHECK(get_error_message(switch_option, any_argument) == "unexpected option '-s'");
-        CHECK(get_error_message(option_with_argument, "bad:filename") == "invalid argument 'bad:filename' for option '-o'");
-
-        // Test whether arg=nullptr is handled gracefully, albeit in a silly way in the second case.
+        CHECK(get_error_message(switch_option, "argument is ignored for switches") == "unexpected option '-s'");
         CHECK(get_error_message(switch_option, nullptr) == "unexpected option '-s'");
-        CHECK(get_error_message(option_with_argument, nullptr) == "invalid argument '' for option '-o'");
+
+        CHECK(get_error_message(option_with_optional_argument, "badarg") == "invalid argument 'badarg' for option '-o'");
+        CHECK(get_error_message(option_with_optional_argument, nullptr) == "unexpected option '-o'");
+
+        CHECK(get_error_message(option_with_mandatory_argument, "badarg") == "invalid argument 'badarg' for option '-m'");
+        CHECK(get_error_message(option_with_mandatory_argument, nullptr) == "invalid argument '(null)' for option '-m'"); // argp_parse should not let this ever happen
     }
 
     SECTION("to_argp_option")
