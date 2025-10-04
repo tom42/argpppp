@@ -48,6 +48,12 @@ public:
         return m_error_message;
     }
 
+    bool include_standard_error_message() const
+    {
+        // We might make this configurable at some point, but for the time being it is just here as an idea.
+        return false;
+    }
+
     bool operator==(const option_handler_result&) const = default;
 
 private:
