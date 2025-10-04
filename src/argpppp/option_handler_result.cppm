@@ -11,10 +11,6 @@ export module argpppp:option_handler_result;
 namespace argpppp
 {
 
-// TODO: do we want to have an implicit conversion from bool to option_handler_result?
-//       Problem: mapping true to success() is no big deal, but what would be the default message etc. for false?
-//       true => success
-//       false => default message, EINVAL
 // TODO: random comments I am not sure I still remember what I meant
 //       * default message
 //         * switch, option with optional argument when it is missing: "unexpected option '-x'"
