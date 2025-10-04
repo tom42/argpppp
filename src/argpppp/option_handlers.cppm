@@ -12,6 +12,7 @@ module;
 
 export module argpppp:option_handlers;
 import :interval;
+import :option;
 import :option_handler_result;
 import :optional_string;
 import :parse_number;
@@ -26,8 +27,7 @@ public:
     option_handler(const option_handler&) = default;
     virtual ~option_handler() {}
 
-    // TODO: also take the option here so we can incorporate info from it into error messages if we want to
-    virtual option_handler_result handle_option(const char* arg) = 0;
+    virtual option_handler_result handle_option(const char* arg, const option& o) = 0;
 };
 
 export class callback : public option_handler
@@ -35,7 +35,7 @@ export class callback : public option_handler
 public:
     explicit callback(const std::function<option_handler_result(const char*)>& callback) : m_callback(callback) {}
 
-    option_handler_result handle_option(const char* arg) override
+    option_handler_result handle_option(const char* arg, const option&) override
     {
         return m_callback(arg);
     }
@@ -60,7 +60,7 @@ class value<std::string> : public option_handler
 public:
     explicit value(std::string& target_value) : m_target_value(target_value) {}
 
-    option_handler_result handle_option(const char* arg) override
+    option_handler_result handle_option(const char* arg, const option&) override
     {
         // TODO: do we have to take into account that arg is optional and may be omitted? What do we do then in this case?
         //       note: this is a problem for any option_handler!
@@ -79,7 +79,7 @@ class value<bool> : public option_handler
 public:
     explicit value(bool& target_variable) : m_target_variable(target_variable) {}
 
-    option_handler_result handle_option(const char*) override
+    option_handler_result handle_option(const char*, const option&) override
     {
         m_target_variable = true;
         return option_handler_result::success();
@@ -103,7 +103,7 @@ class value<TValue> : public option_handler
 public:
     explicit value(TValue& target_variable) : m_target_variable(target_variable) {}
 
-    option_handler_result handle_option(const char* arg) override
+    option_handler_result handle_option(const char* arg, const option&) override
     {
         TValue value;
         auto parse_result = parse_integral(arg, value, m_base);
