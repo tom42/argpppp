@@ -2,19 +2,23 @@
 // SPDX-License-Identifier: MIT
 
 #include <catch2/catch_test_macros.hpp>
+#include <string>
 
 import argpppp;
 
 namespace argpppp_unit_test
 {
 
-using option_handler_result = argpppp::option_handler_result;
+using argpppp::error;
+using argpppp::ok;
 
 TEST_CASE("option_handler_result")
 {
-    SECTION("success")
+    argpppp::option option('i', {}, {} , "INTEGER");
+
+    SECTION("ok")
     {
-        const auto result = option_handler_result::success();
+        const auto result = ok();
 
         CHECK(result.is_success() == true);
         CHECK(result.exit_status() == EXIT_SUCCESS);
@@ -22,14 +26,34 @@ TEST_CASE("option_handler_result")
         CHECK(result.error_message() == "");
     }
 
-    SECTION("error")
+    SECTION("error, overload taking single error message")
     {
-        const auto result = option_handler_result::error("error message");
+        const auto result = error("error message");
 
         CHECK(result.is_success() == false);
         CHECK(result.exit_status() == EXIT_FAILURE);
         CHECK(result.error_number() == EINVAL);
         CHECK(result.error_message() == "error message");
+    }
+
+    SECTION("error, overload taking option, argument and error message as std::string")
+    {
+        const auto result = error(option, "123", std::string("value is too big"));
+
+        CHECK(result.is_success() == false);
+        CHECK(result.exit_status() == EXIT_FAILURE);
+        CHECK(result.error_number() == EINVAL);
+        CHECK(result.error_message() == "invalid argument '123' for option '-i': value is too big");
+    }
+
+    SECTION("error, overload taking option, argument and error message as const char*")
+    {
+        const auto result = error(option, "123", "value is too big");
+
+        CHECK(result.is_success() == false);
+        CHECK(result.exit_status() == EXIT_FAILURE);
+        CHECK(result.error_number() == EINVAL);
+        CHECK(result.error_message() == "invalid argument '123' for option '-i': value is too big");
     }
 }
 

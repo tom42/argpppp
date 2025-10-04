@@ -20,6 +20,7 @@ set(
   PRIVATE
   command_line_parser.cpp
   option.cpp
+  option_handler_result.cpp
   options.cpp)
 
 # Production version of argpppp

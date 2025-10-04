@@ -66,7 +66,7 @@ public:
         //       note: this is a problem for any option_handler!
         // TODO: note: a conservative solution would be not to support this for the time being!
         m_target_value = arg;
-        return option_handler_result::success();
+        return ok();
     }
 
 private:
@@ -82,7 +82,7 @@ public:
     option_handler_result handle_option(const char*, const option&) override
     {
         m_target_variable = true;
-        return option_handler_result::success();
+        return ok();
     }
 
 private:
@@ -117,7 +117,7 @@ public:
                 return out_of_range_error(arg, option);
             case parse_number_result::leading_garbage:
             case parse_number_result::trailing_garbage:
-                return option_handler_result::error("meh"); // TODO: real error message
+                return error("meh"); // TODO: real error message
                 break;
             // default:
             //     // TODO: throw exception here or what? (If we wanted to do that we'd have to disable -Wcovered-switch-default)
@@ -130,7 +130,7 @@ public:
         }
 
         m_target_variable = static_cast<TValue>(value);
-        return option_handler_result::success();
+        return ok();
     }
 
     value& min(TValue min)
@@ -159,7 +159,7 @@ public:
     }
 
 private:
-    option_handler_result out_of_range_error(const char* /*arg*/, const option& /*option*/) const
+    option_handler_result out_of_range_error(const char* arg, const option& option) const
     {
         // TODO: this will fail tests, since the old implementation included a standard error message with prefix, which is now not the case anymore
         //       * We need now to supply this ourselves here with the help of the option and get_error_message, which we'll make available to callers
@@ -180,7 +180,7 @@ private:
         //       * argument        /
         //       * additional info   this yields the message suffix
         //       * Probably I'd rather not stick this onto option_handler_result, and not option either => so it's factory methods then
-        return option_handler_result::error(std::format("value should be in range [{}, {}]", m_interval.min(), m_interval.max()));
+        return error(option, arg, std::format("value should be in range [{}, {}]", m_interval.min(), m_interval.max()));
     }
 
     interval<TValue> m_interval;

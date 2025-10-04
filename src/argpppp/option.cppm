@@ -62,6 +62,7 @@ bool need_long_name(int key);
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 std::string get_names(const option& o);
 
+// TODO: redo this: we do not need additional_info on this anymore, don't we?
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 std::string get_error_message(const option& o, const char* arg, const char* additional_info);
 

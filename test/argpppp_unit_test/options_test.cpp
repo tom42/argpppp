@@ -27,7 +27,7 @@ class null_option_handler final : public option_handler
 public:
     option_handler_result handle_option(const char*, const option&) override
     {
-        return option_handler_result::success();
+        return argpppp::ok();
     }
 };
 

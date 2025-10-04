@@ -10,6 +10,8 @@ import argpppp;
 namespace argpppp_unit_test
 {
 
+using argpppp::error;
+using argpppp::ok;
 using argpppp::option_handler_result;
 
 TEST_CASE("value<std::signed_integral>")
@@ -18,15 +20,15 @@ TEST_CASE("value<std::signed_integral>")
     constexpr int16_t custom_min = 0;
     constexpr int16_t custom_max = 10;
     int16_t target = default_target_value;
-    argpppp::option option('i');
+    argpppp::option option('i', {}, {}, "INTEGER");
     argpppp::value<int16_t> value(target);
 
     SECTION("successful parsing with default settings")
     {
-        CHECK(value.handle_option("-32768", option) == option_handler_result::success());
+        CHECK(value.handle_option("-32768", option) == ok());
         CHECK(target == -32768);
 
-        CHECK(value.handle_option("32767", option) == option_handler_result::success());
+        CHECK(value.handle_option("32767", option) == ok());
         CHECK(target == 32767);
     }
 
@@ -34,10 +36,10 @@ TEST_CASE("value<std::signed_integral>")
     {
         value.min(custom_min).max(custom_max);
 
-        CHECK(value.handle_option("0", option) == option_handler_result::success());
+        CHECK(value.handle_option("0", option) == ok());
         CHECK(target == 0);
 
-        CHECK(value.handle_option("10", option) == option_handler_result::success());
+        CHECK(value.handle_option("10", option) == ok());
         CHECK(target == 10);
     }
 
@@ -45,19 +47,19 @@ TEST_CASE("value<std::signed_integral>")
     {
         value.min(custom_min).max(custom_max);
 
-        CHECK(value.handle_option("-1", option) == option_handler_result::error("value should be in range [0, 10]"));
+        CHECK(value.handle_option("-1", option) == error("invalid argument '-1' for option '-i': value should be in range [0, 10]"));
         CHECK(target == default_target_value);
 
-        CHECK(value.handle_option("11", option) == option_handler_result::error("value should be in range [0, 10]"));
+        CHECK(value.handle_option("11", option) == error("invalid argument '11' for option '-i': value should be in range [0, 10]"));
         CHECK(target == default_target_value);
     }
 
     SECTION("parsed value is out of range, range limited by type")
     {
-        CHECK(value.handle_option("-32769", option) == option_handler_result::error("value should be in range [-32768, 32767]"));
+        CHECK(value.handle_option("-32769", option) == error("invalid argument '-32769' for option '-i': value should be in range [-32768, 32767]"));
         CHECK(target == default_target_value);
 
-        CHECK(value.handle_option("32768", option) == option_handler_result::error("value should be in range [-32768, 32767]"));
+        CHECK(value.handle_option("32768", option) == error("invalid argument '32768' for option '-i': value should be in range [-32768, 32767]"));
         CHECK(target == default_target_value);
     }
 
@@ -65,10 +67,10 @@ TEST_CASE("value<std::signed_integral>")
     {
         value.auto_detect_base();
 
-        CHECK(value.handle_option("010", option) == option_handler_result::success());
+        CHECK(value.handle_option("010", option) == ok());
         CHECK(target == 8);
 
-        CHECK(value.handle_option("0x10", option) == option_handler_result::success());
+        CHECK(value.handle_option("0x10", option) == ok());
         CHECK(target == 16);
     }
 
@@ -76,19 +78,19 @@ TEST_CASE("value<std::signed_integral>")
     {
         value.base(6);
 
-        CHECK(value.handle_option("20", option) == option_handler_result::success());
+        CHECK(value.handle_option("20", option) == ok());
         CHECK(target == 12);
     }
 
     SECTION("garbage input")
     {
-        CHECK(value.handle_option("invalid number", option) == option_handler_result::error("meh"));
+        CHECK(value.handle_option("invalid number", option) == error("meh"));
         CHECK(target == default_target_value);
     }
 
     SECTION("auto-detection of base is off by default")
     {
-        CHECK(value.handle_option("0x10", option) == option_handler_result::error("meh"));
+        CHECK(value.handle_option("0x10", option) == error("meh"));
         CHECK(target == default_target_value);
     }
 }

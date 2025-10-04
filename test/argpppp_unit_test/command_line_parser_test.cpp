@@ -21,6 +21,8 @@ using option_handler_result = argpppp::option_handler_result;
 using parse_result = argpppp::parse_result;
 using pf = argpppp::pf;
 using runtime_error = std::runtime_error;
+using argpppp::error;
+using argpppp::ok;
 using argpppp::value;
 using std::string;
 using std::vector;
@@ -155,9 +157,9 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser")
         bool c_seen = false;
 
         options
-            .add({ 'a' }, callback([&](auto) { a_seen = true; return option_handler_result::success(); }))
-            .add({ 'b' }, callback([&](auto) { b_seen = true; return option_handler_result::success(); }))
-            .add({ 'c' }, callback([&](auto) { c_seen = true; return option_handler_result::success(); }));
+            .add({ 'a' }, callback([&](auto) { a_seen = true; return ok(); }))
+            .add({ 'b' }, callback([&](auto) { b_seen = true; return ok(); }))
+            .add({ 'c' }, callback([&](auto) { c_seen = true; return ok(); }));
 
         auto result = parse_command_line("-c -a");
 
@@ -173,7 +175,7 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser")
         bool a_seen = false;
 
         options
-            .add({ 'a' }, callback([&](auto) -> option_handler_result { a_seen = true; return option_handler_result::error("error message"); }))
+            .add({ 'a' }, callback([&](auto) -> option_handler_result { a_seen = true; return error("error message"); }))
             .add({ 'b' }, callback([](auto) -> option_handler_result { throw runtime_error("This exception should not occur."); }));
 
         auto result = parse_command_line("-a -b");

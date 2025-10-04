@@ -7,6 +7,7 @@ module;
 #include <utility>
 
 export module argpppp:option_handler_result;
+import :option;
 
 namespace argpppp
 {
@@ -21,7 +22,7 @@ namespace argpppp
 export class option_handler_result final
 {
 public:
-    static option_handler_result success()
+    static option_handler_result ok()
     {
         return option_handler_result(true, {}, {}, {});
     }
@@ -67,5 +68,13 @@ private:
     int m_error_number;
     std::string m_error_message;
 };
+
+export option_handler_result ok();
+
+export option_handler_result error(std::string message);
+
+export option_handler_result error(const option& option, const char* arg, const std::string& message);
+
+export option_handler_result error(const option& option, const char* arg, const char* message);
 
 }
