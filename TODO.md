@@ -4,6 +4,7 @@ SPDX-License-Identifier: MIT
 -->
 
 # TODO
+* Have an eye on 'import std' support. It still requires to enable experimental cmake features, but it seems they're getting there.
 * Maybe get clang format up and running. Possible approach
   * Configure it
   * Make it part of the quality build. If it fails, fail the build
