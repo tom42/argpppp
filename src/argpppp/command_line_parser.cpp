@@ -4,6 +4,7 @@
 module;
 
 #include <argp.h>
+#include <cassert>
 #include <cstdlib>
 #include <exception>
 #include <map>
@@ -153,14 +154,18 @@ error_t command_line_parser::handle_key_end(argp_state* state) const
 
 error_t command_line_parser::handle_option_handler_result(const option_handler_result& result, argp_state* state) const
 {
-    if (!result.is_success())
+    if (result.is_success())
     {
+        assert(result.error_number() == 0);
+        return 0;
+    }
+    else
+    {
+        assert(result.error_number() != 0);
         int reported_error_number = result.include_standard_error_message() ? result.error_number() : 0;
         report_failure(state, result.exit_status(), reported_error_number, result.error_message());
         return result.error_number(); // TODO: somehow defend against the case that error_number() is zero, which would cause  argp_parse not to exit? => Yes, but where? Here or the option_handler_result class?
     }
-
-    return 0;
 }
 
 void command_line_parser::report_failure(const argp_state* state, int status, int errnum, const std::string& message) const
