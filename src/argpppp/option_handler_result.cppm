@@ -15,15 +15,9 @@ namespace argpppp
 export class option_handler_result final
 {
 public:
-    static option_handler_result ok()
-    {
-        return option_handler_result(true, {}, {}, {});
-    }
+    static option_handler_result ok();
 
-    static option_handler_result error(std::string error_message)
-    {
-        return option_handler_result(false, EXIT_FAILURE, EINVAL, std::move(error_message));
-    }
+    static option_handler_result error(std::string error_message);
 
     bool is_success() const
     {
@@ -54,12 +48,7 @@ public:
     bool operator==(const option_handler_result&) const = default;
 
 private:
-    option_handler_result(bool is_success, int exit_status, int error_number, std::string error_message)
-        : m_is_success(is_success)
-        , m_exit_status(exit_status)
-        , m_error_number(error_number)
-        , m_error_message(std::move(error_message))
-    {}
+    option_handler_result(bool is_success, int exit_status, int error_number, std::string error_message);
 
     bool m_is_success;
     int m_exit_status;
