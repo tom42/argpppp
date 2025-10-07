@@ -90,14 +90,12 @@ private:
     bool& m_target_variable;
 };
 
-// TODO: can we write this in a way it works for
-//       * signed integers
-//       * all types of floating point values
-//         * Not sure how well this can be unified: integer conversions support a base, floating point conversions don't
-
 // Note: std::unsigned_integral is currently not supported due to how strtoul and strtoull handle minus signs.
 // A minus sign is not considered bad input but is accepted and the resulting number is cast to unsigned.
 // This sounds very broken, so for the time being we don't support it at all.
+//
+// Also note: if we want to support floating point values we need a separate specialization for that,
+// since floating point conversion functions (strtof/strtod/strtold) do not allow to specify a base.
 template <std::signed_integral TValue>
 class value<TValue> : public option_handler
 {
