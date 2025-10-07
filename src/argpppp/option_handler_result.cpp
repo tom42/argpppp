@@ -54,14 +54,14 @@ option_handler_result::option_handler_result(bool is_success, int exit_status, i
     {
         if (!((exit_status == EXIT_SUCCESS) && (error_number == 0)))
         {
-            throw std::logic_error("exit_status must be EXIT_SUCCESS and error_number must be 0 for result signalling success");
+            throw std::logic_error("exit_status must be EXIT_SUCCESS and error_number must be 0 in an option_handler_result representing success");
         }
     }
     else
     {
         if ((exit_status == EXIT_SUCCESS) || (error_number == 0))
         {
-            // TODO: throw. What?
+            throw std::logic_error("exit_status must not be EXIT_SUCCESS and error_number must not be 0 in an option_handler_result representing an error");
         }
     }
 }
