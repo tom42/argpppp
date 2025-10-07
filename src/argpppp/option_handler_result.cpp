@@ -3,7 +3,9 @@
 
 module;
 
+#include <cstdlib>
 #include <format>
+#include <stdexcept>
 #include <string>
 
 module argpppp;
@@ -47,6 +49,21 @@ option_handler_result::option_handler_result(bool is_success, int exit_status, i
     , m_exit_status(exit_status)
     , m_error_number(error_number)
     , m_error_message(std::move(error_message))
-{}
+{
+    if (is_success)
+    {
+        if (!((exit_status == EXIT_SUCCESS) && (error_number == 0)))
+        {
+            throw std::logic_error("exit_status must be EXIT_SUCCESS and error_number must be 0 for result signalling success");
+        }
+    }
+    else
+    {
+        if ((exit_status == EXIT_SUCCESS) || (error_number == 0))
+        {
+            // TODO: throw. What?
+        }
+    }
+}
 
 }
