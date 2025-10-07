@@ -8,6 +8,7 @@ module;
 #include <format>
 #include <functional>
 #include <limits>
+#include <stdexcept>
 #include <string>
 
 export module argpppp:option_handlers;
@@ -153,7 +154,11 @@ public:
 
     value& base(int base)
     {
-        // TODO: do we range-check base here? Probably should do so, so we can detect errors as early as possible, no?
+        if (!is_valid_base(base))
+        {
+            throw std::invalid_argument("base: invalid base");
+        }
+
         m_base = base;
         return *this;
     }

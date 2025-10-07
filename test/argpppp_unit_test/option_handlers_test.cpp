@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: MIT
 
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/matchers/catch_matchers.hpp>
+#include <catch2/matchers/catch_matchers_exception.hpp>
 #include <cstdint>
 #include <limits>
 
@@ -92,6 +94,14 @@ TEST_CASE("value<std::signed_integral>")
     {
         CHECK(value.handle_option("0x10", option) == error("invalid argument '0x10' for option '-i': not a valid integer number"));
         CHECK(target == default_target_value);
+    }
+
+    SECTION("invalid base")
+    {
+        CHECK_THROWS_MATCHES(
+            value.base(1),
+            std::invalid_argument,
+            Catch::Matchers::Message("base: invalid base"));
     }
 }
 
