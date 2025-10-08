@@ -16,6 +16,19 @@ using argpppp::error;
 using argpppp::ok;
 using argpppp::option_handler_result;
 
+TEST_CASE("value<bool>")
+{
+    // TODO: test: handle_option sets flag
+    // TODO: test: if there is an argument, bark
+    bool target = false;
+    argpppp::option switch_option('s');
+
+    SECTION("successful parsing")
+    {
+        CHECK(target == true);
+    }
+}
+
 TEST_CASE("value<std::signed_integral>")
 {
     constexpr int16_t default_target_value = std::numeric_limits<int16_t>::max();
