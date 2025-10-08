@@ -31,6 +31,7 @@ public:
     virtual option_handler_result handle_option(const char* arg, const option& o) = 0;
 };
 
+// TODO: does this have/need a test
 export class callback : public option_handler
 {
 public:
@@ -82,6 +83,8 @@ public:
 
     option_handler_result handle_option(const char*, const option&) override
     {
+        // TODO: does this have/need a test?
+        // TODO: if there IS an argument, this is really a usage error of value<bool> => throw, test
         m_target_variable = true;
         return ok();
     }
@@ -104,6 +107,11 @@ public:
 
     option_handler_result handle_option(const char* arg, const option& option) override
     {
+        if (!arg)
+        {
+            throw std::logic_error("value<std::signed_integral>: optional arguments are currently not supported");
+        }
+
         TValue value;
         auto parse_result = parse_integral(arg, value, m_base);
         switch (parse_result)

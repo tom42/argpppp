@@ -103,6 +103,14 @@ TEST_CASE("value<std::signed_integral>")
             std::invalid_argument,
             Catch::Matchers::Message("base: invalid base"));
     }
+
+    SECTION("optional arguments are not supported")
+    {
+        CHECK_THROWS_MATCHES(
+            value.handle_option(nullptr, option),
+            std::logic_error,
+            Catch::Matchers::Message("value<std::signed_integral>: optional arguments are currently not supported"));
+    }
 }
 
 }
