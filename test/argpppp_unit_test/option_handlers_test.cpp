@@ -18,13 +18,15 @@ using argpppp::option_handler_result;
 
 TEST_CASE("value<bool>")
 {
-    // TODO: test: handle_option sets flag
     // TODO: test: if there is an argument, bark
     bool target = false;
     argpppp::option switch_option('s');
+    argpppp::value<bool> value(target);
 
     SECTION("successful parsing")
     {
+        value.handle_option(nullptr, switch_option);
+
         CHECK(target == true);
     }
 }
