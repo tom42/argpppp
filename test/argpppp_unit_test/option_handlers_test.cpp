@@ -18,7 +18,6 @@ using argpppp::option_handler_result;
 
 TEST_CASE("value<bool>")
 {
-    // TODO: test: if there is an argument, bark
     bool target = false;
     argpppp::option switch_option('s');
     argpppp::value<bool> value(target);
@@ -28,6 +27,14 @@ TEST_CASE("value<bool>")
         value.handle_option(nullptr, switch_option);
 
         CHECK(target == true);
+    }
+
+    SECTION("handling arguments is not supported")
+    {
+        CHECK_THROWS_MATCHES(
+            value.handle_option("arg", switch_option),
+            std::logic_error,
+            Catch::Matchers::Message("value<bool>: arguments are not supported. value<bool> should be used for switches only"));
     }
 }
 

@@ -81,10 +81,13 @@ class value<bool> : public option_handler
 public:
     explicit value(bool& target_variable) : m_target_variable(target_variable) {}
 
-    option_handler_result handle_option(const char*, const option&) override
+    option_handler_result handle_option(const char* arg, const option&) override
     {
-        // TODO: does this have/need a test?
-        // TODO: if there IS an argument, this is really a usage error of value<bool> => throw, test
+        if (arg)
+        {
+            throw std::logic_error("value<bool>: arguments are not supported. value<bool> should be used for switches only");
+        }
+
         m_target_variable = true;
         return ok();
     }
