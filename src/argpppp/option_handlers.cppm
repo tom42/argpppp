@@ -132,8 +132,7 @@ public:
                 return error(option, arg, "not a valid integer number");
                 break;
             default:
-                // TODO: throw exception here or what? (If we wanted to do that we'd have to disable -Wcovered-switch-default)
-                //       * That's fine, but we should merge that back into vtgcmake: probably do not want it elsewhere either
+                throw std::logic_error("value<std::signed_integral>: unknown parse_number_result");
                 break;
         }
 
