@@ -11,7 +11,6 @@ import argpppp;
 namespace argpppp_unit_test
 {
 
-using argpppp::float_equal_no_warning;
 using argpppp::string_to_floating_point_converter;
 
 TEMPLATE_TEST_CASE("string_to_floating_point_converter, convert", "", float, double, long double)
@@ -20,15 +19,15 @@ TEMPLATE_TEST_CASE("string_to_floating_point_converter, convert", "", float, dou
     auto result = string_to_floating_point_converter<TestType>::convert("0.25!", &end);
 
     CHECK(std::is_same_v<TestType, decltype(result)>);
-    CHECK(float_equal_no_warning(result, TestType(0.25)));
+    CHECK(result == TestType(0.25));
     CHECK(*end == '!');
 }
 
 TEST_CASE("string_to_floating_point_converter, huge_val")
 {
-    CHECK(float_equal_no_warning(string_to_floating_point_converter<long double>::huge_val(), HUGE_VALL));
-    CHECK(float_equal_no_warning(string_to_floating_point_converter<double>::huge_val(), HUGE_VAL));
-    CHECK(float_equal_no_warning(string_to_floating_point_converter<float>::huge_val(), HUGE_VALF));
+    CHECK(string_to_floating_point_converter<long double>::huge_val() == HUGE_VALL);
+    CHECK(string_to_floating_point_converter<double>::huge_val() == HUGE_VAL);
+    CHECK(string_to_floating_point_converter<float>::huge_val() == HUGE_VALF);
 }
 
 }

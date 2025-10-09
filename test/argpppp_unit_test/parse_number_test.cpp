@@ -17,7 +17,6 @@ import argpppp;
 namespace argpppp_unit_test
 {
 
-using argpppp::float_equal_no_warning;
 using argpppp::parse_floating_point;
 using argpppp::parse_integral;
 using argpppp::parse_number_result;
@@ -188,7 +187,7 @@ TEST_CASE("parse_floating_point")
 
         long double value;
         CHECK(parse_floating_point<long double>(data.input, value) == data.expected_parse_result);
-        CHECK(float_equal_no_warning(value, data.expected_value));
+        CHECK(value == data.expected_value);
     }
 
     SECTION("parse double")
@@ -201,7 +200,7 @@ TEST_CASE("parse_floating_point")
 
         double value;
         CHECK(parse_floating_point<double>(data.input, value) == data.expected_parse_result);
-        CHECK(float_equal_no_warning(value, data.expected_value));
+        CHECK(value == data.expected_value);
     }
 
     SECTION("parse float")
@@ -214,7 +213,7 @@ TEST_CASE("parse_floating_point")
 
         float value;
         CHECK(parse_floating_point<float>(data.input, value) == data.expected_parse_result);
-        CHECK(float_equal_no_warning(value, data.expected_value));
+        CHECK(value == data.expected_value);
     }
 
     SECTION("garbage input")
@@ -230,7 +229,7 @@ TEST_CASE("parse_floating_point")
         double value;
 
         CHECK(parse_floating_point<double>(data.input, value) == data.expected_parse_result);
-        CHECK(float_equal_no_warning(value, data.expected_value));
+        CHECK(value == data.expected_value);
     }
 
     SECTION("leading and trailing whitespace")
@@ -242,7 +241,7 @@ TEST_CASE("parse_floating_point")
         double value;
 
         CHECK(parse_floating_point<double>(data.input, value) == data.expected_parse_result);
-        CHECK(float_equal_no_warning(value, data.expected_value));
+        CHECK(value == data.expected_value);
     }
 }
 

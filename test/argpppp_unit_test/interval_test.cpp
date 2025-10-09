@@ -9,7 +9,6 @@ import argpppp;
 namespace argpppp_unit_test
 {
 
-using argpppp::float_equal_no_warning;
 template <typename TNumeric>
 using interval = argpppp::interval<TNumeric>;
 
@@ -19,16 +18,16 @@ TEMPLATE_TEST_CASE("interval", "", int, double)
     {
         interval<TestType> interval;
 
-        CHECK(float_equal_no_warning(interval.min(), std::numeric_limits<TestType>::min()));
-        CHECK(float_equal_no_warning(interval.max(), std::numeric_limits<TestType>::max()));
+        CHECK(interval.min() == std::numeric_limits<TestType>::min());
+        CHECK(interval.max() == std::numeric_limits<TestType>::max());
     }
 
     SECTION("constructor with min and max value")
     {
         interval<TestType> interval(1, 5);
 
-        CHECK(float_equal_no_warning(interval.min(), TestType(1)));
-        CHECK(float_equal_no_warning(interval.max(), TestType(5)));
+        CHECK(interval.min() == TestType(1));
+        CHECK(interval.max() == TestType(5));
     }
 
     SECTION("get and set min")
@@ -38,8 +37,8 @@ TEMPLATE_TEST_CASE("interval", "", int, double)
         interval.min(0);
         interval.max(10);
 
-        CHECK(float_equal_no_warning(interval.min(), TestType(0)));
-        CHECK(float_equal_no_warning(interval.max(), TestType(10)));
+        CHECK(interval.min() == TestType(0));
+        CHECK(interval.max() == TestType(10));
     }
 
     SECTION("includes")
