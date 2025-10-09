@@ -20,7 +20,7 @@ TEST_CASE("value<bool>")
 {
     bool target = false;
     argpppp::option switch_option('s');
-    argpppp::value<bool> value(target);
+    argpppp::value value(target);
 
     SECTION("successful parsing")
     {
@@ -45,7 +45,7 @@ TEST_CASE("value<std::signed_integral>")
     constexpr int16_t custom_max = 10;
     int16_t target = default_target_value;
     argpppp::option option('i', {}, {}, "INTEGER");
-    argpppp::value<int16_t> value(target);
+    argpppp::value value(target);
 
     SECTION("successful parsing with default settings")
     {
