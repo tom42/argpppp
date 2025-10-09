@@ -29,6 +29,14 @@ TEST_CASE("value<string>")
 
         CHECK(target == "arg");
     }
+
+    SECTION("optional arguments are not supported")
+    {
+        CHECK_THROWS_MATCHES(
+            value.handle_option(nullptr, option),
+            std::logic_error,
+            Catch::Matchers::Message("value<std::string>: optional arguments are currently not supported"));
+    }
 }
 
 TEST_CASE("value<bool>")

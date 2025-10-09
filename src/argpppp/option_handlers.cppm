@@ -64,9 +64,11 @@ public:
 
     option_handler_result handle_option(const char* arg, const option&) override
     {
-        // TODO: do we have to take into account that arg is optional and may be omitted? What do we do then in this case?
-        //       note: this is a problem for any option_handler!
-        // TODO: note: a conservative solution would be not to support this for the time being!
+        if (!arg)
+        {
+            throw std::logic_error("value<std::string>: optional arguments are currently not supported");
+        }
+
         m_target_value = arg;
         return ok();
     }
