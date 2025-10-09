@@ -6,6 +6,7 @@
 #include <catch2/matchers/catch_matchers_exception.hpp>
 #include <cstdint>
 #include <limits>
+#include <string>
 
 import argpppp;
 
@@ -15,6 +16,20 @@ namespace argpppp_unit_test
 using argpppp::error;
 using argpppp::ok;
 using argpppp::option_handler_result;
+
+TEST_CASE("value<string>")
+{
+    std::string target;
+    argpppp::option option('s', {}, {}, "STRING");
+    argpppp::value value(target);
+
+    SECTION("successful parsing")
+    {
+        value.handle_option("arg", option);
+
+        CHECK(target == "arg");
+    }
+}
 
 TEST_CASE("value<bool>")
 {
