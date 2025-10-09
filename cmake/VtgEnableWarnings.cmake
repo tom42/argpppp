@@ -75,3 +75,19 @@ function(vtg_target_enable_warnings target)
   endif()
 
 endfunction()
+
+function(vtg_target_enable_warnings_for_test target)
+
+  if(NOT vtg_ENABLE_WARNINGS)
+    return()
+  endif()
+
+  vtg_target_enable_warnings(${target})
+
+  # TODO: also fix stuff for clang, then also integrate into vtgcmake
+
+  if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+    target_compile_options(${target} PRIVATE -Wno-float-equal)
+  endif()
+
+endfunction()
