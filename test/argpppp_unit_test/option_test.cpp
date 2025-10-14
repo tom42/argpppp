@@ -85,18 +85,18 @@ TEST_CASE("option")
 
     SECTION("get_error_message")
     {
-        const option switch_option('s');
-        const option option_with_optional_argument('o', {}, {}, "OPTIONAL", of::arg_optional);
-        const option option_with_mandatory_argument('m', {}, {}, "MANDATORY");
+        const option switch_opt('s');
+        const option opt_with_optional_argument('o', {}, {}, "OPTIONAL", of::arg_optional);
+        const option opt_with_mandatory_argument('m', {}, {}, "MANDATORY");
 
-        CHECK(get_error_message(switch_option, "argument is ignored for switches") == "unexpected option '-s'");
-        CHECK(get_error_message(switch_option, nullptr) == "unexpected option '-s'");
+        CHECK(get_error_message(switch_opt, "argument is ignored for switches") == "unexpected option '-s'");
+        CHECK(get_error_message(switch_opt, nullptr) == "unexpected option '-s'");
 
-        CHECK(get_error_message(option_with_optional_argument, "badarg") == "invalid argument 'badarg' for option '-o'");
-        CHECK(get_error_message(option_with_optional_argument, nullptr) == "unexpected option '-o'");
+        CHECK(get_error_message(opt_with_optional_argument, "badarg") == "invalid argument 'badarg' for option '-o'");
+        CHECK(get_error_message(opt_with_optional_argument, nullptr) == "unexpected option '-o'");
 
-        CHECK(get_error_message(option_with_mandatory_argument, "badarg") == "invalid argument 'badarg' for option '-m'");
-        CHECK(get_error_message(option_with_mandatory_argument, nullptr) == "invalid argument '(null)' for option '-m'"); // argp_parse should not let this ever happen
+        CHECK(get_error_message(opt_with_mandatory_argument, "badarg") == "invalid argument 'badarg' for option '-m'");
+        CHECK(get_error_message(opt_with_mandatory_argument, nullptr) == "invalid argument '(null)' for option '-m'"); // argp_parse should not let this ever happen
     }
 
     SECTION("to_argp_option")

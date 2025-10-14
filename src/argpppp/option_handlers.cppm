@@ -29,25 +29,23 @@ public:
     option_handler(const option_handler&) = default;
     virtual ~option_handler() {}
 
-    // TODO: currently we have a rather ugly mix of (arg,option) and (option,arg) ordering in function arguments.
-    //       => Unify this, use option, arg
-    virtual option_handler_result handle_option(const char* arg, const option& opt) = 0;
+    virtual option_handler_result handle_option(const option& opt, const char* arg) = 0;
 };
 
 export class callback : public option_handler
 {
 public:
-    explicit callback(std::function<option_handler_result(const char*, const option&)> callback)
+    explicit callback(std::function<option_handler_result(const option&, const char*)> callback)
         : m_callback(std::move(callback))
     {}
 
-    option_handler_result handle_option(const char* arg, const option& option) override
+    option_handler_result handle_option(const option& opt, const char* arg) override
     {
-        return m_callback(arg, option);
+        return m_callback(opt, arg);
     }
 
 private:
-    std::function<option_handler_result(const char*, const option&)> m_callback;
+    std::function<option_handler_result(const option&, const char*)> m_callback;
 };
 
 export template <typename TValue> class value
@@ -66,7 +64,7 @@ class value<std::string> : public option_handler
 public:
     explicit value(std::string& target_value) : m_target_value(target_value) {}
 
-    option_handler_result handle_option(const char* arg, const option&) override
+    option_handler_result handle_option(const option&, const char* arg) override
     {
         if (!arg)
         {
@@ -87,7 +85,7 @@ class value<bool> : public option_handler
 public:
     explicit value(bool& target_variable) : m_target_variable(target_variable) {}
 
-    option_handler_result handle_option(const char* arg, const option&) override
+    option_handler_result handle_option(const option&, const char* arg) override
     {
         if (arg)
         {
@@ -114,7 +112,7 @@ class value<TValue> : public option_handler
 public:
     explicit value(TValue& target_variable) : m_target_variable(target_variable) {}
 
-    option_handler_result handle_option(const char* arg, const option& option) override
+    option_handler_result handle_option(const option& opt, const char* arg) override
     {
         if (!arg)
         {
@@ -130,10 +128,10 @@ public:
                 break;
             case parse_number_result::underflow:
             case parse_number_result::overflow:
-                return out_of_range_error(arg, option);
+                return out_of_range_error(opt, arg);
             case parse_number_result::leading_garbage:
             case parse_number_result::trailing_garbage:
-                return error(option, arg, "not a valid integer number");
+                return error(opt, arg, "not a valid integer number");
                 break;
             default:
                 throw std::logic_error("value<std::signed_integral>: unknown parse_number_result");
@@ -142,7 +140,7 @@ public:
 
         if (!m_interval.includes(value))
         {
-            return out_of_range_error(arg, option);
+            return out_of_range_error(opt, arg);
         }
 
         m_target_variable = static_cast<TValue>(value);
@@ -179,9 +177,9 @@ public:
     }
 
 private:
-    option_handler_result out_of_range_error(const char* arg, const option& option) const
+    option_handler_result out_of_range_error(const option& opt, const char* arg) const
     {
-        return error(option, arg, std::format("value must be in range [{}, {}]", m_interval.min(), m_interval.max()));
+        return error(opt, arg, std::format("value must be in range [{}, {}]", m_interval.min(), m_interval.max()));
     }
 
     interval<TValue> m_interval;

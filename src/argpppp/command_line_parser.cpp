@@ -109,8 +109,8 @@ error_t command_line_parser::parse_option(int key, char* arg, argp_state* state)
     auto handler = context->option_handlers.find(key);
     if (handler != context->option_handlers.end())
     {
-        const option& option = find_option_or_throw(context->opts, key);
-        const auto handler_result = handler->second->handle_option(arg, option);
+        const option& opt = find_option_or_throw(context->opts, key);
+        const auto handler_result = handler->second->handle_option(opt, arg);
         return handle_option_handler_result(handler_result, state);
     }
 

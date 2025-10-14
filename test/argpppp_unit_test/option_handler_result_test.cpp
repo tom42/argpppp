@@ -14,7 +14,7 @@ using argpppp::ok;
 
 TEST_CASE("option_handler_result")
 {
-    argpppp::option option('i', {}, {} , "INTEGER");
+    argpppp::option opt('i', {}, {} , "INTEGER");
 
     SECTION("ok")
     {
@@ -40,7 +40,7 @@ TEST_CASE("option_handler_result")
 
     SECTION("error, overload taking option, argument and error message as std::string")
     {
-        const auto result = error(option, "123", std::string("value is too big"));
+        const auto result = error(opt, "123", std::string("value is too big"));
 
         CHECK(result.is_success() == false);
         CHECK(result.exit_status() == EXIT_FAILURE);
@@ -51,7 +51,7 @@ TEST_CASE("option_handler_result")
 
     SECTION("error, overload taking option, argument and error message as const char*")
     {
-        const auto result = error(option, "123", "value is too big");
+        const auto result = error(opt, "123", "value is too big");
 
         CHECK(result.is_success() == false);
         CHECK(result.exit_status() == EXIT_FAILURE);
