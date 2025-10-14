@@ -17,6 +17,16 @@ using argpppp::error;
 using argpppp::ok;
 using argpppp::option_handler_result;
 
+TEST_CASE("callback")
+{
+    argpppp::option option('s', {}, {}, "STRING");
+    argpppp::callback callback([](const char* arg, const argpppp::option& opt){ return error(opt, arg, "horrible error"); });
+
+    auto result = callback.handle_option("argh!", option);
+
+    CHECK(result == error("invalid argument 'argh!' for option '-s': horrible error"));
+}
+
 TEST_CASE("value<string>")
 {
     std::string target;

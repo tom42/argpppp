@@ -29,10 +29,11 @@ public:
     option_handler(const option_handler&) = default;
     virtual ~option_handler() {}
 
+    // TODO: currently we have a rather ugly mix of (arg,option) and (option,arg) ordering in function arguments.
+    //       => Unify this, use option, arg
     virtual option_handler_result handle_option(const char* arg, const option& o) = 0;
 };
 
-// TODO: does this have/need a test
 export class callback : public option_handler
 {
 public:
