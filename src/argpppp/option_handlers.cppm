@@ -36,18 +36,17 @@ public:
 export class callback : public option_handler
 {
 public:
-    // TODO: I think the callback should get the option too, no?
-    explicit callback(std::function<option_handler_result(const char*)> callback)
+    explicit callback(std::function<option_handler_result(const char*, const option&)> callback)
         : m_callback(std::move(callback))
     {}
 
-    option_handler_result handle_option(const char* arg, const option&) override
+    option_handler_result handle_option(const char* arg, const option& option) override
     {
-        return m_callback(arg);
+        return m_callback(arg, option);
     }
 
 private:
-    std::function<option_handler_result(const char*)> m_callback;
+    std::function<option_handler_result(const char*, const option&)> m_callback;
 };
 
 export template <typename TValue> class value
