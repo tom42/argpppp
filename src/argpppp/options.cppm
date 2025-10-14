@@ -132,7 +132,9 @@ ARGPPPP_EXPORT_FOR_UNIT_TESTING
 std::vector<argp_option> get_argp_options(const options& o);
 
 // TODO: what happens if an option key is used by more than one option?
-// TODO: does this need / have tests?
+//       => Well probably it is just able to parse one of the options
+//       => But really, this should already be detected during configuration, not only during parsing
+// TODO: does this need / have tests? => Well it can get a quick one
 std::map<int, std::shared_ptr<option_handler>> get_option_handlers(const options& o);
 
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
