@@ -10,6 +10,7 @@ module;
 #include <limits>
 #include <stdexcept>
 #include <string>
+#include <utility>
 
 export module argpppp:option_handlers;
 import :interval;
@@ -36,7 +37,9 @@ export class callback : public option_handler
 {
 public:
     // TODO: I think the callback should get the option too, no?
-    explicit callback(const std::function<option_handler_result(const char*)>& callback) : m_callback(callback) {}
+    explicit callback(std::function<option_handler_result(const char*)> callback)
+        : m_callback(std::move(callback))
+    {}
 
     option_handler_result handle_option(const char* arg, const option&) override
     {
