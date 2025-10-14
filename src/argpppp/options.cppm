@@ -44,7 +44,6 @@ private:
     std::shared_ptr<option_handler> m_handler;
 };
 
-// TODO: with the current API it is possible to set min_args > max_args. Do we care?
 export class options final
 {
 public:
