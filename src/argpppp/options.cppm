@@ -24,6 +24,7 @@ namespace argpppp
 class option_with_handler final
 {
 public:
+    // TODO: see whether we really need to use shared_ptr here (wouldn't unique_ptr work, too?)
     option_with_handler(const option& o, std::shared_ptr<option_handler> h)
         : m_option(o)
         , m_handler(h)
