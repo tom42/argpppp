@@ -61,19 +61,4 @@ std::vector<argp_option> get_argp_options(const options& o)
     return argp_options;
 }
 
-std::map<int, std::shared_ptr<option_handler>> get_option_handlers(const options& o)
-{
-    std::map<int, std::shared_ptr<option_handler>> handlers;
-
-    for (const auto& option : o.opts())
-    {
-        if (option.handler())
-        {
-            handlers[option.opt().key()] = option.handler();
-        }
-    }
-
-    return handlers;
-}
-
 }
