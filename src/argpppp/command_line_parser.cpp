@@ -104,16 +104,6 @@ error_t command_line_parser::parse_option_static(int key, char* arg, argp_state*
 
 error_t command_line_parser::parse_option(int key, char* arg, argp_state* state) const
 {
-    auto context = get_context(state);
-
-    // TODO: consider moving this into the default branch
-    const option_with_handler* owh = context->opts.find_option(key); // TODO: rename to try_find_option?
-    if (owh != nullptr)
-    {
-        const auto handler_result = owh->handler()->handle_option(owh->opt(), arg);
-        return handle_option_handler_result(handler_result, state);
-    }
-
     switch (key)
     {
         case ARGP_KEY_ARG:
@@ -121,6 +111,13 @@ error_t command_line_parser::parse_option(int key, char* arg, argp_state* state)
         case ARGP_KEY_END:
             return handle_key_end(state);
         default:
+            auto context = get_context(state);
+            const option_with_handler* owh = context->opts.find_option(key); // TODO: rename to try_find_option?
+            if (owh != nullptr)
+            {
+                const auto handler_result = owh->handler()->handle_option(owh->opt(), arg);
+                return handle_option_handler_result(handler_result, state);
+            }
             return ARGP_ERR_UNKNOWN;
     }
 }
