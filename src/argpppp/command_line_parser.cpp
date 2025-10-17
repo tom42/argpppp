@@ -7,7 +7,6 @@ module;
 #include <cassert>
 #include <cstdlib>
 #include <exception>
-#include <map>
 #include <memory>
 #include <string>
 
@@ -29,7 +28,6 @@ public:
         : opts(o)
         , this_parser(p)
         , result(r)
-        , option_handlers(get_option_handlers(o))
     {}
 
     void rethrow_exception_if_any() const
@@ -44,7 +42,6 @@ public:
     const command_line_parser& this_parser;
     parse_result& result;
     std::exception_ptr exception;
-    std::map<int, std::shared_ptr<option_handler>> option_handlers;
 };
 
 parser_context* get_context(argp_state* state) noexcept
