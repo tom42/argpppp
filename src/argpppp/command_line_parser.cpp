@@ -107,18 +107,9 @@ error_t command_line_parser::parse_option(int key, char* arg, argp_state* state)
     auto context = get_context(state);
 
     // TODO: consider moving this into the default branch
-    // TODO: redo this
-    // auto handler = context->option_handlers.find(key);
-    // if (handler != context->option_handlers.end())
-    // {
-    //     const option& opt = find_option_or_throw(context->opts, key);
-    //     const auto handler_result = handler->second->handle_option(opt, arg);
-    //     return handle_option_handler_result(handler_result, state);
-    // }
     const option_with_handler* owh = context->opts.find_option(key); // TODO: rename to try_find_option?
     if (owh != nullptr)
     {
-        // TODO: review
         const auto handler_result = owh->handler()->handle_option(owh->opt(), arg);
         return handle_option_handler_result(handler_result, state);
     }
