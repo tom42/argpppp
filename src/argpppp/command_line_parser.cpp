@@ -115,11 +115,11 @@ error_t command_line_parser::parse_option(int key, char* arg, argp_state* state)
     //     const auto handler_result = handler->second->handle_option(opt, arg);
     //     return handle_option_handler_result(handler_result, state);
     // }
-    const option_with_handler* opt = context->opts.find_option(key); // TODO: rename to try_find_option?
-    if (opt != nullptr)
+    const option_with_handler* owh = context->opts.find_option(key); // TODO: rename to try_find_option?
+    if (owh != nullptr)
     {
         // TODO: review
-        const auto handler_result = opt->handler()->handle_option(opt->opt(), arg);
+        const auto handler_result = owh->handler()->handle_option(owh->opt(), arg);
         return handle_option_handler_result(handler_result, state);
     }
 
