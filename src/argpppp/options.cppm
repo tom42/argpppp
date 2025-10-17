@@ -114,6 +114,7 @@ public:
         return *this;
     }
 
+    // TODO: why do we need this? Consider making all remaining functions that use this to move into this class and remove this?
     const std::vector<option_with_handler>& opts() const
     {
         return m_options;
