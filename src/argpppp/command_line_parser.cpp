@@ -106,6 +106,7 @@ error_t command_line_parser::parse_option(int key, char* arg, argp_state* state)
 {
     auto context = get_context(state);
 
+    // TODO: consider moving this into the default branch
     auto handler = context->option_handlers.find(key);
     if (handler != context->option_handlers.end())
     {
