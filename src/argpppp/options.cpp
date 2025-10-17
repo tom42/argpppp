@@ -42,8 +42,7 @@ options& options::add(const option& o, std::shared_ptr<option_handler> h)
 const option_with_handler* options::find_option(int key) const
 {
     // TODO: review
-    // TODO: no default thing in lambda
-    auto owh = std::ranges::find_if(m_options, [=](const option_with_handler& o) { return o.opt().key() == key; });
+    auto owh = std::ranges::find_if(m_options, [key](const option_with_handler& o) { return o.opt().key() == key; });
     if (owh == m_options.end())
     {
         return nullptr;
