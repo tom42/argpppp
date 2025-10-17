@@ -29,7 +29,7 @@ public:
     option_handler(const option_handler&) = default;
     virtual ~option_handler() {}
 
-    virtual option_handler_result handle_option(const option& opt, const char* arg) = 0;
+    virtual option_handler_result handle_option(const option& opt, const char* arg) const = 0;
 };
 
 export class callback : public option_handler
@@ -39,7 +39,7 @@ public:
         : m_callback(std::move(callback))
     {}
 
-    option_handler_result handle_option(const option& opt, const char* arg) override
+    option_handler_result handle_option(const option& opt, const char* arg) const override
     {
         return m_callback(opt, arg);
     }
@@ -64,7 +64,7 @@ class value<std::string> : public option_handler
 public:
     explicit value(std::string& target_value) : m_target_value(target_value) {}
 
-    option_handler_result handle_option(const option&, const char* arg) override
+    option_handler_result handle_option(const option&, const char* arg) const override
     {
         if (!arg)
         {
@@ -85,7 +85,7 @@ class value<bool> : public option_handler
 public:
     explicit value(bool& target_variable) : m_target_variable(target_variable) {}
 
-    option_handler_result handle_option(const option&, const char* arg) override
+    option_handler_result handle_option(const option&, const char* arg) const override
     {
         if (arg)
         {
@@ -112,7 +112,7 @@ class value<TValue> : public option_handler
 public:
     explicit value(TValue& target_variable) : m_target_variable(target_variable) {}
 
-    option_handler_result handle_option(const option& opt, const char* arg) override
+    option_handler_result handle_option(const option& opt, const char* arg) const override
     {
         if (!arg)
         {
