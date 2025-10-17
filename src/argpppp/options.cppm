@@ -35,9 +35,11 @@ public:
         return m_option;
     }
 
-    std::shared_ptr<option_handler> handler() const
+    // TODO: return handler by reference? (Yes but what if it's null?)
+    // TODO: do we want to have this method at all? option_with_handler could provide a handle_option() too, no?
+    option_handler* handler() const
     {
-        return m_handler;
+        return m_handler.get();
     }
 
 private:
