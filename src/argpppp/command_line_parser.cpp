@@ -109,7 +109,7 @@ error_t command_line_parser::parse_option(int key, char* arg, argp_state* state)
             return handle_key_end(state);
         default:
             auto context = get_context(state);
-            const option_with_handler* owh = context->opts.find_option(key); // TODO: rename to try_find_option?
+            const option_with_handler* owh = context->opts.try_find_option(key);
             if (owh != nullptr)
             {
                 const auto handler_result = owh->handler()->handle_option(owh->opt(), arg);

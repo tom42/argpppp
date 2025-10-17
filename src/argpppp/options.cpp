@@ -39,7 +39,7 @@ options& options::add(const option& o, std::unique_ptr<option_handler> h)
     return *this;
 }
 
-const option_with_handler* options::find_option(int key) const
+const option_with_handler* options::try_find_option(int key) const
 {
     // TODO: review
     auto owh = std::ranges::find_if(m_options, [key](const option_with_handler& o) { return o.opt().key() == key; });
