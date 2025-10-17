@@ -144,8 +144,4 @@ std::vector<argp_option> get_argp_options(const options& o);
 // The options instance must remain in scope as long as the map is in use.
 std::map<int, std::shared_ptr<option_handler>> get_option_handlers(const options& o); // TODO: remove (also implementation)?
 
-// TODO: remove (also implementation)?
-ARGPPPP_EXPORT_FOR_UNIT_TESTING
-const option& find_option_or_throw(const options& options, int key);
-
 }
