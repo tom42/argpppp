@@ -17,7 +17,7 @@ module argpppp;
 namespace argpppp
 {
 
-options& options::add(const option& o, std::shared_ptr<option_handler> h)
+options& options::add(const option& o, std::unique_ptr<option_handler> h)
 {
     if (o.key() == 0)
     {
@@ -35,7 +35,7 @@ options& options::add(const option& o, std::shared_ptr<option_handler> h)
     }
 
     // TODO: bark if option has a key but it is a duplicate key
-    m_options.emplace_back(o, h);
+    m_options.emplace_back(o, std::move(h));
     return *this;
 }
 

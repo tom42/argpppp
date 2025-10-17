@@ -11,6 +11,7 @@ module;
 #include <memory>
 #include <optional>
 #include <string>
+#include <utility>
 #include <vector>
 
 export module argpppp:options;
@@ -24,10 +25,9 @@ namespace argpppp
 class option_with_handler final
 {
 public:
-    // TODO: see whether we really need to use shared_ptr here (wouldn't unique_ptr work, too?)
-    option_with_handler(const option& o, std::shared_ptr<option_handler> h)
+    option_with_handler(const option& o, std::unique_ptr<option_handler> h)
         : m_option(o)
-        , m_handler(h)
+        , m_handler(std::move(h))
     {}
 
     const option& opt() const
@@ -44,18 +44,18 @@ public:
 
 private:
     argpppp::option m_option;
-    std::shared_ptr<option_handler> m_handler;
+    std::unique_ptr<option_handler> m_handler;
 };
 
 export class options final
 {
 public:
-    options& add(const option& o, std::shared_ptr<option_handler> h);
+    options& add(const option& o, std::unique_ptr<option_handler> h);
 
     template <typename TOptionHandler>
     options& add(const option& o, const TOptionHandler& h) requires std::derived_from<TOptionHandler, option_handler>
     {
-        add(o, std::make_shared<TOptionHandler>(h));
+        add(o, std::make_unique<TOptionHandler>(h));
         return *this;
     }
 

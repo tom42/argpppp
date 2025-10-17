@@ -79,7 +79,7 @@ TEST_CASE("options")
     SECTION("add throws if an option with key = 0 has a handler")
     {
         CHECK_THROWS_MATCHES(
-            options.add({ {}, "This is a documentation option", {}, {}, of::doc }, std::make_shared<null_option_handler>()),
+            options.add({ {}, "This is a documentation option", {}, {}, of::doc }, std::make_unique<null_option_handler>()),
             std::invalid_argument,
             Catch::Matchers::Message("add: a special option with key = 0 must not have a handler"));
     }
