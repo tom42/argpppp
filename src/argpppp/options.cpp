@@ -34,8 +34,22 @@ options& options::add(const option& o, std::shared_ptr<option_handler> h)
         }
     }
 
+    // TODO: bark if option has a key but it is a duplicate key
     m_options.emplace_back(o, h);
     return *this;
+}
+
+const option_with_handler* options::find_option(int key) const
+{
+    // TODO: review
+    // TODO: no default thing in lambda
+    auto owh = std::ranges::find_if(m_options, [=](const option_with_handler& o) { return o.opt().key() == key; });
+    if (owh == m_options.end())
+    {
+        return nullptr;
+    }
+
+    return &*owh;
 }
 
 std::vector<argp_option> get_argp_options(const options& o)
