@@ -8,6 +8,7 @@ export import :of;
 export import :option;
 export import :option_handler_result;
 export import :option_handlers;
+export import :option_with_handler;
 export import :optional_string;
 export import :options;
 export import :parse_number;

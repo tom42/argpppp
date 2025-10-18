@@ -11,6 +11,7 @@ set(
   option.cppm
   option_handler_result.cppm
   option_handlers.cppm
+  option_with_handler.cppm
   optional_string.cppm
   options.cppm
   parse_number.cppm
