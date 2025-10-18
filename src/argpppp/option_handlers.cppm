@@ -48,6 +48,11 @@ private:
     std::function<option_handler_result(const option&, const char*)> m_callback;
 };
 
+// TODO: think about default values, at least for value<T>?
+//       The parser could call a very generic method (e.g. prepare) which in the case of value handlers could write the default.
+//       Rationale: this feels somehow cleaner than requiring the user to laways suply a default. This way he always gets
+//       a default, but if he did not set one then it's default construction.
+// TODO: also allow value<T> to work with setter callbacks. Actually we do need this for shrinkler
 export template <typename TValue> class value
 {
 public:
