@@ -108,6 +108,20 @@ TEST_CASE("options")
         options.add_header("header 2");
     }
 
+    SECTION("add_header")
+    {
+        options.add_header("header text", 123);
+
+        const auto argp_options = get_argp_options(options);
+
+        CHECK(argp_options[0].key == 0);
+        CHECK(argp_options[0].name == nullptr);
+        CHECK(!strcmp(argp_options[0].doc, "header text"));
+        CHECK(argp_options[0].arg == nullptr);
+        CHECK(argp_options[0].flags == 0);
+        CHECK(argp_options[0].group == 123);
+    }
+
     SECTION("get_argp_options")
     {
         options
@@ -138,20 +152,6 @@ TEST_CASE("options")
         CHECK(argp_options[2].arg == nullptr);
         CHECK(argp_options[2].flags == 0);
         CHECK(argp_options[2].group == 0);
-    }
-
-    SECTION("add_header")
-    {
-        options.add_header("header text", 123);
-
-        const auto argp_options = get_argp_options(options);
-
-        CHECK(argp_options[0].key == 0);
-        CHECK(argp_options[0].name == nullptr);
-        CHECK(!strcmp(argp_options[0].doc, "header text"));
-        CHECK(argp_options[0].arg == nullptr);
-        CHECK(argp_options[0].flags == 0);
-        CHECK(argp_options[0].group == 123);
     }
 }
 
