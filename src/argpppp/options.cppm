@@ -35,12 +35,10 @@ public:
         return m_option;
     }
 
-    // TODO: return handler by reference? (Yes but what if it's null? => well in that case we should throw - implement this)
-    // TODO: do we want to have this method at all? option_with_handler could provide a handle_option() too, no?
-    //       => actually that might actually be a sensible thing to do. If we do so, can we get rid of opt()?
-    const option_handler& handler() const
+    option_handler_result handle_option(const char* arg) const
     {
-        return *m_handler.get();
+        // TODO: throw if there is no handler (unit test!)
+        return m_handler->handle_option(m_option, arg);
     }
 
 private:
