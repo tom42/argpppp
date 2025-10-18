@@ -89,7 +89,7 @@ TEST_CASE("options")
         CHECK_THROWS_MATCHES(
             options.add({ 'a' }, {}),
             std::invalid_argument,
-            Catch::Matchers::Message("add: option must have a handler"));
+            Catch::Matchers::Message("add: option with key != 0 must have a handler"));
     }
 
     SECTION("get_argp_options")

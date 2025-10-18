@@ -30,7 +30,7 @@ options& options::add(const option& o, std::unique_ptr<option_handler> h)
     {
         if (!h)
         {
-            throw std::invalid_argument("add: option must have a handler");
+            throw std::invalid_argument("add: option with key != 0 must have a handler");
         }
     }
 
