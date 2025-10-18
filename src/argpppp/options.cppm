@@ -35,11 +35,12 @@ public:
         return m_option;
     }
 
-    // TODO: return handler by reference? (Yes but what if it's null?)
+    // TODO: return handler by reference? (Yes but what if it's null? => well in that case we should throw - implement this)
     // TODO: do we want to have this method at all? option_with_handler could provide a handle_option() too, no?
-    option_handler* handler() const
+    //       => actually that might actually be a sensible thing to do. If we do so, can we get rid of opt()?
+    const option_handler& handler() const
     {
-        return m_handler.get();
+        return *m_handler.get();
     }
 
 private:
