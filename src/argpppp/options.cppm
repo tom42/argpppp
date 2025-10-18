@@ -122,7 +122,6 @@ public:
         return m_options;
     }
 
-    // TODO: unit test this
     const option_with_handler* find_option(int key) const;
 
 private:

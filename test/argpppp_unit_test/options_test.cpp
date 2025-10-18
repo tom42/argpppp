@@ -122,6 +122,16 @@ TEST_CASE("options")
         CHECK(argp_options[0].group == 123);
     }
 
+    SECTION("find_option")
+    {
+        options.add({ 'a' }, std::make_unique<null_option_handler>());
+        options.add({ 'b' }, std::make_unique<null_option_handler>());
+
+        CHECK(options.find_option('a')->opt().key() == 'a');
+        CHECK(options.find_option('b')->opt().key() == 'b');
+        CHECK(options.find_option('c') == nullptr);
+    }
+
     SECTION("get_argp_options")
     {
         options
