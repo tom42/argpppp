@@ -92,6 +92,22 @@ TEST_CASE("options")
             Catch::Matchers::Message("add: option with key != 0 must have a handler"));
     }
 
+    SECTION("add throws if an option with the same key already exists")
+    {
+        options.add({ 'a' }, std::make_unique<null_option_handler>());
+
+        CHECK_THROWS_MATCHES(
+            options.add({ 'a' }, std::make_unique<null_option_handler>()),
+            std::invalid_argument,
+            Catch::Matchers::Message("add: option with duplicate key"));
+    }
+
+    SECTION("multiple options with key = 0 can be added")
+    {
+        options.add_header("header 1");
+        options.add_header("header 2");
+    }
+
     SECTION("get_argp_options")
     {
         options

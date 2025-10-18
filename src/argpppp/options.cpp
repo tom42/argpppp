@@ -32,9 +32,12 @@ options& options::add(const option& o, std::unique_ptr<option_handler> h)
         {
             throw std::invalid_argument("add: option with key != 0 must have a handler");
         }
+        if (find_option(o.key()) != nullptr)
+        {
+            throw std::invalid_argument("add: option with duplicate key");
+        }
     }
 
-    // TODO: bark if option has a key but it is a duplicate key
     m_options.emplace_back(o, std::move(h));
     return *this;
 }
