@@ -123,7 +123,7 @@ public:
     }
 
     // TODO: unit test this
-    const option_with_handler* try_find_option(int key) const;
+    const option_with_handler* find_option(int key) const;
 
 private:
     optional_string m_doc;
