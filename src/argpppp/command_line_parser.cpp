@@ -167,10 +167,6 @@ void command_line_parser::report_failure(const argp_state* state, int status, in
 {
     if (m_failure_callback)
     {
-        // TODO: should this also get exitcode? should we even have this callback on the public interface for client code? Or should we only have it as a test hook?
-        //       well...two things:
-        //       * consider not exposing it
-        //       * see whether we can pass it an option_handler_result (then again, this has nothing to do with that...)
         m_failure_callback(failure(status, errnum, message));
     }
     else
