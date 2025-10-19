@@ -158,13 +158,12 @@ error_t command_line_parser::handle_option_handler_result(const option_handler_r
     {
         assert(result.error_number() != 0);
         int reported_error_number = result.include_standard_error_message() ? result.error_number() : 0;
-        report_failure(state, result.exit_status(), reported_error_number, result.error_message());
+        report_failure(state, result.exit_status(), reported_error_number, result.error_message().c_str());
         return result.error_number();
     }
 }
 
-// TODO: why don't we simply take const char* for message?
-void command_line_parser::report_failure(const argp_state* state, int status, int errnum, const std::string& message) const
+void command_line_parser::report_failure(const argp_state* state, int status, int errnum, const char* message) const
 {
     if (m_failure_callback)
     {
@@ -176,7 +175,7 @@ void command_line_parser::report_failure(const argp_state* state, int status, in
     }
     else
     {
-        argp_failure(state, status, errnum, "%s", message.c_str());
+        argp_failure(state, status, errnum, "%s", message);
     }
 }
 

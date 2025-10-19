@@ -70,7 +70,7 @@ private:
 
     error_t handle_option_handler_result(const option_handler_result& result, argp_state* state) const;
 
-    void report_failure(const argp_state* state, int status, int errnum, const std::string& message) const;
+    void report_failure(const argp_state* state, int status, int errnum, const char* message) const;
 
     argpppp::failure_callback m_failure_callback;
     pf m_flags = pf::none;
