@@ -9,6 +9,7 @@ add_executable(
   option_handler_result_test.cpp
   option_handlers_test.cpp
   option_test.cpp
+  option_with_handler_test.cpp
   optional_string_test.cpp
   options_test.cpp
   parse_number_test.cpp

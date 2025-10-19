@@ -4,6 +4,7 @@
 module;
 
 #include <memory>
+#include <stdexcept>
 #include <utility>
 
 export module argpppp:option_with_handler;
@@ -13,6 +14,7 @@ import :option_handlers;
 namespace argpppp
 {
 
+ARGPPPP_EXPORT_FOR_UNIT_TESTING
 class option_with_handler final
 {
 public:
@@ -28,7 +30,11 @@ public:
 
     option_handler_result handle_option(const char* arg) const
     {
-        // TODO: throw if there is no handler (unit test!)
+        if (m_handler == nullptr)
+        {
+            throw std::logic_error("handle_option: no option handler set");
+        }
+
         return m_handler->handle_option(m_option, arg);
     }
 
