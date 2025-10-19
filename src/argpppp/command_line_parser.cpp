@@ -9,6 +9,7 @@ module;
 #include <exception>
 #include <memory>
 #include <string>
+#include <utility>
 
 module argpppp;
 
@@ -162,6 +163,7 @@ error_t command_line_parser::handle_option_handler_result(const option_handler_r
     }
 }
 
+// TODO: why don't we simply take const char* for message?
 void command_line_parser::report_failure(const argp_state* state, int status, int errnum, const std::string& message) const
 {
     if (m_failure_callback)
@@ -170,7 +172,7 @@ void command_line_parser::report_failure(const argp_state* state, int status, in
         //       well...two things:
         //       * consider not exposing it
         //       * see whether we can pass it an option_handler_result (then again, this has nothing to do with that...)
-        m_failure_callback(errnum, message);
+        m_failure_callback(failure(status, errnum, message));
     }
     else
     {

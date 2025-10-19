@@ -6,6 +6,7 @@ module;
 #include <argp.h>
 #include <functional>
 #include <string>
+#include <utility>
 #include <vector>
 
 export module argpppp:command_line_parser;
@@ -16,7 +17,20 @@ import :pf;
 namespace argpppp
 {
 
-export using failure_callback = std::function<void(int, const std::string&)>;
+export struct failure final
+{
+    failure(int status, int errnum, std::string message)
+        : status(status)
+        , errnum(errnum)
+        , message(std::move(message))
+    {}
+
+    int status;
+    int errnum;
+    std::string message;
+};
+
+export using failure_callback = std::function<void(failure f)>;
 
 export struct parse_result final
 {

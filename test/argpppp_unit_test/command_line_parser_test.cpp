@@ -22,6 +22,7 @@ using parse_result = argpppp::parse_result;
 using pf = argpppp::pf;
 using runtime_error = std::runtime_error;
 using argpppp::error;
+using argpppp::failure;
 using argpppp::ok;
 using argpppp::value;
 using std::string;
@@ -50,7 +51,7 @@ public:
     {
         parser
             .flags(pf::no_errs | pf::no_exit)
-            .failure_callback([this](int, const string& message) {failure_message += message; });
+            .failure_callback([this](failure f) {failure_message += f.message; }); // TODO: tuck away entire failure and also test it
     }
 
 protected:
