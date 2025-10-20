@@ -25,6 +25,8 @@ export struct failure final
         , message(std::move(message))
     {}
 
+    bool operator==(const failure&) const = default;
+
     int status;
     int errnum;
     std::string message;

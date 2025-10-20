@@ -4,6 +4,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers.hpp>
 #include <catch2/matchers/catch_matchers_exception.hpp>
+#include <cstdlib>
 #include <cstring>
 #include <ranges>
 #include <stdexcept>
@@ -51,7 +52,7 @@ public:
     {
         parser
             .flags(pf::no_errs | pf::no_exit)
-            .failure_callback([this](failure f) {failure_message += f.message; }); // TODO: tuck away entire failure and also test it
+            .failure_callback([this](failure f) { failures.push_back(f); });
     }
 
 protected:
@@ -79,7 +80,7 @@ protected:
 
     command_line_parser parser;
     argpppp::options options;
-    string failure_message;
+    vector<failure> failures;
 };
 
 }
@@ -92,7 +93,7 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser")
 
         CHECK(result.errnum == 0);
         CHECK(result.args == vector<string>{"arg1", "arg2", "arg3", "arg4"});
-        CHECK(failure_message == "");
+        CHECK(failures.empty());
     }
 
     SECTION("Too few arguments")
@@ -103,7 +104,7 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser")
 
         CHECK(result.errnum == EINVAL);
         CHECK(result.args == vector<string>{"x"});
-        CHECK(failure_message == "too few arguments");
+        CHECK(failures == vector<failure>{ failure(EXIT_FAILURE, 0, "too few arguments") });
     }
 
     SECTION("Too many arguments")
@@ -114,7 +115,7 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser")
 
         CHECK(result.errnum == EINVAL);
         CHECK(result.args == vector<string>{"x", "y"});
-        CHECK(failure_message == "too many arguments");
+        CHECK(failures == vector<failure>{ failure(EXIT_FAILURE, 0, "too many arguments") });
     }
 
     SECTION("Correct number of arguments")
@@ -125,7 +126,7 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser")
 
         CHECK(result.errnum == 0);
         CHECK(result.args == vector<string>{"x", "y"});
-        CHECK(failure_message == "");
+        CHECK(failures.empty());
     }
 
     SECTION("Minimum and maximum number of arguments differ")
@@ -165,7 +166,7 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser")
         auto result = parse_command_line("-c -a");
 
         CHECK(result.errnum == 0);
-        CHECK(failure_message == "");
+        CHECK(failures.empty());
         CHECK(a_seen == true);
         CHECK(b_seen == false);
         CHECK(c_seen == true);
@@ -182,7 +183,7 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser")
         auto result = parse_command_line("-a -b");
 
         CHECK(result.errnum == EINVAL);
-        CHECK(failure_message == "error message");
+        CHECK(failures == vector<failure>{ failure(EXIT_FAILURE, 0, "error message") });
         CHECK(a_seen == true);
     }
 
@@ -200,7 +201,7 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser")
         auto result = parse_command_line("-i 123 -j -456 -s foo");
 
         CHECK(result.errnum == 0);
-        CHECK(failure_message == "");
+        CHECK(failures.empty());
         CHECK(i == 123);
         CHECK(j == -456);
         CHECK(s == "foo");
