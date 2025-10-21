@@ -168,4 +168,30 @@ TEST_CASE("value<std::signed_integral>")
     }
 }
 
+// --- TODO: prototype code below ---------------------------------------------
+void int_storer(int) {}
+class store : public argpppp::option_handler
+{
+public:
+private:
+    option_handler_result handle_option(const argpppp::option& /*opt*/, const char* /*arg*/) const override
+    {
+        return argpppp::ok();
+    }
+};
+TEST_CASE("store")
+{
+    store x;
+
+    // Return type, function type, args
+    static_assert(std::is_invocable_r_v<void, void(int), int>);
+    static_assert(std::is_invocable_r_v<void, int(int), int>); // We can treat a function returning int as returning void. That is, we can ignore the return value.
+
+    // Function type, args
+    // If we do not care about the return type anyway we can use is_invocable instead of is_invocable_r
+    static_assert(std::is_invocable_v<void(int), int>);
+    static_assert(std::is_invocable_v<int(int), int>);
+}
+// -----------------------------------------------------------------------------
+
 }
