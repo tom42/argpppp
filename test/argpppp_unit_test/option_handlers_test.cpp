@@ -7,6 +7,10 @@
 #include <cstdint>
 #include <limits>
 #include <string>
+#include <array> // TODO: for prototyping, remove
+#include <span> // TODO: for prototyping, remove
+#include <functional> // TODO: for prototyping, remove
+#include <iostream> // TODO: for prototyping, remove
 
 import argpppp;
 
@@ -169,19 +173,73 @@ TEST_CASE("value<std::signed_integral>")
 }
 
 // --- TODO: prototype code below ---------------------------------------------
-void int_storer(int) {}
+// Some interesting post: https://stackoverflow.com/questions/61641848/is-it-possible-to-define-a-callable-concept-that-includes-functions-and-lambdas
+
+template <typename TCallable, typename TValue>
+concept storer_callable = std::is_invocable_v<TCallable, TValue>;
+
+void int_storer(int)
+{
+    std::cout << "int_storer was called\n";
+}
+
+template <typename TValue>
 class store : public argpppp::option_handler
 {
 public:
-private:
+    // TODO: should we use auto&& here instead like people seem to do? Why do people do this?
+    explicit store(storer_callable<TValue> auto callable) : m_storer(callable) {}
+
     option_handler_result handle_option(const argpppp::option& /*opt*/, const char* /*arg*/) const override
     {
+        // 666 is a bogus value here: in a specialization we'd know (do we?) it is a specialization for int and have the necessary const char* to int conversion code, no?
+        m_storer(666);
         return argpppp::ok();
     }
+
+private:
+    std::function<void(TValue)> m_storer;
 };
+
+template <typename TValue>
+void store2(storer_callable<TValue> auto&& /*callable*/) {}
+
+template<typename F, typename R, typename... Args>
+concept callable = std::is_invocable_r_v<R, F, Args...>;
+
+template<typename F>
+concept runnable = callable<F, void>;
+
+template<typename F, typename R>
+concept supplier = callable<F, R>;
+
+template<typename F, typename... Args>
+concept consumer = callable<F, void, Args...>;
+
+template<typename F, typename... Args>
+concept predicate = callable<F, bool, Args...>;
+
+// TODO: why are people using auto&& rather than simply auto for their callables?
+template<typename T, std::size_t Size>
+auto test_all(std::span<T, Size> values, predicate<T> auto&& test) {
+    for (const auto& value : values) {
+        if (not test(value)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+template <typename TValue> void store3(predicate<TValue> auto&& /*test*/) {}
+
+bool is_even(int number) {
+    return number % 2 == 0;
+}
+
 TEST_CASE("store")
 {
-    store x;
+    store<int> x(int_storer); // Sigh: CTAD does simply not work, or I cannot get it to work
+    store2<int>(int_storer); // Sigh: CTAD does simply not work, or I cannot get it to work
 
     // Return type, function type, args
     static_assert(std::is_invocable_r_v<void, void(int), int>);
@@ -191,6 +249,35 @@ TEST_CASE("store")
     // If we do not care about the return type anyway we can use is_invocable instead of is_invocable_r
     static_assert(std::is_invocable_v<void(int), int>);
     static_assert(std::is_invocable_v<int(int), int>);
+
+    const auto values = std::array{ 0, 2, 4 };
+    const auto span = std::span{ values };
+
+    // OK: the reason this doeas build is because T is deduced from the first argument, not the second one.
+    test_all(span, is_even);
+    test_all(span, &is_even);
+    test_all(span, [&values](auto value) {
+        return value == values[0];
+        });
+
+    //store3(is_even); // Does not build either
+    store3<bool>(is_even); // That builds too
+
+    // OK, so this is what we can get: we will have to specify the type. I guess I'll have to live with that.
+    store<int> s1(int_storer); // Works, for function
+    store<double> s2([](double) { std::cout << "storer taking double was called\n"; }); // Works, for function object
+    store<float> s3([](auto) { std::cout << "storer taking float was called\n"; }); // Works, for function object, at least we can use auto so we do not have to repeat the type name
+
+    argpppp::option bogus{};
+    s1.handle_option(bogus, "bogus");
+    s2.handle_option(bogus, "bogus");
+    s3.handle_option(bogus, "bogus");
+
+    // TODO: it would be interesting (well, rather important) to see whether we can complete our example. Basically we want the following
+    //       * A base template for store (or however we want to call the thing)
+    //       * A specialization for store<string>: this simply takes arg, converts it to string and passes it to the storer function
+    //       * A specialization for store<bool>: this ignores arg (possibly throws if it is given) and calls the storer function with "true"
+    //       * A specialization for store<signed_integral>: this takes arg, converts it to the integer type and calls the storer function with that value
 }
 // -----------------------------------------------------------------------------
 
