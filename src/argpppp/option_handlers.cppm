@@ -58,9 +58,11 @@ private:
 export template <typename TValue> class value
 {
 public:
-    explicit value(TValue&)
+    explicit value(TValue)
     {
         // Constructor is required for CTAD of specializations to work, so we cannot work with an undefined primary template.
+        // Note: parameter type is intentionally 'TValue' here and not e.g. 'TValue&' as in specializations below.
+        // The latter would not be able to match all possible arguments.
         static_assert(false, "only specializations of argpppp::value may be used");
     }
 };
