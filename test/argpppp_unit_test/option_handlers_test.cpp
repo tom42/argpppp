@@ -275,8 +275,8 @@ TEST_CASE("store, attempt #1")
     s3.handle_option(bogus, "bogus");
 
     // TODO: it would be interesting (well, rather important) to see whether we can complete our example. Basically we want the following
-    //       * A specialization for store<bool>: this ignores arg (possibly throws if it is given) and calls the storer function with "true"
     //       * A specialization for store<signed_integral>: this takes arg, converts it to the integer type and calls the storer function with that value
+    //         * We do not need a full implementation of this baby here, since that would be rather involved
 }
 
 // Base template, forbids instantiation
@@ -284,7 +284,7 @@ template <typename TValue>
 class store
 {
 public:
-    // TODO: auto or auto&&?
+    // TODO: auto or auto&&? (Also in specializations)
     explicit store(storer_callable<TValue> auto callable)
     {
         static_assert(false, "only specializations of argpppp::store may be used");
@@ -308,6 +308,23 @@ private:
     std::function<void(std::string)> m_callable;
 };
 
+template <>
+class store<bool> : public argpppp::option_handler
+{
+public:
+    explicit store(storer_callable<bool> auto callable) : m_callable(callable) {}
+
+    option_handler_result handle_option(const argpppp::option& /*opt*/, const char* /*arg*/) const override
+    {
+        // TODO: what to do if arg is not null? Throw?
+        m_callable(true); // TODO: does this make sense? would it not be better to expect a function without any arguments?
+        return ok();
+    }
+
+private:
+    std::function<void(bool)> m_callable;
+};
+
 int string_storer_function(std::string s)
 {
     std::cout << "string_storer_function stores '" << s << "'\n";
@@ -316,12 +333,19 @@ int string_storer_function(std::string s)
     return 123;
 }
 
+void bool_storer_function(bool b)
+{
+    std::cout << "bool_storer_function stores '" << b << "'\n";
+}
+
 TEST_CASE("store, attempt #2")
 {
     argpppp::option string_option{ 's', {}, {}, "STRING" };
+    argpppp::option switch_option{ 'x' };
 
     //store<int> foo([](double) {}); // Does not compile due to static_assert 'only specializations of argpppp::store may be used'
     store<std::string>(string_storer_function).handle_option(string_option, "string value");
+    store<bool>(bool_storer_function).handle_option(switch_option, nullptr);
 }
 
 // -----------------------------------------------------------------------------
