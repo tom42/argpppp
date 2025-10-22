@@ -175,6 +175,7 @@ TEST_CASE("value<std::signed_integral>")
 // --- TODO: prototype code below ---------------------------------------------
 // Some interesting post: https://stackoverflow.com/questions/61641848/is-it-possible-to-define-a-callable-concept-that-includes-functions-and-lambdas
 
+// Name? _callable is fine, but storer? Well if we call it store_callable, then store is a verb and it says "store [the] callable", which is not what we want to say.
 template <typename TCallable, typename TValue>
 concept storer_callable = std::is_invocable_v<TCallable, TValue>;
 
@@ -274,11 +275,28 @@ TEST_CASE("store, attempt #1")
     s3.handle_option(bogus, "bogus");
 
     // TODO: it would be interesting (well, rather important) to see whether we can complete our example. Basically we want the following
-    //       * A base template for store (or however we want to call the thing)
     //       * A specialization for store<string>: this simply takes arg, converts it to string and passes it to the storer function
     //       * A specialization for store<bool>: this ignores arg (possibly throws if it is given) and calls the storer function with "true"
     //       * A specialization for store<signed_integral>: this takes arg, converts it to the integer type and calls the storer function with that value
 }
+
+// Base template, forbids instantiation
+template <typename TValue>
+class store
+{
+public:
+    // TODO: auto or auto&&?
+    explicit store(storer_callable<TValue> auto callable)
+    {
+        static_assert(false, "only specializations of argpppp::store may be used");
+    }
+};
+
+TEST_CASE("store, attempt #2")
+{
+    //store<int> foo([](double) {}); // Does not compile due to static_assert 'only specializations of argpppp::store may be used'
+}
+
 // -----------------------------------------------------------------------------
 
 }
