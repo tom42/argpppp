@@ -179,9 +179,9 @@ TEST_CASE("value<std::signed_integral>")
 template <typename TCallable, typename TValue>
 concept storer_callable = std::is_invocable_v<TCallable, TValue>;
 
-void int_storer(int)
+void int_storer(int i)
 {
-    std::cout << "int_storer was called\n";
+    std::cout << "int_storer was called: " << i << "\n";
 }
 
 template <typename TValue>
@@ -273,10 +273,6 @@ TEST_CASE("store, attempt #1")
     s1.handle_option(bogus, "bogus");
     s2.handle_option(bogus, "bogus");
     s3.handle_option(bogus, "bogus");
-
-    // TODO: it would be interesting (well, rather important) to see whether we can complete our example. Basically we want the following
-    //       * A specialization for store<signed_integral>: this takes arg, converts it to the integer type and calls the storer function with that value
-    //         * We do not need a full implementation of this baby here, since that would be rather involved
 }
 
 // Base template, forbids instantiation
@@ -285,6 +281,7 @@ class store
 {
 public:
     // TODO: auto or auto&&? (Also in specializations)
+    // Note: CTAD does not work anyway, so we don't even need this, no?
     explicit store(storer_callable<TValue> auto callable)
     {
         static_assert(false, "only specializations of argpppp::store may be used");
@@ -325,6 +322,22 @@ private:
     std::function<void(bool)> m_callable;
 };
 
+template <>
+class store<int> : public argpppp::option_handler
+{
+public:
+    explicit store(storer_callable<int> auto callable) : m_callable(callable) {}
+
+    option_handler_result handle_option(const argpppp::option& /*opt*/, const char* arg) const override
+    {
+        m_callable(strtol(arg, nullptr, 0));
+        return ok();
+    }
+
+private:
+    std::function<void(int)> m_callable;
+};
+
 int string_storer_function(std::string s)
 {
     std::cout << "string_storer_function stores '" << s << "'\n";
@@ -338,14 +351,28 @@ void bool_storer_function(bool b)
     std::cout << "bool_storer_function stores '" << b << "'\n";
 }
 
+class some_record
+{
+public:
+    void set_value(int v)
+    {
+        std::cout << "some_record::set_value: " << v << "\n";
+    }
+};
+
 TEST_CASE("store, attempt #2")
 {
     argpppp::option string_option{ 's', {}, {}, "STRING" };
     argpppp::option switch_option{ 'x' };
+    argpppp::option int_option{ 'i', {}, {}, "INTEGER" };
+    some_record r;
 
     //store<int> foo([](double) {}); // Does not compile due to static_assert 'only specializations of argpppp::store may be used'
     store<std::string>(string_storer_function).handle_option(string_option, "string value");
     store<bool>(bool_storer_function).handle_option(switch_option, nullptr);
+    store<int>(int_storer).handle_option(int_option, "23");
+    store<int>(int_storer).handle_option(int_option, "777");
+    store<int>([&r](auto x) { r.set_value(x); }).handle_option(int_option, "42");
 }
 
 // -----------------------------------------------------------------------------
