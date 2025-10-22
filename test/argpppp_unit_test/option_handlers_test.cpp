@@ -275,7 +275,6 @@ TEST_CASE("store, attempt #1")
     s3.handle_option(bogus, "bogus");
 
     // TODO: it would be interesting (well, rather important) to see whether we can complete our example. Basically we want the following
-    //       * A specialization for store<string>: this simply takes arg, converts it to string and passes it to the storer function
     //       * A specialization for store<bool>: this ignores arg (possibly throws if it is given) and calls the storer function with "true"
     //       * A specialization for store<signed_integral>: this takes arg, converts it to the integer type and calls the storer function with that value
 }
@@ -292,9 +291,37 @@ public:
     }
 };
 
+template <>
+class store<std::string> : public argpppp::option_handler
+{
+public:
+    explicit store(storer_callable<std::string> auto callable) : m_callable(callable) {}
+
+    option_handler_result handle_option(const argpppp::option& /*opt*/, const char* arg) const override
+    {
+        // TODO: what to do if arg is null? Probably we simply do not support this for the time being, or what?
+        m_callable(arg);
+        return ok();
+    }
+
+private:
+    std::function<void(std::string)> m_callable;
+};
+
+int string_storer_function(std::string s)
+{
+    std::cout << "string_storer_function stores '" << s << "'\n";
+
+    // Note: store ignores this. The storer function could also return void.
+    return 123;
+}
+
 TEST_CASE("store, attempt #2")
 {
+    argpppp::option string_option{ 's', {}, {}, "STRING" };
+
     //store<int> foo([](double) {}); // Does not compile due to static_assert 'only specializations of argpppp::store may be used'
+    store<std::string>(string_storer_function).handle_option(string_option, "string value");
 }
 
 // -----------------------------------------------------------------------------
