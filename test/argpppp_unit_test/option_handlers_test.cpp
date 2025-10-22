@@ -184,11 +184,11 @@ void int_storer(int)
 }
 
 template <typename TValue>
-class store : public argpppp::option_handler
+class store_old : public argpppp::option_handler
 {
 public:
     // TODO: should we use auto&& here instead like people seem to do? Why do people do this?
-    explicit store(storer_callable<TValue> auto callable) : m_storer(callable) {}
+    explicit store_old(storer_callable<TValue> auto callable) : m_storer(callable) {}
 
     option_handler_result handle_option(const argpppp::option& /*opt*/, const char* /*arg*/) const override
     {
@@ -236,9 +236,9 @@ bool is_even(int number) {
     return number % 2 == 0;
 }
 
-TEST_CASE("store")
+TEST_CASE("store, attempt #1")
 {
-    store<int> x(int_storer); // Sigh: CTAD does simply not work, or I cannot get it to work
+    store_old<int> x(int_storer); // Sigh: CTAD does simply not work, or I cannot get it to work
     store2<int>(int_storer); // Sigh: CTAD does simply not work, or I cannot get it to work
 
     // Return type, function type, args
@@ -264,9 +264,9 @@ TEST_CASE("store")
     store3<bool>(is_even); // That builds too
 
     // OK, so this is what we can get: we will have to specify the type. I guess I'll have to live with that.
-    store<int> s1(int_storer); // Works, for function
-    store<double> s2([](double) { std::cout << "storer taking double was called\n"; }); // Works, for function object
-    store<float> s3([](auto) { std::cout << "storer taking float was called\n"; }); // Works, for function object, at least we can use auto so we do not have to repeat the type name
+    store_old<int> s1(int_storer); // Works, for function
+    store_old<double> s2([](double) { std::cout << "storer taking double was called\n"; }); // Works, for function object
+    store_old<float> s3([](auto) { std::cout << "storer taking float was called\n"; }); // Works, for function object, at least we can use auto so we do not have to repeat the type name
 
     argpppp::option bogus{};
     s1.handle_option(bogus, "bogus");
