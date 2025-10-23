@@ -15,22 +15,13 @@ module;
 export module argpppp:option_handlers;
 import :interval;
 import :option;
+import :option_handler;
 import :option_handler_result;
 import :optional_string;
 import :parse_number;
 
 namespace argpppp
 {
-
-export class option_handler
-{
-public:
-    option_handler() = default;
-    option_handler(const option_handler&) = default;
-    virtual ~option_handler() = default;
-
-    virtual option_handler_result handle_option(const option& opt, const char* arg) const = 0;
-};
 
 export class callback : public option_handler
 {
@@ -48,7 +39,7 @@ private:
     std::function<option_handler_result(const option&, const char*)> m_callback;
 };
 
-// TODO: see how to split up this file
+// TODO: see how to split up this file (also the corresponding test!)
 // TODO: think about default values, at least for value<T>?
 //       * The parser could call a very generic method (e.g. prepare) which in the case of value handlers could write the default.
 //         Rationale: this feels somehow cleaner than requiring the user to laways suply a default. This way he always gets

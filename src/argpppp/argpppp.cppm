@@ -6,6 +6,7 @@ export import :command_line_parser;
 export import :interval;
 export import :of;
 export import :option;
+export import :option_handler;
 export import :option_handler_result;
 export import :option_handlers;
 export import :option_with_handler;
