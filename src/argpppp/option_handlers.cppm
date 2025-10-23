@@ -23,22 +23,6 @@ import :parse_number;
 namespace argpppp
 {
 
-export class callback : public option_handler
-{
-public:
-    explicit callback(std::function<option_handler_result(const option&, const char*)> callback)
-        : m_callback(std::move(callback))
-    {}
-
-    option_handler_result handle_option(const option& opt, const char* arg) const override
-    {
-        return m_callback(opt, arg);
-    }
-
-private:
-    std::function<option_handler_result(const option&, const char*)> m_callback;
-};
-
 // TODO: see how to split up this file (also the corresponding test!)
 // TODO: think about default values, at least for value<T>?
 //       * The parser could call a very generic method (e.g. prepare) which in the case of value handlers could write the default.

@@ -5,6 +5,7 @@ set(
   argpppp_sources
   PUBLIC FILE_SET CXX_MODULES FILES
   argpppp.cppm
+  callback.cppm
   command_line_parser.cppm
   interval.cppm
   of.cppm

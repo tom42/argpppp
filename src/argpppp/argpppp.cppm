@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 export module argpppp;
+export import :callback;
 export import :command_line_parser;
 export import :interval;
 export import :of;
