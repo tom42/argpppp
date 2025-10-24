@@ -12,7 +12,6 @@ set(
   option.cppm
   option_handler.cppm
   option_handler_result.cppm
-  option_handlers.cppm
   option_with_handler.cppm
   optional_string.cppm
   options.cppm
@@ -20,6 +19,7 @@ set(
   pf.cppm
   string_to_floating_point_converter.cppm
   string_to_integral_converter.cppm
+  value.cppm
   PRIVATE
   command_line_parser.cpp
   option.cpp

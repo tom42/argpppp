@@ -15,7 +15,7 @@ module;
 
 export module argpppp:options;
 import :option;
-import :option_handlers;
+import :option_handler;
 import :option_with_handler;
 import :optional_string;
 

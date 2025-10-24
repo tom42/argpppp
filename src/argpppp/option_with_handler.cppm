@@ -9,7 +9,7 @@ module;
 
 export module argpppp:option_with_handler;
 import :option;
-import :option_handlers;
+import :option_handler;
 
 namespace argpppp
 {

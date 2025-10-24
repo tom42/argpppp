@@ -12,7 +12,7 @@ module;
 #include <string>
 #include <utility>
 
-export module argpppp:option_handlers;
+export module argpppp:value;
 import :interval;
 import :option;
 import :option_handler;
