@@ -23,7 +23,6 @@ import :parse_number;
 namespace argpppp
 {
 
-// TODO: see how to split up this file (also the corresponding test!)
 // TODO: think about default values, at least for value<T>?
 //       * The parser could call a very generic method (e.g. prepare) which in the case of value handlers could write the default.
 //         Rationale: this feels somehow cleaner than requiring the user to laways suply a default. This way he always gets

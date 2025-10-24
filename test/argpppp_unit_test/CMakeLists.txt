@@ -8,7 +8,6 @@ add_executable(
   interval_test.cpp
   of_test.cpp
   option_handler_result_test.cpp
-  option_handlers_test.cpp
   option_test.cpp
   option_with_handler_test.cpp
   optional_string_test.cpp
@@ -17,7 +16,8 @@ add_executable(
   parse_result_test.cpp
   pf_test.cpp
   string_to_floating_point_converter_test.cpp
-  string_to_integral_converter_test.cpp)
+  string_to_integral_converter_test.cpp
+  value_test.cpp)
 vtg_target_enable_warnings_for_test(argpppp_unit_test)
 target_link_libraries(argpppp_unit_test PRIVATE argpppp_unit_testing Catch2::Catch2WithMain)
 catch_discover_tests(argpppp_unit_test)
