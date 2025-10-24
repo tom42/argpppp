@@ -3,6 +3,7 @@
 
 add_executable(
   argpppp_unit_test
+  callback_test.cpp
   command_line_parser_test.cpp
   interval_test.cpp
   of_test.cpp
