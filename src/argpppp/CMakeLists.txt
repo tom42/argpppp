@@ -17,6 +17,7 @@ set(
   options.cppm
   parse_number.cppm
   pf.cppm
+  set.cppm
   string_to_floating_point_converter.cppm
   string_to_integral_converter.cppm
   value.cppm

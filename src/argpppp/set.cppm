@@ -1,0 +1,47 @@
+// SPDX-FileCopyrightText: 2025 Thomas Mathys
+// SPDX-License-Identifier: MIT
+
+module;
+
+#include <functional>
+#include <string>
+#include <type_traits>
+
+export module argpppp:set;
+
+namespace argpppp
+{
+
+// TODO: do we need to export this?
+template <typename TCallable, typename TValue>
+concept setter_callable = std::is_invocable_v<TCallable, TValue>;
+
+export template <typename TValue>
+class set
+{
+public:
+    explicit set(TValue)
+    {
+        // Constructor is required for CTAD of specializations to work, so we cannot work with an undefined primary template.
+        static_assert(false, "only specializations of argpppp::set may be used");
+    }
+};
+
+// TODO: specialization for std::string (do not forget to use setter_callable)
+template <>
+class set<std::string>
+{
+public:
+    // TODO: exact type? do we take the string by reference or what? (currently: by calue)
+    // TODO: do we take the callable by && or what? (currently: by value)
+    set(setter_callable<std::string> auto setter) : m_setter(setter) {}
+
+private:
+    std::function<void(std::string)> m_setter;
+};
+
+// TODO: specialization for bool (do not forget to use setter_callable)
+
+// TODO: specialization for std::signed_integral (do not forget to use setter_callable)
+
+}
