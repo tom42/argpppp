@@ -65,7 +65,7 @@ TEST_CASE("value<bool>")
     }
 }
 
-TEST_CASE("value<std::signed_integral>")
+TEST_CASE("value<signed_integral>")
 {
     constexpr int16_t default_target_value = std::numeric_limits<int16_t>::max();
     constexpr int16_t custom_min = 0;
