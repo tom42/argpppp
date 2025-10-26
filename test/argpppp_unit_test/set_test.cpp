@@ -10,7 +10,10 @@ namespace argpppp_unit_test
 
 TEST_CASE("set<string>")
 {
+    argpppp::set<string> set;
     // TODO: implement
+    //       * successful parsing (own section)
+    //       * optional arguments are not supported (own section)
 }
 
 TEST_CASE("set<bool>")
