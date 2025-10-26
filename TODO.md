@@ -31,5 +31,4 @@ SPDX-License-Identifier: MIT
 
 # Better API
 * Continue development:
-  * Then we can try writing a value class, which converts arguments directly and stores them in fields
   * And the same we'd like to have for delegating to a storer function, I guess
