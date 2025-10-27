@@ -8,6 +8,7 @@ module;
 #include <type_traits>
 
 export module argpppp:set;
+import :option_handler;
 
 namespace argpppp
 {
@@ -29,12 +30,18 @@ public:
 
 // TODO: specialization for std::string (do not forget to use setter_callable)
 template <>
-class set<std::string>
+class set<std::string> : public option_handler
 {
 public:
     // TODO: exact type? do we take the string by reference or what? (currently: by calue)
     // TODO: do we take the callable by && or what? (currently: by value)
     set(setter_callable<std::string> auto setter) : m_setter(setter) {}
+
+    option_handler_result handle_option(const option&, const char* arg) const override
+    {
+        m_setter(arg);
+        return ok();
+    }
 
 private:
     std::function<void(std::string)> m_setter;

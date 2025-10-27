@@ -9,11 +9,13 @@ import argpppp;
 namespace argpppp_unit_test
 {
 
+using argpppp::ok;
 using string = std::string;
 
 TEST_CASE("set<string>")
 {
     string s;
+    argpppp::option opt('s', {}, {}, "STRING");
     argpppp::set<string> set([&s](string arg) { s = arg; });
     // TODO: implement
     //       * successful parsing (own section)
@@ -23,8 +25,7 @@ TEST_CASE("set<string>")
 
     SECTION("successful parsing")
     {
-        // TODO: call handle_option
-
+        CHECK(set.handle_option(opt, "arg") == ok());
         CHECK(s == "arg");
     }
 }
