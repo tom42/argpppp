@@ -56,9 +56,13 @@ class set<bool> : public option_handler
 public:
     set(setter_callable<bool> auto setter) : m_setter(setter) {}
 
-    option_handler_result handle_option(const option&, const char* /*arg*/) const override
+    option_handler_result handle_option(const option&, const char* arg) const override
     {
-        // TODO: throw if arg is given
+        if (arg)
+        {
+            throw std::logic_error("set<bool>: arguments are not supported. set<bool> should be used for switches only");
+        }
+
         m_setter(true);
         return ok();
     }
