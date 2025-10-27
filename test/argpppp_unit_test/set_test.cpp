@@ -39,6 +39,7 @@ TEST_CASE("set<string>")
 TEST_CASE("set<bool>")
 {
     bool flag = false;
+    argpppp::set<bool> set([&flag](bool arg) { flag = arg; });
 
     SECTION("successful parsing")
     {
