@@ -72,5 +72,11 @@ private:
 };
 
 // TODO: specialization for std::signed_integral (do not forget to use setter_callable)
+//       * Note: it would be totally awesome if we could not repeat all of the production code and test code we already have for value<std::signed_integral>
+//       * Actually, value<std::signed_integral> does very little: the bulk of the work is done by by parse_integral
+//         * Now, do we change parse_integral, so that it directly returns option_handler_result instead of parse_number_result?
+//           * Well that's one way to go about it
+//           * Another one would be to implement set<std::signed_integral> and value<std::signed_integral> with a common base class and template method pattern
+//           * And another one would be to wrap parse_integral into another class which does the conversion from raw number parsing to option_handler_result with range check
 
 }
