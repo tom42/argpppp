@@ -2,6 +2,9 @@
 // SPDX-License-Identifier: MIT
 
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/matchers/catch_matchers.hpp>
+#include <catch2/matchers/catch_matchers_exception.hpp>
+#include <stdexcept>
 #include <string>
 
 import argpppp;
@@ -17,16 +20,19 @@ TEST_CASE("set<string>")
     string s;
     argpppp::option opt('s', {}, {}, "STRING");
     argpppp::set<string> set([&s](string arg) { s = arg; });
-    // TODO: implement
-    //       * successful parsing (own section)
-    //         * Test more than one type of callable?
-    //         * Test that return type is ignored? (Then again - why bother?)
-    //       * optional arguments are not supported (own section)
 
     SECTION("successful parsing")
     {
         CHECK(set.handle_option(opt, "arg") == ok());
         CHECK(s == "arg");
+    }
+
+    SECTION("optional arguments are not supported")
+    {
+        CHECK_THROWS_MATCHES(
+            set.handle_option(opt, nullptr),
+            std::logic_error,
+            Catch::Matchers::Message("set<std::string>: optional arguments are currently not supported"));
     }
 }
 

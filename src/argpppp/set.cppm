@@ -4,6 +4,7 @@
 module;
 
 #include <functional>
+#include <stdexcept>
 #include <string>
 #include <type_traits>
 
@@ -28,7 +29,6 @@ public:
     }
 };
 
-// TODO: specialization for std::string (do not forget to use setter_callable)
 template <>
 class set<std::string> : public option_handler
 {
@@ -39,6 +39,11 @@ public:
 
     option_handler_result handle_option(const option&, const char* arg) const override
     {
+        if (!arg)
+        {
+            throw std::logic_error("set<std::string>: optional arguments are currently not supported");
+        }
+
         m_setter(arg);
         return ok();
     }
