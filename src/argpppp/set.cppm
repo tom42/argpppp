@@ -50,7 +50,22 @@ private:
     std::function<void(std::string)> m_setter;
 };
 
-// TODO: specialization for bool (do not forget to use setter_callable)
+template <>
+class set<bool> : public option_handler
+{
+public:
+    set(setter_callable<bool> auto setter) : m_setter(setter) {}
+
+    option_handler_result handle_option(const option&, const char* /*arg*/) const override
+    {
+        // TODO: throw if arg is given
+        m_setter(true);
+        return ok();
+    }
+
+private:
+    std::function<void(bool)> m_setter;
+};
 
 // TODO: specialization for std::signed_integral (do not forget to use setter_callable)
 

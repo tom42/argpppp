@@ -39,17 +39,21 @@ TEST_CASE("set<string>")
 TEST_CASE("set<bool>")
 {
     bool flag = false;
+    argpppp::option switch_opt('s');
     argpppp::set<bool> set([&flag](bool arg) { flag = arg; });
 
     SECTION("successful parsing")
     {
-        // TODO: implement
+        CHECK(set.handle_option(switch_opt, nullptr) == ok());
         CHECK(flag == true);
     }
 
     SECTION("handling arguments is not supported")
     {
-        // TODO: implement
+        CHECK_THROWS_MATCHES(
+            set.handle_option(switch_opt, "arg"),
+            std::logic_error,
+            Catch::Matchers::Message("set<bool>: arguments are not supported. set<bool> should be used for switches only"));
     }
 }
 
