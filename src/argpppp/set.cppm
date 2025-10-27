@@ -33,7 +33,6 @@ template <>
 class set<std::string> : public option_handler
 {
 public:
-    // TODO: exact type? do we take the string by reference or what? (currently: by calue)
     // TODO: do we take the callable by && or what? (currently: by value)
     set(setter_callable<std::string> auto setter) : m_setter(setter) {}
 
