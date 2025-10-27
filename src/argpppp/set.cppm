@@ -33,7 +33,6 @@ template <>
 class set<std::string> : public option_handler
 {
 public:
-    // TODO: do we take the callable by && or what? (currently: by value)
     set(setter_callable<std::string> auto setter) : m_setter(setter) {}
 
     option_handler_result handle_option(const option&, const char* arg) const override
