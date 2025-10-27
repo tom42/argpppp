@@ -38,7 +38,18 @@ TEST_CASE("set<string>")
 
 TEST_CASE("set<bool>")
 {
-    // TODO: implement
+    bool flag = false;
+
+    SECTION("successful parsing")
+    {
+        // TODO: implement
+        CHECK(flag == true);
+    }
+
+    SECTION("handling arguments is not supported")
+    {
+        // TODO: implement
+    }
 }
 
 TEST_CASE("set<signed_integral>")
