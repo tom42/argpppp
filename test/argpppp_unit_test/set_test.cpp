@@ -39,11 +39,12 @@ TEST_CASE("set<string>")
 TEST_CASE("set<bool>")
 {
     bool flag = false;
+    argpppp::option switch_opt('s');
     argpppp::set<bool> set([&flag](bool arg) { flag = arg; });
 
     SECTION("successful parsing")
     {
-        // TODO: implement
+        CHECK(set.handle_option(switch_opt, nullptr) == ok());
         CHECK(flag == true);
     }
 
