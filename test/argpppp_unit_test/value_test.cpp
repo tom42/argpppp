@@ -29,8 +29,7 @@ TEST_CASE("value<string>")
 
     SECTION("successful parsing")
     {
-        value.handle_option(opt, "arg");
-
+        CHECK(value.handle_option(opt, "arg") == ok());
         CHECK(target == "arg");
     }
 
@@ -51,8 +50,7 @@ TEST_CASE("value<bool>")
 
     SECTION("successful parsing")
     {
-        value.handle_option(switch_opt, nullptr);
-
+        CHECK(value.handle_option(switch_opt, nullptr) == ok());
         CHECK(target == true);
     }
 
