@@ -59,7 +59,14 @@ TEST_CASE("set<bool>")
 
 TEST_CASE("set<signed_integral>")
 {
-    // TODO: implement
+    // TODO: implement: what tests do we REALLY need?
+    argpppp::set<int> set;
+
+    SECTION("successful parsing")
+    {
+        // TODO: call handle_option successfully
+        // TODO: check value got stored in variable;
+    }
 }
 
 }
