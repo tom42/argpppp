@@ -61,11 +61,12 @@ TEST_CASE("set<signed_integral>")
 {
     // TODO: implement: what tests do we REALLY need?
     int i = 0;
+    argpppp::option opt('i', {}, {}, "INTEGER");
     argpppp::set<int> set([&i](int arg) { i = arg; });
 
     SECTION("successful parsing")
     {
-        // TODO: call handle_option successfully
+        CHECK(set.handle_option(opt, "123") == ok());
         // TODO: check value got stored in variable;
     }
 }
