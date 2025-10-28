@@ -60,7 +60,8 @@ TEST_CASE("set<bool>")
 TEST_CASE("set<signed_integral>")
 {
     // TODO: implement: what tests do we REALLY need?
-    argpppp::set<int> set;
+    int i = 0;
+    argpppp::set<int> set([&i](int arg) { i = arg; });
 
     SECTION("successful parsing")
     {

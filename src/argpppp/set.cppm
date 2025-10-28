@@ -88,7 +88,17 @@ template <std::signed_integral TValue>
 class set<TValue> : public option_handler
 {
 public:
+    set(setter_callable<int> auto setter) : m_setter(setter) {}
+
+    option_handler_result handle_option(const option&, const char* /*arg*/) const override
+    {
+        // TODO: throw if arg not given (optional args currently not supported)
+        // TODO: parse. On success, call setter. Otherwise, don't
+        throw "TODO: yikes: implement this";
+    }
+
 private:
+    std::function<void(TValue)> m_setter;
 };
 
 }
