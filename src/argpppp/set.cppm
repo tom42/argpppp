@@ -3,13 +3,16 @@
 
 module;
 
+#include <format>
 #include <functional>
 #include <stdexcept>
 #include <string>
 #include <type_traits>
 
 export module argpppp:set;
+import :interval;
 import :option_handler;
+import :parse_number;
 
 namespace argpppp
 {
@@ -90,14 +93,54 @@ class set<TValue> : public option_handler
 public:
     set(setter_callable<int> auto setter) : m_setter(setter) {}
 
-    option_handler_result handle_option(const option&, const char* /*arg*/) const override
+    option_handler_result handle_option(const option& opt, const char* arg) const override
     {
         // TODO: throw if arg not given (optional args currently not supported)
         // TODO: parse. On success, call setter. Otherwise, don't
-        throw "TODO: yikes: implement this";
+        // TODO: duplicated code. factor out and test separately? (also in value<signed_integral> and its test
+        if (!arg)
+        {
+            throw std::logic_error("set<std::signed_integral>: optional arguments are currently not supported");
+        }
+
+        TValue value;
+        auto parse_result = parse_integral(arg, value, m_base);
+        switch (parse_result)
+        {
+        case parse_number_result::success:
+            // Success, nothing to do
+            break;
+        case parse_number_result::underflow:
+        case parse_number_result::overflow:
+            return out_of_range_error(opt, arg);
+        case parse_number_result::leading_garbage:
+        case parse_number_result::trailing_garbage:
+            return error(opt, arg, "not a valid integer number");
+            break;
+        default:
+            throw std::logic_error("set<std::signed_integral>: unknown parse_number_result");
+            break;
+        }
+
+        if (!m_interval.includes(value))
+        {
+            return out_of_range_error(opt, arg);
+        }
+
+        m_setter(value);
+        return ok();
     }
 
+    // TODO: add all required setters and getters (see value<signed_integral>
+
 private:
+    option_handler_result out_of_range_error(const option& opt, const char* arg) const
+    {
+        return error(opt, arg, std::format("value must be in range [{}, {}]", m_interval.min(), m_interval.max()));
+    }
+
+    interval<TValue> m_interval;
+    int m_base = 10;
     std::function<void(TValue)> m_setter;
 };
 

@@ -67,7 +67,7 @@ TEST_CASE("set<signed_integral>")
     SECTION("successful parsing")
     {
         CHECK(set.handle_option(opt, "123") == ok());
-        // TODO: check value got stored in variable;
+        CHECK(i == 123);
     }
 }
 
