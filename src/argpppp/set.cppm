@@ -74,6 +74,15 @@ private:
     std::function<void(bool)> m_setter;
 };
 
+// TODO: name
+// TODO: move into own file (or parse_number.cppm)
+// TODO: unit test: most of the heavy lifting from value<signed_integral>'s test goes here
+class foo final
+{
+public:
+private:
+};
+
 // TODO: specialization for std::signed_integral (do not forget to use setter_callable)
 //       * Note: it would be totally awesome if we could not repeat all of the production code and test code we already have for value<std::signed_integral>
 //       * Actually, value<std::signed_integral> does very little: the bulk of the work is done by by parse_integral
