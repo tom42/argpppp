@@ -131,7 +131,34 @@ public:
         return ok();
     }
 
-    // TODO: add all required setters and getters (see value<signed_integral>
+    set& min(TValue min)
+    {
+        m_interval.min(min);
+        return *this;
+    }
+
+    set& max(TValue max)
+    {
+        m_interval.max(max);
+        return *this;
+    }
+
+    set& auto_detect_base()
+    {
+        base(0);
+        return *this;
+    }
+
+    set& base(int base)
+    {
+        if (!is_valid_base(base))
+        {
+            throw std::invalid_argument("base: invalid base");
+        }
+
+        m_base = base;
+        return *this;
+    }
 
 private:
     option_handler_result out_of_range_error(const option& opt, const char* arg) const

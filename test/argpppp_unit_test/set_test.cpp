@@ -59,7 +59,11 @@ TEST_CASE("set<bool>")
 
 TEST_CASE("set<signed_integral>")
 {
-    // TODO: implement: what tests do we REALLY need?
+    // TODO: implement: what tests do we REALLY need?:
+    //       * min?
+    //       * max?
+    //       * auto_detect_base?
+    //       * base?
     int i = 0;
     argpppp::option opt('i', {}, {}, "INTEGER");
     argpppp::set<int> set([&i](int arg) { i = arg; });
