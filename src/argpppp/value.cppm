@@ -144,11 +144,6 @@ public:
     }
 
 private:
-    option_handler_result out_of_range_error(const option& opt, const char* arg) const
-    {
-        return error(opt, arg, std::format("value must be in range [{}, {}]", m_interval.min(), m_interval.max()));
-    }
-
     interval<TValue> m_interval;
     int m_base = 10;
     TValue& m_target_variable;
