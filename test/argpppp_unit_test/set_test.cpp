@@ -5,6 +5,7 @@
 #include <catch2/generators/catch_generators.hpp>
 #include <catch2/matchers/catch_matchers.hpp>
 #include <catch2/matchers/catch_matchers_exception.hpp>
+#include <optional>
 #include <stdexcept>
 #include <string>
 #include <utility>
@@ -14,6 +15,7 @@ import argpppp;
 namespace argpppp_unit_test
 {
 
+using argpppp::error;
 using argpppp::ok;
 using string = std::string;
 using std::make_pair;
@@ -62,10 +64,7 @@ TEST_CASE("set<bool>")
 
 TEST_CASE("set<signed_integral>")
 {
-    // TODO: implement: what tests do we REALLY need?:
-    //       * min?
-    //       * max?
-    int i = 0;
+    std::optional<int> i;
     argpppp::option opt('i', {}, {}, "INTEGER");
     argpppp::set<int> set([&i](int arg) { i = arg; });
 
@@ -103,6 +102,17 @@ TEST_CASE("set<signed_integral>")
 
         CHECK(set.handle_option(opt, arg) == ok());
         CHECK(i == expected_value);
+    }
+
+    SECTION("failed parsing, out of range")
+    {
+        auto [arg, expected_error_message] = GENERATE(
+            make_pair("0", "invalid argument '0' for option '-i': value must be in range [1, 10]"),
+            make_pair("11", "invalid argument '11' for option '-i': value must be in range [1, 10]"));
+        set.min(1).max(10);
+
+        CHECK(set.handle_option(opt, arg) == error(expected_error_message));
+        CHECK(i.has_value() == false);
     }
 }
 
