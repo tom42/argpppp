@@ -126,7 +126,7 @@ public:
     {
         if (!is_valid_base(base))
         {
-            // TODO: in principle a test is missing here
+            // TODO: in principle a test is missing here => However, consider moving all the data into the parser, and then we only delegate to the parser here. The check is then done by the parser.
             throw std::invalid_argument("base: invalid base");
         }
 
