@@ -36,7 +36,7 @@ template <>
 class set<std::string> : public option_handler
 {
 public:
-    set(setter_callable<std::string> auto setter) : m_setter(setter) {}
+    explicit set(setter_callable<std::string> auto setter) : m_setter(setter) {}
 
     option_handler_result handle_option(const option&, const char* arg) const override
     {
@@ -57,7 +57,7 @@ template <>
 class set<bool> : public option_handler
 {
 public:
-    set(setter_callable<bool> auto setter) : m_setter(setter) {}
+    explicit set(setter_callable<bool> auto setter) : m_setter(setter) {}
 
     option_handler_result handle_option(const option&, const char* arg) const override
     {
@@ -89,7 +89,7 @@ template <std::signed_integral TValue>
 class set<TValue> : public option_handler
 {
 public:
-    set(setter_callable<int> auto setter) : m_setter(setter) {}
+    explicit set(setter_callable<int> auto setter) : m_setter(setter) {}
 
     option_handler_result handle_option(const option& opt, const char* arg) const override
     {
