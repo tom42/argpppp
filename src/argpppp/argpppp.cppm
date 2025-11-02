@@ -15,6 +15,7 @@ export import :options;
 export import :parse_number;
 export import :pf;
 export import :set;
+export import :signed_integral_argument_parser;
 export import :string_to_floating_point_converter;
 export import :string_to_integral_converter;
 export import :value;
