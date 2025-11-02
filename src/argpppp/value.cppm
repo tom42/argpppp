@@ -21,6 +21,7 @@ import :option_handler;
 import :option_handler_result;
 import :optional_string;
 import :parse_number;
+import :signed_integral_argument_parser;
 
 namespace argpppp
 {
@@ -98,46 +99,17 @@ class value<TValue> : public option_handler
 public:
     explicit value(TValue& target_variable) : m_target_variable(target_variable) {}
 
-    option_handler_result handle_option(const option& /*opt*/, const char* /*arg*/) const override
+    option_handler_result handle_option(const option& opt, const char* arg) const override
     {
-        // TODO: drop in signed_integral_argument_parser (see set<T>)
-        // * invoke parser
-        // * on success, set variable
-        // * return result from parser (not hardcoded as below)
-        return ok();
-
-        /*if (!arg)
-        {
-            throw std::logic_error("value<std::signed_integral>: optional arguments are currently not supported");
-        }
-
         TValue value;
-        auto parse_result = parse_integral(arg, value, m_base);
-        switch (parse_result)
+        auto result = signed_integral_argument_parser<TValue>(m_interval, m_base).parse_arg(opt, arg, value);
+
+        if (result.is_success())
         {
-            case parse_number_result::success:
-                // Success, nothing to do
-                break;
-            case parse_number_result::underflow:
-            case parse_number_result::overflow:
-                return out_of_range_error(opt, arg);
-            case parse_number_result::leading_garbage:
-            case parse_number_result::trailing_garbage:
-                return error(opt, arg, "not a valid integer number");
-                break;
-            default:
-                throw std::logic_error("value<std::signed_integral>: unknown parse_number_result");
-                break;
+            m_target_variable = value;
         }
 
-        if (!m_interval.includes(value))
-        {
-            return out_of_range_error(opt, arg);
-        }
-
-        m_target_variable = static_cast<TValue>(value);
-        return ok();
-        */
+        return result;
     }
 
     value& min(TValue min)
