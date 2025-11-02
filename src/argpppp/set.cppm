@@ -81,7 +81,7 @@ template <typename TValue>
 class foo final
 {
 public:
-    foo() {}
+    foo(TValue base) : m_base(base) {}
 
     // TODO: name
     option_handler_result bar(const option& opt, const char* arg, TValue& value)
@@ -149,7 +149,7 @@ public:
     {
         // TODO: duplicated code. factor out and test separately? (also in value<signed_integral> and its test
         TValue value;
-        auto result = foo<TValue>().bar(opt, arg, value);
+        auto result = foo<TValue>(m_base).bar(opt, arg, value);
 
         m_setter(value); // TODO: only do this if successful! (do we need to test this? in principle, yes?)
         return result;

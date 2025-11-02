@@ -2,10 +2,12 @@
 // SPDX-License-Identifier: MIT
 
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/generators/catch_generators.hpp>
 #include <catch2/matchers/catch_matchers.hpp>
 #include <catch2/matchers/catch_matchers_exception.hpp>
 #include <stdexcept>
 #include <string>
+#include <utility>
 
 import argpppp;
 
@@ -14,6 +16,7 @@ namespace argpppp_unit_test
 
 using argpppp::ok;
 using string = std::string;
+using std::make_pair;
 
 TEST_CASE("set<string>")
 {
@@ -62,16 +65,33 @@ TEST_CASE("set<signed_integral>")
     // TODO: implement: what tests do we REALLY need?:
     //       * min?
     //       * max?
-    //       * auto_detect_base?
-    //       * base?
     int i = 0;
     argpppp::option opt('i', {}, {}, "INTEGER");
     argpppp::set<int> set([&i](int arg) { i = arg; });
 
-    SECTION("successful parsing")
+    SECTION("successful parsing, default base")
     {
-        CHECK(set.handle_option(opt, "123") == ok());
-        CHECK(i == 123);
+        CHECK(set.handle_option(opt, "10") == ok());
+        CHECK(i == 10);
+    }
+
+    SECTION("successful parsing, non-default base")
+    {
+        set.base(36);
+
+        CHECK(set.handle_option(opt, "10") == ok());
+        CHECK(i == 36);
+    }
+
+    SECTION("successful parsing, detect base automatically")
+    {
+        auto [arg, expected_value] = GENERATE(
+            make_pair("123", 123),
+            make_pair("0x123", 0x123));
+        set.auto_detect_base();
+
+        CHECK(set.handle_option(opt, arg) == ok());
+        CHECK(i == expected_value);
     }
 }
 
