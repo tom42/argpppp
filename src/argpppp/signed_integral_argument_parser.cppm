@@ -17,6 +17,7 @@ namespace argpppp
 {
 
 // TODO: unit test: most of the heavy lifting from value<signed_integral>'s test goes here
+//       Note: value<signed_integral>'s can probably be much simplified, similar to set<signed_integral>'s test.
 template <std::signed_integral TValue>
 class signed_integral_argument_parser final
 {
