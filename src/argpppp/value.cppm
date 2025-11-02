@@ -8,13 +8,10 @@ module;
 #include <string>
 
 export module argpppp:value;
-// TODO: clean up imports
 import :interval;
 import :option;
 import :option_handler;
 import :option_handler_result;
-import :optional_string;
-import :parse_number;
 import :signed_integral_argument_parser;
 
 namespace argpppp

@@ -10,8 +10,9 @@ module;
 
 export module argpppp:set;
 import :interval;
+import :option;
 import :option_handler;
-import :parse_number;
+import :option_handler_result;
 import :signed_integral_argument_parser;
 
 namespace argpppp
