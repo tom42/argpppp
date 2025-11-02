@@ -77,10 +77,10 @@ private:
 // TODO: move into own file (or parse_number.cppm)
 // TODO: unit test: most of the heavy lifting from value<signed_integral>'s test goes here
 template <std::signed_integral TValue>
-class signed_integral_parser final
+class signed_integral_argument_parser final
 {
 public:
-    signed_integral_parser(const interval<TValue>& interval, TValue base)
+    signed_integral_argument_parser(const interval<TValue>& interval, TValue base)
         : m_interval(interval)
         , m_base(base) {}
 
@@ -147,7 +147,7 @@ public:
     option_handler_result handle_option(const option& opt, const char* arg) const override
     {
         TValue value;
-        auto result = signed_integral_parser<TValue>(m_interval, m_base).parse_arg(opt, arg, value);
+        auto result = signed_integral_argument_parser<TValue>(m_interval, m_base).parse_arg(opt, arg, value);
 
         if (result.is_success())
         {
