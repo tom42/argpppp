@@ -137,7 +137,6 @@ private:
 //           * Another one would be to implement set<std::signed_integral> and value<std::signed_integral> with a common base class and template method pattern
 //           * And another one would be to wrap parse_integral into another class which does the conversion from raw number parsing to option_handler_result with range check
 // TODO: ideally this shares most production and test code with value<std::signed_integral>
-//       * Set up a very basic test (should really just test success/error)
 //       * Extract common code from value<std::signed_integral> (that has still a full blown test)
 //       * Move relevant test code from value<>'s test to the new code's test
 //       * Simplify remaining test for value<>
@@ -149,7 +148,6 @@ public:
 
     option_handler_result handle_option(const option& opt, const char* arg) const override
     {
-        // TODO: duplicated code. factor out and test separately? (also in value<signed_integral> and its test
         TValue value;
         auto result = foo<TValue>(m_interval, m_base).bar(opt, arg, value);
 
