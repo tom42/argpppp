@@ -74,14 +74,13 @@ private:
     std::function<void(bool)> m_setter;
 };
 
-// TODO: name
 // TODO: move into own file (or parse_number.cppm)
 // TODO: unit test: most of the heavy lifting from value<signed_integral>'s test goes here
 template <std::signed_integral TValue>
-class foo final
+class signed_integral_parser final
 {
 public:
-    foo(const interval<TValue>& interval, TValue base)
+    signed_integral_parser(const interval<TValue>& interval, TValue base)
         : m_interval(interval)
         , m_base(base) {}
 
@@ -148,7 +147,7 @@ public:
     option_handler_result handle_option(const option& opt, const char* arg) const override
     {
         TValue value;
-        auto result = foo<TValue>(m_interval, m_base).parse_arg(opt, arg, value);
+        auto result = signed_integral_parser<TValue>(m_interval, m_base).parse_arg(opt, arg, value);
 
         if (result.is_success())
         {
