@@ -81,15 +81,16 @@ template <typename TValue>
 class foo final
 {
 public:
+    foo() {}
+
     // TODO: name
-    option_handler_result bar(const option& opt, const char* arg)
+    option_handler_result bar(const option& opt, const char* arg, TValue& value)
     {
         if (!arg)
         {
             throw std::logic_error("set<std::signed_integral>: optional arguments are currently not supported");
         }
 
-        TValue value;
         auto parse_result = parse_integral(arg, value, m_base);
         switch (parse_result)
         {
@@ -122,8 +123,8 @@ private:
         return error(opt, arg, std::format("value must be in range [{}, {}]", m_interval.min(), m_interval.max()));
     }
 
-    interval<TValue> m_interval; // TODO: need a way to set this (ctor?)
-    int m_base = 10; // TODO: need a way to set this (ctor?)
+    interval<TValue> m_interval; // TODO: need a way to set this (ctor? test?)
+    int m_base = 10; // TODO: need a way to set this (ctor? test?)
 };
 
 // TODO: specialization for std::signed_integral (do not forget to use setter_callable)
@@ -147,9 +148,9 @@ public:
     option_handler_result handle_option(const option& opt, const char* arg) const override
     {
         // TODO: duplicated code. factor out and test separately? (also in value<signed_integral> and its test
-        auto result = foo<TValue>().bar(opt, arg);
+        TValue value;
+        auto result = foo<TValue>().bar(opt, arg, value);
 
-        TValue value = 666; // TODO: remove this: this is only temporarily here to get shit compiling
         m_setter(value); // TODO: only do this if successful! (do we need to test this? in principle, yes?)
         return result;
     }
