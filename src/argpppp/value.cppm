@@ -22,7 +22,6 @@ namespace argpppp
 //         Rationale: this feels somehow cleaner than requiring the user to laways suply a default. This way he always gets
 //         a default, but if he did not set one then it's default construction.
 //       * Play around with boost program options: when/how are default values written?
-// TODO: also allow value<T> to work with setter callbacks. Actually we do need this for shrinkler
 export template <typename TValue>
 class value
 {
