@@ -77,7 +77,7 @@ private:
 // TODO: name
 // TODO: move into own file (or parse_number.cppm)
 // TODO: unit test: most of the heavy lifting from value<signed_integral>'s test goes here
-template <typename TValue>
+template <std::signed_integral TValue>
 class foo final
 {
 public:
