@@ -21,7 +21,7 @@ template <std::signed_integral TValue>
 class signed_integral_argument_parser final
 {
 public:
-    signed_integral_argument_parser(const interval<TValue>& interval, TValue base)
+    signed_integral_argument_parser(const interval<TValue>& interval, int base)
         : m_interval(interval)
         , m_base(base) {
     }
