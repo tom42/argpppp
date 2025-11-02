@@ -93,6 +93,17 @@ TEST_CASE("set<signed_integral>")
         CHECK(set.handle_option(opt, arg) == ok());
         CHECK(i == expected_value);
     }
+
+    SECTION("successful parsing, in range")
+    {
+        auto [arg, expected_value] = GENERATE(
+            make_pair("1", 1),
+            make_pair("10", 10));
+        set.min(1).max(10);
+
+        CHECK(set.handle_option(opt, arg) == ok());
+        CHECK(i == expected_value);
+    }
 }
 
 }
