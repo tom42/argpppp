@@ -16,19 +16,23 @@ import :pf;
 namespace argpppp
 {
 
-export struct failure final
+export class failure final
 {
+public:
     failure(int status, int errnum, std::string message)
-        : status(status)
-        , errnum(errnum)
-        , message(std::move(message))
+        : m_status(status)
+        , m_errnum(errnum)
+        , m_message(std::move(message))
     {}
+
+    // TODO: add getters? (currently nobody is even using this...)
 
     bool operator==(const failure&) const = default;
 
-    int status;
-    int errnum;
-    std::string message;
+private:
+    int m_status;
+    int m_errnum;
+    std::string m_message;
 };
 
 export using failure_callback = std::function<void(failure f)>;
