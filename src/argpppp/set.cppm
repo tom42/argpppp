@@ -85,8 +85,7 @@ public:
         : m_interval(interval)
         , m_base(base) {}
 
-    // TODO: name
-    option_handler_result bar(const option& opt, const char* arg, TValue& value)
+    option_handler_result parse_arg(const option& opt, const char* arg, TValue& value)
     {
         if (!arg)
         {
@@ -149,7 +148,7 @@ public:
     option_handler_result handle_option(const option& opt, const char* arg) const override
     {
         TValue value;
-        auto result = foo<TValue>(m_interval, m_base).bar(opt, arg, value);
+        auto result = foo<TValue>(m_interval, m_base).parse_arg(opt, arg, value);
 
         if (result.is_success())
         {
