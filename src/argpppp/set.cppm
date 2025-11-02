@@ -77,10 +77,53 @@ private:
 // TODO: name
 // TODO: move into own file (or parse_number.cppm)
 // TODO: unit test: most of the heavy lifting from value<signed_integral>'s test goes here
+template <typename TValue>
 class foo final
 {
 public:
+    // TODO: name
+    option_handler_result bar(const option& opt, const char* arg)
+    {
+        if (!arg)
+        {
+            throw std::logic_error("set<std::signed_integral>: optional arguments are currently not supported");
+        }
+
+        TValue value;
+        auto parse_result = parse_integral(arg, value, m_base);
+        switch (parse_result)
+        {
+            case parse_number_result::success:
+                // Success, nothing to do
+                break;
+            case parse_number_result::underflow:
+            case parse_number_result::overflow:
+                return out_of_range_error(opt, arg);
+            case parse_number_result::leading_garbage:
+            case parse_number_result::trailing_garbage:
+                return error(opt, arg, "not a valid integer number");
+                break;
+            default:
+                throw std::logic_error("set<std::signed_integral>: unknown parse_number_result");
+                break;
+        }
+
+        if (!m_interval.includes(value))
+        {
+            return out_of_range_error(opt, arg);
+        }
+
+        return ok();
+    }
+
 private:
+    option_handler_result out_of_range_error(const option& opt, const char* arg) const
+    {
+        return error(opt, arg, std::format("value must be in range [{}, {}]", m_interval.min(), m_interval.max()));
+    }
+
+    interval<TValue> m_interval; // TODO: need a way to set this (ctor?)
+    int m_base = 10; // TODO: need a way to set this (ctor?)
 };
 
 // TODO: specialization for std::signed_integral (do not forget to use setter_callable)
@@ -91,7 +134,6 @@ private:
 //           * Another one would be to implement set<std::signed_integral> and value<std::signed_integral> with a common base class and template method pattern
 //           * And another one would be to wrap parse_integral into another class which does the conversion from raw number parsing to option_handler_result with range check
 // TODO: ideally this shares most production and test code with value<std::signed_integral>
-//       * Copypaste code from value<std::signed_integral>
 //       * Set up a very basic test (should really just test success/error)
 //       * Extract common code from value<std::signed_integral> (that has still a full blown test)
 //       * Move relevant test code from value<>'s test to the new code's test
@@ -104,40 +146,12 @@ public:
 
     option_handler_result handle_option(const option& opt, const char* arg) const override
     {
-        // TODO: throw if arg not given (optional args currently not supported)
-        // TODO: parse. On success, call setter. Otherwise, don't
         // TODO: duplicated code. factor out and test separately? (also in value<signed_integral> and its test
-        if (!arg)
-        {
-            throw std::logic_error("set<std::signed_integral>: optional arguments are currently not supported");
-        }
+        auto result = foo<TValue>().bar(opt, arg);
 
-        TValue value;
-        auto parse_result = parse_integral(arg, value, m_base);
-        switch (parse_result)
-        {
-        case parse_number_result::success:
-            // Success, nothing to do
-            break;
-        case parse_number_result::underflow:
-        case parse_number_result::overflow:
-            return out_of_range_error(opt, arg);
-        case parse_number_result::leading_garbage:
-        case parse_number_result::trailing_garbage:
-            return error(opt, arg, "not a valid integer number");
-            break;
-        default:
-            throw std::logic_error("set<std::signed_integral>: unknown parse_number_result");
-            break;
-        }
-
-        if (!m_interval.includes(value))
-        {
-            return out_of_range_error(opt, arg);
-        }
-
-        m_setter(value);
-        return ok();
+        TValue value = 666; // TODO: remove this: this is only temporarily here to get shit compiling
+        m_setter(value); // TODO: only do this if successful! (do we need to test this? in principle, yes?)
+        return result;
     }
 
     set& min(TValue min)
@@ -170,11 +184,6 @@ public:
     }
 
 private:
-    option_handler_result out_of_range_error(const option& opt, const char* arg) const
-    {
-        return error(opt, arg, std::format("value must be in range [{}, {}]", m_interval.min(), m_interval.max()));
-    }
-
     interval<TValue> m_interval;
     int m_base = 10;
     std::function<void(TValue)> m_setter;
