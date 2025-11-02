@@ -26,10 +26,11 @@ public:
         , m_base(base) {
     }
 
-    option_handler_result parse_arg(const option& opt, const char* arg, TValue& value)
+    option_handler_result parse_arg(const option& opt, const char* arg, TValue& value, const char* /*calling_class*/)
     {
         if (!arg)
         {
+            // TODO: use calling_class
             throw std::logic_error("set<std::signed_integral>: optional arguments are currently not supported");
         }
 
@@ -47,6 +48,7 @@ public:
                 return error(opt, arg, "not a valid integer number");
                 break;
             default:
+                // TODO: use calling_class
                 throw std::logic_error("set<std::signed_integral>: unknown parse_number_result");
                 break;
         }
