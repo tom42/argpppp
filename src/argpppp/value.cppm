@@ -3,6 +3,7 @@
 
 module;
 
+// TODO: clean up includes
 #include <concepts>
 #include <cstdlib>
 #include <format>
@@ -13,6 +14,7 @@ module;
 #include <utility>
 
 export module argpppp:value;
+// TODO: clean up imports
 import :interval;
 import :option;
 import :option_handler;
@@ -96,9 +98,15 @@ class value<TValue> : public option_handler
 public:
     explicit value(TValue& target_variable) : m_target_variable(target_variable) {}
 
-    option_handler_result handle_option(const option& opt, const char* arg) const override
+    option_handler_result handle_option(const option& /*opt*/, const char* /*arg*/) const override
     {
-        if (!arg)
+        // TODO: drop in signed_integral_argument_parser (see set<T>)
+        // * invoke parser
+        // * on success, set variable
+        // * return result from parser (not hardcoded as below)
+        return ok();
+
+        /*if (!arg)
         {
             throw std::logic_error("value<std::signed_integral>: optional arguments are currently not supported");
         }
@@ -129,6 +137,7 @@ public:
 
         m_target_variable = static_cast<TValue>(value);
         return ok();
+        */
     }
 
     value& min(TValue min)
