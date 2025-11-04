@@ -16,6 +16,7 @@ add_executable(
   parse_result_test.cpp
   pf_test.cpp
   set_test.cpp
+  signed_integral_argument_parser_test.cpp
   string_to_floating_point_converter_test.cpp
   string_to_integral_converter_test.cpp
   value_test.cpp)
