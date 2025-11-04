@@ -25,7 +25,11 @@ public:
         , m_message(std::move(message))
     {}
 
-    // TODO: add getters? (currently nobody is even using this...)
+    int status() const { return m_status; }
+
+    int errnum() const { return m_errnum; }
+
+    const std::string& message() const { return m_message; }
 
     bool operator==(const failure&) const = default;
 
