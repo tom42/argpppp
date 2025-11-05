@@ -89,7 +89,8 @@ public:
 
     option_handler_result handle_option(const option& opt, const char* arg) const override
     {
-        signed_integral_argument_parser<TValue> arg_parser(m_interval, m_base);
+        // TODO: make parse a member and configure it
+        signed_integral_argument_parser<TValue> arg_parser;
 
         TValue value;
         auto result = arg_parser.parse_arg(opt, arg, value, "set<std::signed_integral>");

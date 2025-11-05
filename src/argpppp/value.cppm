@@ -91,10 +91,8 @@ public:
 
     option_handler_result handle_option(const option& opt, const char* arg) const override
     {
-        signed_integral_argument_parser<TValue> arg_parser(m_interval, m_base);
-
         TValue value;
-        auto result = arg_parser.parse_arg(opt, arg, value, "value<std::signed_integral>");
+        auto result = m_parser.parse_arg(opt, arg, value, "value<std::signed_integral>");
 
         if (result.is_success())
         {
@@ -106,36 +104,30 @@ public:
 
     value& min(TValue min)
     {
-        m_interval.min(min);
+        m_parser.min(min);
         return *this;
     }
 
     value& max(TValue max)
     {
-        m_interval.max(max);
+        m_parser.max(max);
         return *this;
     }
 
     value& auto_detect_base()
     {
-        base(0);
+        m_parser.auto_detect_base();
         return *this;
     }
 
     value& base(int base)
     {
-        if (!is_valid_base(base))
-        {
-            throw std::invalid_argument("base: invalid base");
-        }
-
-        m_base = base;
+        m_parser.base(base);
         return *this;
     }
 
 private:
-    interval<TValue> m_interval;
-    int m_base = 10;
+    signed_integral_argument_parser<TValue> m_parser;
     TValue& m_target_variable;
 };
 

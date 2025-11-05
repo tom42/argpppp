@@ -22,12 +22,7 @@ template <std::signed_integral TValue>
 class signed_integral_argument_parser final
 {
 public:
-    signed_integral_argument_parser(const interval<TValue>& interval, int base)
-        : m_interval(interval)
-        , m_base(base) {
-    }
-
-    option_handler_result parse_arg(const option& opt, const char* arg, TValue& value, const char* calling_class)
+    option_handler_result parse_arg(const option& opt, const char* arg, TValue& value, const char* calling_class) const
     {
         if (!arg)
         {
@@ -58,6 +53,31 @@ public:
         }
 
         return ok();
+    }
+
+    void min(TValue min)
+    {
+        m_interval.min(min);
+    }
+
+    void max(TValue max)
+    {
+        m_interval.max(max);
+    }
+
+    void auto_detect_base()
+    {
+        base(0);
+    }
+
+    void base(int base)
+    {
+        if (!is_valid_base(base))
+        {
+            throw std::invalid_argument("base: invalid base");
+        }
+
+        m_base = base;
     }
 
 private:
