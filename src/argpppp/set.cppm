@@ -89,11 +89,8 @@ public:
 
     option_handler_result handle_option(const option& opt, const char* arg) const override
     {
-        // TODO: make parse a member and configure it
-        signed_integral_argument_parser<TValue> arg_parser;
-
         TValue value;
-        auto result = arg_parser.parse_arg(opt, arg, value, "set<std::signed_integral>");
+        auto result = m_parser.parse_arg(opt, arg, value, "set<std::signed_integral>");
 
         if (result.is_success())
         {
@@ -105,39 +102,30 @@ public:
 
     set& min(TValue min)
     {
-        m_interval.min(min);
+        m_parser.min(min);
         return *this;
     }
 
     set& max(TValue max)
     {
-        m_interval.max(max);
+        m_parser.max(max);
         return *this;
     }
 
     set& auto_detect_base()
     {
-        base(0);
+        m_parser.auto_detect_base();
         return *this;
     }
 
     set& base(int base)
     {
-        if (!is_valid_base(base))
-        {
-            // TODO: in principle a test is missing here
-            //       => However, consider moving all the data into the parser, and then we only delegate to the parser here. The check is then done by the parser.
-            //       => Obviously, if we do this, do it for value<signed_integral> too
-            throw std::invalid_argument("base: invalid base");
-        }
-
-        m_base = base;
+        m_parser.base(base);
         return *this;
     }
 
 private:
-    interval<TValue> m_interval;
-    int m_base = 10;
+    signed_integral_argument_parser<TValue> m_parser;
     std::function<void(TValue)> m_setter;
 };
 
