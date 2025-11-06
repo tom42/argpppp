@@ -15,8 +15,9 @@ namespace argpppp_unit_test
 // TODO: implement (see value_test<signed_integral>, most of it should go here, probably)
 TEST_CASE("signed_integral_argument_parser")
 {
-    const std::string caller_name("caller_name"); // TODO: use random value?
-    int16_t value; // TODO: initialize this to some known (randomized default value?)
+    constexpr int16_t default_value = 31337;
+    const std::string caller_name("caller_name");
+    int16_t value = default_value;
     argpppp::option opt('i', {}, {}, "INTEGER");
     argpppp::signed_integral_argument_parser<int16_t> parser;
 
@@ -26,7 +27,7 @@ TEST_CASE("signed_integral_argument_parser")
             parser.parse_arg(opt, nullptr, value, caller_name.c_str()),
             std::logic_error,
             Catch::Matchers::Message(caller_name + ": optional arguments are currently not supported"));
-        // TODO: check: value is not changed (or, better interface? It would really make more sense, no?)
+        CHECK(value == default_value);
     }
 }
 
