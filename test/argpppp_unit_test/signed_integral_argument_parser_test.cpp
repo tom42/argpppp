@@ -2,6 +2,10 @@
 // SPDX-License-Identifier: MIT
 
 #include <catch2/catch_test_macros.hpp>
+#include <cstdint>
+#include <catch2/matchers/catch_matchers.hpp>
+#include <catch2/matchers/catch_matchers_exception.hpp>
+#include <string>
 
 import argpppp;
 
@@ -11,6 +15,19 @@ namespace argpppp_unit_test
 // TODO: implement (see value_test<signed_integral>, most of it should go here, probably)
 TEST_CASE("signed_integral_argument_parser")
 {
+    const std::string caller_name("caller_name"); // TODO: use random value?
+    int16_t value; // TODO: initialize this to some known (randomized default value?)
+    argpppp::option opt('i', {}, {}, "INTEGER");
+    argpppp::signed_integral_argument_parser<int16_t> parser;
+
+    SECTION("optional arguments are not supported")
+    {
+        CHECK_THROWS_MATCHES(
+            parser.parse_arg(opt, nullptr, value, caller_name.c_str()),
+            std::logic_error,
+            Catch::Matchers::Message(caller_name + ": optional arguments are currently not supported"));
+        // TODO: check: value is not changed (or, better interface? It would really make more sense, no?)
+    }
 }
 
 }
@@ -24,7 +41,6 @@ TEST_CASE("value<signed_integral>")
     constexpr int16_t custom_min = 0;
     constexpr int16_t custom_max = 10;
     int16_t target = default_target_value;
-    argpppp::option opt('i', {}, {}, "INTEGER");
     argpppp::value value(target);
 
     SECTION("successful parsing with default settings")
@@ -104,14 +120,6 @@ TEST_CASE("value<signed_integral>")
             value.base(1),
             std::invalid_argument,
             Catch::Matchers::Message("base: invalid base"));
-    }
-
-    SECTION("optional arguments are not supported")
-    {
-        CHECK_THROWS_MATCHES(
-            value.handle_option(opt, nullptr),
-            std::logic_error,
-            Catch::Matchers::Message("value<std::signed_integral>: optional arguments are currently not supported"));
     }
 }
 
