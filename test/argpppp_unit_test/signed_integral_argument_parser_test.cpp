@@ -12,11 +12,15 @@ import argpppp;
 namespace argpppp_unit_test
 {
 
+using argpppp::error;
+using argpppp::ok;
+
 // TODO: implement (see value_test<signed_integral>, most of it should go here, probably)
 TEST_CASE("signed_integral_argument_parser")
 {
-    constexpr int16_t default_value = 31337;
-    const std::string caller_name("caller_name");
+    constexpr int16_t default_value = 1234;
+    constexpr int16_t custom_min = 0;
+    constexpr int16_t custom_max = 10;
     int16_t value = default_value;
     argpppp::option opt('i', {}, {}, "INTEGER");
     argpppp::signed_integral_argument_parser<int16_t> parser;
@@ -24,10 +28,71 @@ TEST_CASE("signed_integral_argument_parser")
     SECTION("optional arguments are not supported")
     {
         CHECK_THROWS_MATCHES(
-            parser.parse_arg(opt, nullptr, value, caller_name.c_str()),
+            parser.parse_arg(opt, nullptr, value),
             std::logic_error,
-            Catch::Matchers::Message(caller_name + ": optional arguments are currently not supported"));
+            Catch::Matchers::Message("optional arguments are currently not supported"));
         CHECK(value == default_value);
+    }
+
+    SECTION("successful parsing with default settings")
+    {
+        CHECK(parser.parse_arg(opt, "-32768", value) == ok());
+        CHECK(value == -32768);
+
+        CHECK(parser.parse_arg(opt, "32767", value) == ok());
+        CHECK(value == 32767);
+    }
+
+    SECTION("successful parsing with custom minimum and maximum value")
+    {
+        parser.min(custom_min);
+        parser.max(custom_max);
+
+        CHECK(parser.parse_arg(opt, "0", value) == ok());
+        CHECK(value == 0);
+
+        CHECK(parser.parse_arg(opt, "10", value) == ok());
+        CHECK(value == 10);
+    }
+
+    SECTION("parsed value is out of range, custom minimum and maximum value")
+    {
+        parser.min(custom_min);
+        parser.max(custom_max);
+
+        CHECK(parser.parse_arg(opt, "-1", value) == error("invalid argument '-1' for option '-i': value must be in range [0, 10]"));
+        CHECK(value == default_value);
+
+        CHECK(parser.parse_arg(opt, "11", value) == error("invalid argument '11' for option '-i': value must be in range [0, 10]"));
+        CHECK(value == default_value);
+    }
+
+    SECTION("parsed value is out of range, range limited by type")
+    {
+        CHECK(parser.parse_arg(opt, "-32769", value) == error("invalid argument '-32769' for option '-i': value must be in range [-32768, 32767]"));
+        CHECK(value == default_value);
+
+        CHECK(parser.parse_arg(opt, "32768", value) == error("invalid argument '32768' for option '-i': value must be in range [-32768, 32767]"));
+        CHECK(value == default_value);
+    }
+
+    SECTION("successful parsing with auto-detection of base")
+    {
+        parser.auto_detect_base();
+
+        CHECK(parser.parse_arg(opt, "010", value) == ok());
+        CHECK(value == 8);
+
+        CHECK(parser.parse_arg(opt, "0x10", value) == ok());
+        CHECK(value == 16);
+    }
+
+    SECTION("successful parsing with non-standard base")
+    {
+        parser.base(6);
+
+        CHECK(parser.parse_arg(opt, "20", value) == ok());
+        CHECK(value == 12);
     }
 }
 
@@ -38,70 +103,8 @@ TEST_CASE("signed_integral_argument_parser")
 
 TEST_CASE("value<signed_integral>")
 {
-    constexpr int16_t default_target_value = std::numeric_limits<int16_t>::max();
-    constexpr int16_t custom_min = 0;
-    constexpr int16_t custom_max = 10;
     int16_t target = default_target_value;
     argpppp::value value(target);
-
-    SECTION("successful parsing with default settings")
-    {
-        CHECK(value.handle_option(opt, "-32768") == ok());
-        CHECK(target == -32768);
-
-        CHECK(value.handle_option(opt, "32767") == ok());
-        CHECK(target == 32767);
-    }
-
-    SECTION("successful parsing with custom minimum and maximum value")
-    {
-        value.min(custom_min).max(custom_max);
-
-        CHECK(value.handle_option(opt, "0") == ok());
-        CHECK(target == 0);
-
-        CHECK(value.handle_option(opt, "10") == ok());
-        CHECK(target == 10);
-    }
-
-    SECTION("parsed value is out of range, custom minimum and maximum value")
-    {
-        value.min(custom_min).max(custom_max);
-
-        CHECK(value.handle_option(opt, "-1") == error("invalid argument '-1' for option '-i': value must be in range [0, 10]"));
-        CHECK(target == default_target_value);
-
-        CHECK(value.handle_option(opt, "11") == error("invalid argument '11' for option '-i': value must be in range [0, 10]"));
-        CHECK(target == default_target_value);
-    }
-
-    SECTION("parsed value is out of range, range limited by type")
-    {
-        CHECK(value.handle_option(opt, "-32769") == error("invalid argument '-32769' for option '-i': value must be in range [-32768, 32767]"));
-        CHECK(target == default_target_value);
-
-        CHECK(value.handle_option(opt, "32768") == error("invalid argument '32768' for option '-i': value must be in range [-32768, 32767]"));
-        CHECK(target == default_target_value);
-    }
-
-    SECTION("successful parsing with auto-detection of base")
-    {
-        value.auto_detect_base();
-
-        CHECK(value.handle_option(opt, "010") == ok());
-        CHECK(target == 8);
-
-        CHECK(value.handle_option(opt, "0x10") == ok());
-        CHECK(target == 16);
-    }
-
-    SECTION("successful parsing with non-standard base")
-    {
-        value.base(6);
-
-        CHECK(value.handle_option(opt, "20") == ok());
-        CHECK(target == 12);
-    }
 
     SECTION("garbage input")
     {

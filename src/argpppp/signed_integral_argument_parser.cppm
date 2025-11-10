@@ -23,14 +23,15 @@ template <std::signed_integral TValue>
 class signed_integral_argument_parser final
 {
 public:
-    option_handler_result parse_arg(const option& opt, const char* arg, TValue& value, const char* calling_class) const
+    option_handler_result parse_arg(const option& opt, const char* arg, TValue& value) const
     {
         if (!arg)
         {
-            throw create_logic_error(calling_class, "optional arguments are currently not supported");
+            throw std::logic_error("optional arguments are currently not supported");
         }
 
-        auto parse_result = parse_integral(arg, value, m_base);
+        TValue tmp_value;
+        auto parse_result = parse_integral(arg, tmp_value, m_base);
         switch (parse_result)
         {
             case parse_number_result::success:
@@ -44,15 +45,16 @@ public:
                 return error(opt, arg, "not a valid integer number");
                 break;
             default:
-                throw create_logic_error(calling_class, "unknown parse_number_result");
+                throw std::logic_error("unknown parse_number_result");
                 break;
         }
 
-        if (!m_interval.includes(value))
+        if (!m_interval.includes(tmp_value))
         {
             return out_of_range_error(opt, arg);
         }
 
+        value = tmp_value;
         return ok();
     }
 
@@ -85,11 +87,6 @@ private:
     option_handler_result out_of_range_error(const option& opt, const char* arg) const
     {
         return error(opt, arg, std::format("value must be in range [{}, {}]", m_interval.min(), m_interval.max()));
-    }
-
-    static std::logic_error create_logic_error(const char* calling_class, const char* message)
-    {
-        return std::logic_error(std::format("{}: {}", calling_class, message));
     }
 
     interval<TValue> m_interval;

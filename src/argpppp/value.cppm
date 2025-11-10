@@ -92,7 +92,7 @@ public:
     option_handler_result handle_option(const option& opt, const char* arg) const override
     {
         TValue value;
-        auto result = m_parser.parse_arg(opt, arg, value, "value<std::signed_integral>");
+        auto result = m_parser.parse_arg(opt, arg, value);
 
         if (result.is_success())
         {

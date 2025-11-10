@@ -152,7 +152,7 @@ TEST_CASE("value<signed_integral>")
         CHECK_THROWS_MATCHES(
             value.handle_option(opt, nullptr),
             std::logic_error,
-            Catch::Matchers::Message("value<std::signed_integral>: optional arguments are currently not supported"));
+            Catch::Matchers::Message("optional arguments are currently not supported"));
     }
 }
 
