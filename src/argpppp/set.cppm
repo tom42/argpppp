@@ -74,8 +74,6 @@ private:
     std::function<void(bool)> m_setter;
 };
 
-// TODO: specialization for std::signed_integral (do not forget to use setter_callable)
-//       * Note: it would be totally awesome if we could not repeat all of the production code and test code we already have for value<std::signed_integral>
 // TODO: ideally this shares most production and test code with value<std::signed_integral>
 //       * Extract common code from value<std::signed_integral> (that has still a full blown test)
 //       * Move relevant test code from value<>'s test to the new code's test
