@@ -71,7 +71,7 @@ parse_number_result parse_integral(const char* s, TValue& value, int base) requi
 {
     if (!is_valid_base(base))
     {
-        throw std::invalid_argument("parse_integral: invalid base");
+        throw std::invalid_argument("invalid base");
     }
 
     // Call strtol/strtoll/strtoul/strtoull, depending on TValue.

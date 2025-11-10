@@ -81,7 +81,7 @@ TEST_CASE("option")
         CHECK_THROWS_MATCHES(
             get_names(option()),
             std::invalid_argument,
-            Catch::Matchers::Message("get_names: option has no name"));
+            Catch::Matchers::Message("option has no name"));
     }
 
     SECTION("get_error_message")

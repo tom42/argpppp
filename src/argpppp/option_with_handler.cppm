@@ -32,7 +32,7 @@ public:
     {
         if (m_handler == nullptr)
         {
-            throw std::logic_error("handle_option: no option handler set");
+            throw std::logic_error("no option handler set");
         }
 
         return m_handler->handle_option(m_option, arg);

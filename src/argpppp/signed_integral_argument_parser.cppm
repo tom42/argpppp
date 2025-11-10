@@ -77,7 +77,7 @@ public:
     {
         if (!is_valid_base(base))
         {
-            throw std::invalid_argument("base: invalid base");
+            throw std::invalid_argument("invalid base");
         }
 
         m_base = base;

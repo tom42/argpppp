@@ -23,18 +23,18 @@ options& options::add(const option& o, std::unique_ptr<option_handler> h)
     {
         if (h)
         {
-            throw std::invalid_argument("add: a special option with key = 0 must not have a handler");
+            throw std::invalid_argument("a special option with key = 0 must not have a handler");
         }
     }
     else
     {
         if (!h)
         {
-            throw std::invalid_argument("add: option with key != 0 must have a handler");
+            throw std::invalid_argument("option with key != 0 must have a handler");
         }
         if (find_option(o.key()) != nullptr)
         {
-            throw std::invalid_argument("add: option with duplicate key");
+            throw std::invalid_argument("option with duplicate key");
         }
     }
 

@@ -112,7 +112,7 @@ TEST_CASE("signed_integral_argument_parser")
         CHECK_THROWS_MATCHES(
             parser.base(1),
             std::invalid_argument,
-            Catch::Matchers::Message("base: invalid base"));
+            Catch::Matchers::Message("invalid base"));
     }
 }
 

@@ -163,7 +163,7 @@ TEST_CASE("parse_integral")
         CHECK_THROWS_MATCHES(
             parse_integral("", value, base),
             std::invalid_argument,
-            Catch::Matchers::Message("parse_integral: invalid base"));
+            Catch::Matchers::Message("invalid base"));
     }
 
     SECTION("base is forwarded to strtoxx")

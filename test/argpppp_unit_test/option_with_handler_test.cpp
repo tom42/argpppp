@@ -20,7 +20,7 @@ TEST_CASE("option_with_handler")
         CHECK_THROWS_MATCHES(
             owh.handle_option("arg"),
             std::logic_error,
-            Catch::Matchers::Message("handle_option: no option handler set"));
+            Catch::Matchers::Message("no option handler set"));
     }
 }
 

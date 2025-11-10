@@ -83,7 +83,7 @@ std::string get_names(const option& o)
         return std::format("--{}", *o.name());
     }
 
-    throw std::invalid_argument("get_names: option has no name");
+    throw std::invalid_argument("option has no name");
 }
 
 std::string get_error_message(const option& o, const char* arg)

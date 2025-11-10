@@ -81,7 +81,7 @@ TEST_CASE("options")
         CHECK_THROWS_MATCHES(
             options.add({ {}, "This is a documentation option", {}, {}, of::doc }, std::make_unique<null_option_handler>()),
             std::invalid_argument,
-            Catch::Matchers::Message("add: a special option with key = 0 must not have a handler"));
+            Catch::Matchers::Message("a special option with key = 0 must not have a handler"));
     }
 
     SECTION("add throws if an option with key != 0 does not have a handler")
@@ -89,7 +89,7 @@ TEST_CASE("options")
         CHECK_THROWS_MATCHES(
             options.add({ 'a' }, {}),
             std::invalid_argument,
-            Catch::Matchers::Message("add: option with key != 0 must have a handler"));
+            Catch::Matchers::Message("option with key != 0 must have a handler"));
     }
 
     SECTION("add throws if an option with the same key already exists")
@@ -99,7 +99,7 @@ TEST_CASE("options")
         CHECK_THROWS_MATCHES(
             options.add({ 'a' }, std::make_unique<null_option_handler>()),
             std::invalid_argument,
-            Catch::Matchers::Message("add: option with duplicate key"));
+            Catch::Matchers::Message("option with duplicate key"));
     }
 
     SECTION("multiple options with key = 0 can be added")

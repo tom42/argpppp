@@ -34,7 +34,7 @@ TEST_CASE("value<string>")
         CHECK_THROWS_MATCHES(
             value.handle_option(opt, nullptr),
             std::logic_error,
-            Catch::Matchers::Message("value<std::string>: optional arguments are currently not supported"));
+            Catch::Matchers::Message("optional arguments are currently not supported"));
     }
 }
 
@@ -55,7 +55,7 @@ TEST_CASE("value<bool>")
         CHECK_THROWS_MATCHES(
             value.handle_option(switch_opt, "arg"),
             std::logic_error,
-            Catch::Matchers::Message("value<bool>: arguments are not supported. value<bool> should be used for switches only"));
+            Catch::Matchers::Message("arguments are not supported. value<bool> should be used for switches only"));
     }
 }
 
@@ -144,7 +144,7 @@ TEST_CASE("value<signed_integral>")
         CHECK_THROWS_MATCHES(
             value.base(1),
             std::invalid_argument,
-            Catch::Matchers::Message("base: invalid base"));
+            Catch::Matchers::Message("invalid base"));
     }
 
     SECTION("optional arguments are not supported")

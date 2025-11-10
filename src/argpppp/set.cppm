@@ -43,7 +43,7 @@ public:
     {
         if (!arg)
         {
-            throw std::logic_error("set<std::string>: optional arguments are currently not supported");
+            throw std::logic_error("optional arguments are currently not supported");
         }
 
         m_setter(arg);
@@ -64,7 +64,7 @@ public:
     {
         if (arg)
         {
-            throw std::logic_error("set<bool>: arguments are not supported. set<bool> should be used for switches only");
+            throw std::logic_error("arguments are not supported. set<bool> should be used for switches only");
         }
 
         m_setter(true);

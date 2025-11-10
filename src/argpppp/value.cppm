@@ -45,7 +45,7 @@ public:
     {
         if (!arg)
         {
-            throw std::logic_error("value<std::string>: optional arguments are currently not supported");
+            throw std::logic_error("optional arguments are currently not supported");
         }
 
         m_target_value = arg;
@@ -66,7 +66,7 @@ public:
     {
         if (arg)
         {
-            throw std::logic_error("value<bool>: arguments are not supported. value<bool> should be used for switches only");
+            throw std::logic_error("arguments are not supported. value<bool> should be used for switches only");
         }
 
         m_target_variable = true;

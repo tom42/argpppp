@@ -37,7 +37,7 @@ TEST_CASE("set<string>")
         CHECK_THROWS_MATCHES(
             set.handle_option(opt, nullptr),
             std::logic_error,
-            Catch::Matchers::Message("set<std::string>: optional arguments are currently not supported"));
+            Catch::Matchers::Message("optional arguments are currently not supported"));
     }
 }
 
@@ -58,7 +58,7 @@ TEST_CASE("set<bool>")
         CHECK_THROWS_MATCHES(
             set.handle_option(switch_opt, "arg"),
             std::logic_error,
-            Catch::Matchers::Message("set<bool>: arguments are not supported. set<bool> should be used for switches only"));
+            Catch::Matchers::Message("arguments are not supported. set<bool> should be used for switches only"));
     }
 }
 
