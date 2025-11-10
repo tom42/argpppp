@@ -2,11 +2,13 @@
 // SPDX-License-Identifier: MIT
 
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/generators/catch_generators.hpp>
 #include <catch2/matchers/catch_matchers.hpp>
 #include <catch2/matchers/catch_matchers_exception.hpp>
 #include <cstdint>
 #include <limits>
 #include <string>
+#include <utility>
 
 import argpppp;
 
@@ -16,10 +18,12 @@ namespace argpppp_unit_test
 using argpppp::error;
 using argpppp::ok;
 using argpppp::option_handler_result;
+using std::string;
+using std::make_pair;
 
 TEST_CASE("value<string>")
 {
-    std::string target;
+    string target;
     argpppp::option opt('s', {}, {}, "STRING");
     argpppp::value value(target);
 
@@ -59,54 +63,13 @@ TEST_CASE("value<bool>")
     }
 }
 
-TEST_CASE("value<signed_integral>")
+// TODO: review: parts of this should go into new test, parts of this should be covered by signed_integral_argument_parser's test
+TEST_CASE("value<signed_integral> (old)")
 {
     constexpr int16_t default_target_value = std::numeric_limits<int16_t>::max();
-    constexpr int16_t custom_min = 0;
-    constexpr int16_t custom_max = 10;
     int16_t target = default_target_value;
     argpppp::option opt('i', {}, {}, "INTEGER");
     argpppp::value value(target);
-
-    SECTION("successful parsing with default settings")
-    {
-        CHECK(value.handle_option(opt, "-32768") == ok());
-        CHECK(target == -32768);
-
-        CHECK(value.handle_option(opt, "32767") == ok());
-        CHECK(target == 32767);
-    }
-
-    SECTION("successful parsing with custom minimum and maximum value")
-    {
-        value.min(custom_min).max(custom_max);
-
-        CHECK(value.handle_option(opt, "0") == ok());
-        CHECK(target == 0);
-
-        CHECK(value.handle_option(opt, "10") == ok());
-        CHECK(target == 10);
-    }
-
-    SECTION("parsed value is out of range, custom minimum and maximum value")
-    {
-        value.min(custom_min).max(custom_max);
-
-        CHECK(value.handle_option(opt, "-1") == error("invalid argument '-1' for option '-i': value must be in range [0, 10]"));
-        CHECK(target == default_target_value);
-
-        CHECK(value.handle_option(opt, "11") == error("invalid argument '11' for option '-i': value must be in range [0, 10]"));
-        CHECK(target == default_target_value);
-    }
-
-    SECTION("parsed value is out of range, range limited by type")
-    {
-        CHECK(value.handle_option(opt, "-32769") == error("invalid argument '-32769' for option '-i': value must be in range [-32768, 32767]"));
-        CHECK(target == default_target_value);
-
-        CHECK(value.handle_option(opt, "32768") == error("invalid argument '32768' for option '-i': value must be in range [-32768, 32767]"));
-        CHECK(target == default_target_value);
-    }
 
     SECTION("successful parsing with auto-detection of base")
     {
@@ -153,6 +116,61 @@ TEST_CASE("value<signed_integral>")
             value.handle_option(opt, nullptr),
             std::logic_error,
             Catch::Matchers::Message("optional arguments are currently not supported"));
+    }
+}
+
+TEST_CASE("value<signed_integral>")
+{
+    constexpr int default_value = 12345;
+    int i = default_value;
+    argpppp::option opt('i', {}, {}, "INTEGER");
+    argpppp::value<int> value(i);
+
+    SECTION("successful parsing, default base")
+    {
+        CHECK(value.handle_option(opt, "10") == ok());
+        CHECK(i == 10);
+    }
+
+    SECTION("successful parsing, non-default base")
+    {
+        value.base(36);
+
+        CHECK(value.handle_option(opt, "10") == ok());
+        CHECK(i == 36);
+    }
+
+    SECTION("successful parsing, detect base automatically")
+    {
+        auto [arg, expected_value] = GENERATE(
+            make_pair("123", 123),
+            make_pair("0x123", 0x123));
+        value.auto_detect_base();
+
+        CHECK(value.handle_option(opt, arg) == ok());
+        CHECK(i == expected_value);
+    }
+
+    SECTION("successful parsing, in range")
+    {
+        auto [arg, expected_value] = GENERATE(
+            make_pair("1", 1),
+            make_pair("10", 10));
+        value.min(1).max(10);
+
+        CHECK(value.handle_option(opt, arg) == ok());
+        CHECK(i == expected_value);
+    }
+
+    SECTION("failed parsing, out of range")
+    {
+        auto [arg, expected_error_message] = GENERATE(
+            make_pair("0", "invalid argument '0' for option '-i': value must be in range [1, 10]"),
+            make_pair("11", "invalid argument '11' for option '-i': value must be in range [1, 10]"));
+        value.min(1).max(10);
+
+        CHECK(value.handle_option(opt, arg) == error(expected_error_message));
+        CHECK(i == default_value);
     }
 }
 

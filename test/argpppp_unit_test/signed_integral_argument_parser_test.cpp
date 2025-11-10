@@ -18,7 +18,7 @@ using argpppp::ok;
 // TODO: implement (see value_test<signed_integral>, most of it should go here, probably)
 TEST_CASE("signed_integral_argument_parser")
 {
-    constexpr int16_t default_value = 1234;
+    constexpr int16_t default_value = 12345;
     constexpr int16_t custom_min = 0;
     constexpr int16_t custom_max = 10;
     int16_t value = default_value;

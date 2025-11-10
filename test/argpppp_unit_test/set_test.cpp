@@ -5,7 +5,6 @@
 #include <catch2/generators/catch_generators.hpp>
 #include <catch2/matchers/catch_matchers.hpp>
 #include <catch2/matchers/catch_matchers_exception.hpp>
-#include <optional>
 #include <stdexcept>
 #include <string>
 #include <utility>
@@ -64,7 +63,8 @@ TEST_CASE("set<bool>")
 
 TEST_CASE("set<signed_integral>")
 {
-    std::optional<int> i;
+    constexpr int default_value = 12345;
+    int i = default_value;
     argpppp::option opt('i', {}, {}, "INTEGER");
     argpppp::set<int> set([&i](int arg) { i = arg; });
 
@@ -112,7 +112,7 @@ TEST_CASE("set<signed_integral>")
         set.min(1).max(10);
 
         CHECK(set.handle_option(opt, arg) == error(expected_error_message));
-        CHECK(i.has_value() == false);
+        CHECK(i == default_value);
     }
 }
 
