@@ -18,7 +18,6 @@ import :signed_integral_argument_parser;
 namespace argpppp
 {
 
-// TODO: do we need to export this?
 template <typename TCallable, typename TValue>
 concept setter_callable = std::is_invocable_v<TCallable, TValue>;
 
