@@ -94,38 +94,26 @@ TEST_CASE("signed_integral_argument_parser")
         CHECK(parser.parse_arg(opt, "20", value) == ok());
         CHECK(value == 12);
     }
-}
-
-}
-
-// TODO: see what of va^lue's test below should go into signed integral parsere's test
-/*
-
-TEST_CASE("value<signed_integral>")
-{
-    int16_t target = default_target_value;
-    argpppp::value value(target);
 
     SECTION("garbage input")
     {
-        CHECK(value.handle_option(opt, "!?*") == error("invalid argument '!?*' for option '-i': not a valid integer number"));
-        CHECK(target == default_target_value);
+        CHECK(parser.parse_arg(opt, "!?*", value) == error("invalid argument '!?*' for option '-i': not a valid integer number"));
+        CHECK(value == default_value);
     }
 
     SECTION("auto-detection of base is off by default")
     {
-        CHECK(value.handle_option(opt, "0x10") == error("invalid argument '0x10' for option '-i': not a valid integer number"));
-        CHECK(target == default_target_value);
+        CHECK(parser.parse_arg(opt, "0x10", value) == error("invalid argument '0x10' for option '-i': not a valid integer number"));
+        CHECK(value == default_value);
     }
 
     SECTION("invalid base")
     {
         CHECK_THROWS_MATCHES(
-            value.base(1),
+            parser.base(1),
             std::invalid_argument,
             Catch::Matchers::Message("base: invalid base"));
     }
 }
 
 }
-*/
