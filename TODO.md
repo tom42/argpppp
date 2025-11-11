@@ -10,6 +10,8 @@ SPDX-License-Identifier: MIT
 * Maybe get clang format up and running. Possible approach
   * Configure it
   * Make it part of the quality build. If it fails, fail the build
+* What about clang tidy
+  * And in particular c++ core guidelines?
 * Install target:
   * What to do on targets where argp-standalone is used (e.g. cygwin?)
     * Install argp-standalone
@@ -28,7 +30,3 @@ SPDX-License-Identifier: MIT
       * Callback (note: arg may be null for switches and options with optional arguments!)
       * How to write custom option handlers (here too: arg may be null)
     * How to use argp_program_version / argp_program_bug_address
-
-# Better API
-* Continue development:
-  * And the same we'd like to have for delegating to a storer function, I guess

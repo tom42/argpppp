@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <catch2/matchers/catch_matchers.hpp>
 #include <catch2/matchers/catch_matchers_exception.hpp>
+#include <cstdint>
+#include <stdexcept>
 #include <string>
 
 import argpppp;
@@ -15,7 +17,6 @@ namespace argpppp_unit_test
 using argpppp::error;
 using argpppp::ok;
 
-// TODO: implement (see value_test<signed_integral>, most of it should go here, probably)
 TEST_CASE("signed_integral_argument_parser")
 {
     constexpr int16_t default_value = 12345;

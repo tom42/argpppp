@@ -74,10 +74,6 @@ private:
     std::function<void(bool)> m_setter;
 };
 
-// TODO: ideally this shares most production and test code with value<std::signed_integral>
-//       * Extract common code from value<std::signed_integral> (that has still a full blown test)
-//       * Move relevant test code from value<>'s test to the new code's test
-//       * Simplify remaining test for value<>
 template <std::signed_integral TValue>
 class set<TValue> : public option_handler
 {

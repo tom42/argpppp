@@ -5,8 +5,7 @@
 #include <catch2/generators/catch_generators.hpp>
 #include <catch2/matchers/catch_matchers.hpp>
 #include <catch2/matchers/catch_matchers_exception.hpp>
-#include <cstdint>
-#include <limits>
+#include <stdexcept>
 #include <string>
 #include <utility>
 
@@ -60,62 +59,6 @@ TEST_CASE("value<bool>")
             value.handle_option(switch_opt, "arg"),
             std::logic_error,
             Catch::Matchers::Message("arguments are not supported. value<bool> should be used for switches only"));
-    }
-}
-
-// TODO: review: parts of this should go into new test, parts of this should be covered by signed_integral_argument_parser's test
-TEST_CASE("value<signed_integral> (old)")
-{
-    constexpr int16_t default_target_value = std::numeric_limits<int16_t>::max();
-    int16_t target = default_target_value;
-    argpppp::option opt('i', {}, {}, "INTEGER");
-    argpppp::value value(target);
-
-    SECTION("successful parsing with auto-detection of base")
-    {
-        value.auto_detect_base();
-
-        CHECK(value.handle_option(opt, "010") == ok());
-        CHECK(target == 8);
-
-        CHECK(value.handle_option(opt, "0x10") == ok());
-        CHECK(target == 16);
-    }
-
-    SECTION("successful parsing with non-standard base")
-    {
-        value.base(6);
-
-        CHECK(value.handle_option(opt, "20") == ok());
-        CHECK(target == 12);
-    }
-
-    SECTION("garbage input")
-    {
-        CHECK(value.handle_option(opt, "!?*") == error("invalid argument '!?*' for option '-i': not a valid integer number"));
-        CHECK(target == default_target_value);
-    }
-
-    SECTION("auto-detection of base is off by default")
-    {
-        CHECK(value.handle_option(opt, "0x10") == error("invalid argument '0x10' for option '-i': not a valid integer number"));
-        CHECK(target == default_target_value);
-    }
-
-    SECTION("invalid base")
-    {
-        CHECK_THROWS_MATCHES(
-            value.base(1),
-            std::invalid_argument,
-            Catch::Matchers::Message("invalid base"));
-    }
-
-    SECTION("optional arguments are not supported")
-    {
-        CHECK_THROWS_MATCHES(
-            value.handle_option(opt, nullptr),
-            std::logic_error,
-            Catch::Matchers::Message("optional arguments are currently not supported"));
     }
 }
 

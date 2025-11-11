@@ -19,8 +19,8 @@ namespace argpppp
 
 // TODO: think about default values, at least for value<T>?
 //       * The parser could call a very generic method (e.g. prepare) which in the case of value handlers could write the default.
-//         Rationale: this feels somehow cleaner than requiring the user to laways suply a default. This way he always gets
-//         a default, but if he did not set one then it's default construction.
+//         Rationale: this feels somehow cleaner than requiring the user to always supply a default. This way he always gets
+//         a default, but if he did not set one then it's default construction. Plus, we can always have the option for "no default"
 //       * Play around with boost program options: when/how are default values written?
 export template <typename TValue>
 class value
