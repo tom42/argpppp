@@ -12,6 +12,8 @@ SPDX-License-Identifier: MIT
   * Make it part of the quality build. If it fails, fail the build
 * What about clang tidy
   * And in particular c++ core guidelines?
+    * How to get an overview of these? Do we need to skim through them?
+      * Convert them to epub and read them on the mobile phone: https://www.reddit.com/r/cpp/comments/a816j1/core_guidelines_in_ebook_form/
 * Install target:
   * What to do on targets where argp-standalone is used (e.g. cygwin?)
     * Install argp-standalone
