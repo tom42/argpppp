@@ -6,6 +6,9 @@ SPDX-License-Identifier: MIT
 # TODO
 * See whether we can get vcpkg up and running on windows. If nothing else it would safe us from having Catch2 inside VS solutions all the time.
   * Works, now can we get it to work on github?
+   * https://github.com/marketplace/actions/run-vcpkg
+   * Apparently this integrates with GitHub action cache
+   * Moreover, vcpkg also runs on Linux, so maybe we use it there too. That way we do not depend on versions supplied by Ubuntu.
 * Have an eye on 'import std' support. It still requires to enable experimental cmake features, but it seems they're getting there.
 * Maybe get clang format up and running. Possible approach
   * Configure it
