@@ -206,6 +206,23 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser")
         CHECK(j == -456);
         CHECK(s == "foo");
     }
+
+    SECTION("Options without short names whose keys are automatically assigned")
+    {
+        int value1 = 0;
+        int value2 = 0;
+
+        options
+            .add({ {}, "option1", {}, "N" }, value(value1))
+            .add({ {}, "option2", {}, "N" }, value(value2));
+
+        auto result = parse_command_line("--option1=1 --option2=2");
+
+        CHECK(result.errnum == 0);
+        CHECK(failures.empty());
+        CHECK(value1 == 1);
+        CHECK(value2 == 2);
+    }
 }
 
 }

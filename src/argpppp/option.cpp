@@ -3,13 +3,9 @@
 
 module;
 
-#include <algorithm>
 #include <argp.h>
-#include <climits>
 #include <format>
-#include <iterator>
 #include <stdexcept>
-#include <vector>
 
 module argpppp;
 import :interval;
@@ -32,7 +28,7 @@ bool is_arg_optional(const option& o)
 
 }
 
-option::option(int key, const optional_string& name, const optional_string& doc, const optional_string& arg, of flags, int group)
+option::option(option_key key, const optional_string& name, const optional_string& doc, const optional_string& arg, of flags, int group)
     : m_key(key)
     , m_name(name)
     , m_doc(doc)
@@ -40,42 +36,22 @@ option::option(int key, const optional_string& name, const optional_string& doc,
     , m_flags(flags)
     , m_group(group)
 {
-    if (need_long_name(key) && !m_name)
+    if (need_long_name(key.to_int()) && !m_name) // TODO: no to_int here
     {
         throw std::invalid_argument("option without printable short name needs a long name");
     }
 }
 
-bool is_printable_key(int key)
-{
-    // key may be outside the range [0, 255].
-    // Except for EOF, the behavior of isprint() is not defined for values outside this range.
-    // We must therefore check the range oursevles first before we can delegate to isprint().
-    interval<int> interval(0, UCHAR_MAX);
-    return interval.includes(key) && isprint(key);
-}
-
-bool need_long_name(int key)
-{
-    if (key == 0)
-    {
-        // Special options with key=0 such as documentation options or group headers do not need a long name.
-        return false;
-    }
-
-    return !is_printable_key(key);
-}
-
 std::string get_names(const option& o)
 {
-    if (is_printable_key(o.key()) && o.name())
+    if (is_printable_key(o.key().to_int()) && o.name()) // TODO: no to_int here
     {
-        return std::format("--{} (-{:c})", *o.name(), o.key());
+        return std::format("--{} (-{:c})", *o.name(), o.key().to_int()); // TODO: no to_int here
     }
 
-    if (is_printable_key(o.key()))
+    if (is_printable_key(o.key().to_int())) // TODO: no to_int here
     {
-        return std::format("-{:c}", o.key());
+        return std::format("-{:c}", o.key().to_int()); // TODO: no to_int here
     }
 
     if (o.name())
@@ -103,9 +79,11 @@ std::string get_error_message(const option& o, const char* arg)
     }
 }
 
+// TODO: delete this: we need it on owh, now, actually
 argp_option to_argp_option(const option& o)
 {
-    return {c_str(o.name()), o.key(), c_str(o.arg()), to_int(o.flags()), c_str(o.doc()), o.group()};
+    // TODO: no to_int here() (well no, that's mostly the only place where we do want it?)
+    return {c_str(o.name()), o.key().to_int(), c_str(o.arg()), to_int(o.flags()), c_str(o.doc()), o.group()};
 }
 
 }

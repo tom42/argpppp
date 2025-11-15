@@ -17,6 +17,7 @@ using of = argpppp::of;
 using option = argpppp::option;
 using option_handler = argpppp::option_handler;
 using option_handler_result = argpppp::option_handler_result;
+using option_key = argpppp::option_key;
 using options = argpppp::options;
 
 namespace
@@ -78,8 +79,9 @@ TEST_CASE("options")
 
     SECTION("add throws if an option with key = 0 has a handler")
     {
+        // TODO: what are doc options, again, exactly? Are they allowed to have a nonzero key?
         CHECK_THROWS_MATCHES(
-            options.add({ {}, "This is a documentation option", {}, {}, of::doc }, std::make_unique<null_option_handler>()),
+            options.add({ option_key::zero(), "This is a documentation option", {}, {}, of::doc}, std::make_unique<null_option_handler>()),
             std::invalid_argument,
             Catch::Matchers::Message("a special option with key = 0 must not have a handler"));
     }

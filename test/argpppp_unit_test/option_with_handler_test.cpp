@@ -15,7 +15,7 @@ TEST_CASE("option_with_handler")
 {
     SECTION("handle_option throws if there is no handler")
     {
-        argpppp::option_with_handler owh({}, {});
+        argpppp::option_with_handler owh({}, {}, {});
 
         CHECK_THROWS_MATCHES(
             owh.handle_option("arg"),
