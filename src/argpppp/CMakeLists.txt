@@ -12,6 +12,7 @@ set(
   option.cppm
   option_handler.cppm
   option_handler_result.cppm
+  option_key.cppm
   option_with_handler.cppm
   optional_string.cppm
   options.cppm
@@ -26,6 +27,8 @@ set(
   command_line_parser.cpp
   option.cpp
   option_handler_result.cpp
+  option_key.cpp
+  option_with_handler.cpp
   options.cpp)
 
 # Production version of argpppp

@@ -10,6 +10,7 @@ module;
 
 export module argpppp:option;
 import :of;
+import :option_key;
 import :optional_string;
 
 namespace argpppp
@@ -25,7 +26,7 @@ public:
     // Also note: We intentionally use std::nullopt rather than {} for default arguments.
     //            The latter bugs with g++ 14.2 (odd linker errors which clang++ and MSVC do not produce).
     option(
-        int key = 0,
+        option_key key = option_key::zero(), // TODO: do we even need a default argument here? Maybe, maybe not. Question is, if we do change the meaning of default construction, should we still use 'no key' here?
         const optional_string& name = std::nullopt,
         const optional_string& doc = std::nullopt,
         const optional_string& arg = std::nullopt,
@@ -34,7 +35,7 @@ public:
 
     const optional_string& name() const { return m_name; }
 
-    int key() const { return m_key; }
+    option_key key() const { return m_key; }
 
     const optional_string& arg() const { return m_arg; }
 
@@ -45,7 +46,7 @@ public:
     int group() const { return m_group; }
 
 private:
-    int m_key;
+    option_key m_key;
     optional_string m_name;
     optional_string m_doc;
     optional_string m_arg;
@@ -54,17 +55,12 @@ private:
 };
 
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
-bool is_printable_key(int key);
-
-ARGPPPP_EXPORT_FOR_UNIT_TESTING
-bool need_long_name(int key);
-
-ARGPPPP_EXPORT_FOR_UNIT_TESTING
 std::string get_names(const option& o);
 
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 std::string get_error_message(const option& o, const char* arg);
 
+// TODO: delete this: we need it on owh, now, actually
 // Converts an option to an argp_option which can be passed to argp_parse.
 // Note that the option must not go out of scope while the argp_option is in use.
 ARGPPPP_EXPORT_FOR_UNIT_TESTING

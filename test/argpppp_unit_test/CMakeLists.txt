@@ -8,6 +8,7 @@ add_executable(
   interval_test.cpp
   of_test.cpp
   option_handler_result_test.cpp
+  option_key_test.cpp
   option_test.cpp
   option_with_handler_test.cpp
   optional_string_test.cpp

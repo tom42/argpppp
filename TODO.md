@@ -34,4 +34,6 @@ SPDX-License-Identifier: MIT
       * Features of value<T> (store data in variables)
       * Callback (note: arg may be null for switches and options with optional arguments!)
       * How to write custom option handlers (here too: arg may be null)
+      * How to use add_header / add_docopt
+      * How options without short name work (you don't pass a key, it is assigned automatically)
     * How to use argp_program_version / argp_program_bug_address

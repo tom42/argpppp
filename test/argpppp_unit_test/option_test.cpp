@@ -4,18 +4,14 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers.hpp>
 #include <catch2/matchers/catch_matchers_exception.hpp>
-#include <limits>
 #include <optional>
 #include <stdexcept>
-#include <vector>
 
 import argpppp;
 
 namespace argpppp_unit_test
 {
 
-using argpppp::is_printable_key;
-using argpppp::need_long_name;
 using argpppp::of;
 using argpppp::option;
 using argpppp::optional_string;
@@ -49,34 +45,15 @@ TEST_CASE("option")
     {
         CHECK(option('x', {}).name().has_value() == false);
         CHECK_THROWS_MATCHES(
-            option(256, {}),
+            option(1, {}),
             std::invalid_argument,
             Catch::Matchers::Message("option without printable short name needs a long name"));
-    }
-
-    SECTION("is_printable_key")
-    {
-        CHECK(is_printable_key(std::numeric_limits<int>::min()) == false);
-        CHECK(is_printable_key(-1) == false);
-        CHECK(is_printable_key(0) == false);
-        CHECK(is_printable_key(31) == false);
-        CHECK(is_printable_key(32) == true);
-        CHECK(is_printable_key(126) == true);
-        CHECK(is_printable_key(127) == false);
-        CHECK(is_printable_key(std::numeric_limits<int>::max()) == false);
-    }
-
-    SECTION("need_long_name")
-    {
-        CHECK(need_long_name(0) == false);
-        CHECK(need_long_name(1) == true);
-        CHECK(need_long_name('a') == false);
     }
 
     SECTION("get_names")
     {
         CHECK(get_names(option('s', {})) == "-s");
-        CHECK(get_names(option({}, "long-name")) == "--long-name");
+        CHECK(get_names(option(1, "long-name")) == "--long-name");
         CHECK(get_names(option('s', "long-name")) == "--long-name (-s)");
         CHECK_THROWS_MATCHES(
             get_names(option()),
