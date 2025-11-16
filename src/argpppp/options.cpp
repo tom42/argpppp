@@ -20,7 +20,7 @@ options& options::add(const option& o, std::unique_ptr<option_handler> h)
 {
     // TODO: split this up into validation and actually doing something
 
-    if (o.key().to_int() == 0) // TODO: no to_int here: introduce an is_empty() or something
+    if (o.key() == option_key::zero())
     {
         if (h)
         {
