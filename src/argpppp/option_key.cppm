@@ -47,6 +47,6 @@ bool is_printable_key(int key);
 
 // TODO: need to extend the test for this, so that options without a short key are tested too
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
-bool need_long_name(int key);
+bool need_long_name(option_key key);
 
 }

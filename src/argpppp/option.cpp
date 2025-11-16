@@ -36,7 +36,7 @@ option::option(option_key key, const optional_string& name, const optional_strin
     , m_flags(flags)
     , m_group(group)
 {
-    if (need_long_name(key.to_int()) && !m_name) // TODO: no to_int here
+    if (need_long_name(key) && !m_name) // TODO: no to_int here
     {
         throw std::invalid_argument("option without printable short name needs a long name");
     }

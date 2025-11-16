@@ -20,7 +20,7 @@ bool is_printable_key(int key)
     return interval.includes(key) && isprint(key);
 }
 
-bool need_long_name(int key)
+bool need_long_name(option_key key)
 {
     if (key == 0)
     {
@@ -28,7 +28,7 @@ bool need_long_name(int key)
         return false;
     }
 
-    return !is_printable_key(key);
+    return !is_printable_key(key.to_int()); // TODO: no to_int here
 }
 
 }
