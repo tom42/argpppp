@@ -22,6 +22,12 @@ public:
 
     option_key(char key) : m_key(key) {} // Implicit conversion from char allows for convenient specification of short names.
 
+    // TODO: unit test? And make it constexpr?
+    static option_key zero()
+    {
+        return option_key(0);
+    }
+
     // TODO: purge most uses of to_int: we should only use this once we want to convert to a struct argp_option or however it is called
     int to_int() const
     {
@@ -29,12 +35,6 @@ public:
     }
 
     bool operator==(const option_key&) const = default;
-
-    // TODO: unit test? And make it constexpr?
-    static option_key zero()
-    {
-        return option_key(0);
-    }
 
 private:
     static constexpr int no_short_key = std::numeric_limits<int>::min();
