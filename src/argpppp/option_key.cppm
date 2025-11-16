@@ -43,7 +43,7 @@ private:
 
 // TODO: need to extend the test for this, so that options without a short key are tested too
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
-bool is_printable_key(int key);
+bool is_printable_key(option_key key);
 
 // TODO: need to extend the test for this, so that options without a short key are tested too
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
