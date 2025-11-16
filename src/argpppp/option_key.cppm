@@ -46,6 +46,7 @@ private:
 };
 
 // TODO: need to extend the test for this, so that options without a short key are tested too
+//       * Also rename the member function to needs_long_name (needS), and also rename the test
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 bool need_long_name(option_key key);
 
