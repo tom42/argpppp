@@ -16,8 +16,6 @@ namespace argpppp
 export class option_key final
 {
 public:
-    // TODO: currently this creates an option with key=0, that is, a special option
-    //       We might want to change this, so that it creates an option with auto-assigned key, since that would probably be the more common use case
     option_key() : m_key(no_short_key) {}
 
     option_key(char key) : m_key(key) {} // Implicit conversion from char allows for convenient specification of short names.
