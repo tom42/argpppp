@@ -45,7 +45,7 @@ options& options::add(const option& o, std::unique_ptr<option_handler> h)
 
         if (o.key().to_int() != INT_MIN) // TODO: obviously that's not how we should do it - we should ask the key whether it's auto assigned => add that method, and unit test it
         {
-            if (find_option(o.key().to_int()) != nullptr)
+            if (find_option(o.key().to_int()) != nullptr) // TODO: should find by argp_key here, no?
             {
                 throw std::invalid_argument("option with duplicate key");
             }
