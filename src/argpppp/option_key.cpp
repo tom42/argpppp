@@ -11,13 +11,13 @@ module argpppp;
 namespace argpppp
 {
 
-bool is_printable_key(option_key key)
+bool option_key::is_printable() const
 {
     // key may be outside the range [0, 255].
     // Except for EOF, the behavior of isprint() is not defined for values outside this range.
-    // We must therefore check the range oursevles first before we can delegate to isprint().
+    // We must therefore check the range ourselves first before we can delegate to isprint().
     interval<int> interval(0, UCHAR_MAX);
-    return interval.includes(key.to_int()) && isprint(key.to_int());
+    return interval.includes(m_key) && isprint(m_key);
 }
 
 bool need_long_name(option_key key)
@@ -28,7 +28,7 @@ bool need_long_name(option_key key)
         return false;
     }
 
-    return !is_printable_key(key);
+    return !key.is_printable();
 }
 
 }

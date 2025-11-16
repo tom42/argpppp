@@ -44,12 +44,12 @@ option::option(option_key key, const optional_string& name, const optional_strin
 
 std::string get_names(const option& o)
 {
-    if (is_printable_key(o.key()) && o.name())
+    if (o.key().is_printable() && o.name())
     {
         return std::format("--{} (-{:c})", *o.name(), o.key().to_int()); // TODO: no to_int here
     }
 
-    if (is_printable_key(o.key()))
+    if (o.key().is_printable())
     {
         return std::format("-{:c}", o.key().to_int()); // TODO: no to_int here
     }

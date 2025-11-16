@@ -26,6 +26,12 @@ public:
         return option_key(0);
     }
 
+    // TODO: need to extend the test for this, so that options without a short key are tested too
+    //       That is:
+    //       * Test with default constructed options
+    //       * Test with an option constructed using zero()
+    bool is_printable() const;
+
     // TODO: purge most uses of to_int: we should only use this once we want to convert to a struct argp_option or however it is called
     int to_int() const
     {
@@ -38,10 +44,6 @@ private:
     static constexpr int no_short_key = std::numeric_limits<int>::min();
     int m_key = 0;
 };
-
-// TODO: need to extend the test for this, so that options without a short key are tested too
-ARGPPPP_EXPORT_FOR_UNIT_TESTING
-bool is_printable_key(option_key key);
 
 // TODO: need to extend the test for this, so that options without a short key are tested too
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
