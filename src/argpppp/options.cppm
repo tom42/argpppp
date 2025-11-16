@@ -108,6 +108,7 @@ private:
     std::size_t m_min_args = std::numeric_limits<size_t>::min();
     std::size_t m_max_args = std::numeric_limits<size_t>::max();
     std::vector<option_with_handler> m_options;
+    int m_next_generated_key = 256;
 };
 
 // Returns a vector of struct argp_option that can be passed to argp_parse.

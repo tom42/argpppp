@@ -67,9 +67,17 @@ options& options::add(const option& o, std::unique_ptr<option_handler> h)
         }
     }
 
+    // TODO: quick hackage: determining the auto-generated key should go into a separate function => and do we test it somehow? => class? function)
+    int argp_key = o.key().to_int();
+    if (o.key().to_int() == INT_MIN) // TODO: obviously that's not how we should do it - we should ask the key whether it's auto assigned => add that method, and unit test it
+    {
+        argp_key = m_next_generated_key;
+        ++m_next_generated_key;
+    }
+
     // TODO: supply real m_argp_key
     // TODO: no .to_int() here
-    m_options.emplace_back(o, o.key().to_int(), std::move(h));
+    m_options.emplace_back(o, argp_key, std::move(h));
     return *this;
 }
 
