@@ -38,8 +38,18 @@ public:
     // TODO: implement, test
     bool is_generated() const;
 
-    // TODO: purge most uses of to_int/to_argp_key: we should only use this once we want to convert to a struct argp_option or however it is called
-    int to_argp_key() const
+    // TODO: test
+    // TODO: PROBLEM: ONLY NOW I REALIZE: THE REAL PROBLEM IS
+    //       * option_key is violating SRP. It is really two things: the short name and the key
+    //         * Possibly it should be both
+    char short_name() const
+    {
+        // TODO: throw if it is not printable? (or assert)
+        return static_cast<char>(m_key);
+    }
+
+    // TODO: purge most uses of to_int/argp_key: we should only use this once we want to convert to a struct argp_option or however it is called
+    int argp_key() const
     {
         return m_key;
     }

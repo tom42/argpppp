@@ -48,7 +48,7 @@ options& options::add(const option& o, std::unique_ptr<option_handler> h)
             // TODO: should find by argp_key here, no?
             // TODO: that, and should also defer that check until we've determined the auto assigned key, no? (Yes, but then we need to filter out options with zero key again)
             //       anyway, do we not want to distinguish between "user supplied a duplicated key" and "we supplied a duplicated key and/or it clashed with an ARGP_KEY_xxx key?)
-            if (find_option(o.key().to_argp_key()) != nullptr)
+            if (find_option(o.key().argp_key()) != nullptr)
             {
                 throw std::invalid_argument("option with duplicate key");
             }
@@ -68,7 +68,7 @@ options& options::add(const option& o, std::unique_ptr<option_handler> h)
     }
 
     // TODO: quick hackage: determining the auto-generated key should go into a separate function => and do we test it somehow? => class? function)
-    int argp_key = o.key().to_argp_key();
+    int argp_key = o.key().argp_key();
     if (o.key().is_generated())
     {
         argp_key = m_next_generated_key;
