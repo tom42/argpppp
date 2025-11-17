@@ -76,20 +76,6 @@ TEST_CASE("option")
         CHECK(get_error_message(opt_with_mandatory_argument, "badarg") == "invalid argument 'badarg' for option '-m'");
         CHECK(get_error_message(opt_with_mandatory_argument, nullptr) == "invalid argument '(null)' for option '-m'"); // argp_parse should not let this ever happen
     }
-
-    // TODO: delete this test / move it over to option_with_handler_test.cpp, but test that method instead
-    SECTION("to_argp_option")
-    {
-        const option opt('n', "name", "doc", "arg", of::arg_optional, 123);
-        const auto argp_option = to_argp_option(opt);
-
-        CHECK(argp_option.key == 'n');
-        CHECK(!strcmp(argp_option.name, "name"));
-        CHECK(!strcmp(argp_option.doc, "doc"));
-        CHECK(!strcmp(argp_option.arg, "arg"));
-        CHECK(argp_option.flags == to_int(of::arg_optional));
-        CHECK(argp_option.group == 123);
-    }
 }
 
 }

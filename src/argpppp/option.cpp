@@ -79,11 +79,4 @@ std::string get_error_message(const option& o, const char* arg)
     }
 }
 
-// TODO: delete this: we need it on owh, now, actually
-argp_option to_argp_option(const option& o)
-{
-    // TODO: no to_int here() (well no, that's mostly the only place where we do want it?)
-    return {c_str(o.name()), o.key().to_int(), c_str(o.arg()), to_int(o.flags()), c_str(o.doc()), o.group()};
-}
-
 }

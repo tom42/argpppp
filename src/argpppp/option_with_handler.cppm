@@ -50,7 +50,6 @@ private:
     std::unique_ptr<option_handler> m_handler;
 };
 
-// TODO: unit test
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 argp_option to_argp_option(const option_with_handler& owh);
 
