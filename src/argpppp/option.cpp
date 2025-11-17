@@ -46,12 +46,12 @@ std::string get_names(const option& o)
 {
     if (o.key().is_printable() && o.name())
     {
-        return std::format("--{} (-{:c})", *o.name(), o.key().to_int()); // TODO: no to_int here
+        return std::format("--{} (-{:c})", *o.name(), o.key().to_argp_key()); // TODO: no to_int here
     }
 
     if (o.key().is_printable())
     {
-        return std::format("-{:c}", o.key().to_int()); // TODO: no to_int here
+        return std::format("-{:c}", o.key().to_argp_key()); // TODO: no to_int here
     }
 
     if (o.name())
