@@ -63,8 +63,10 @@ parse_result command_line_parser::parse(int argc, char* argv[], const options& o
     constexpr const argp_child* children = nullptr;
     constexpr const auto help_filter = nullptr;
     constexpr const char* argp_domain = nullptr;
-    const auto argp_options = get_argp_options(options);
 
+    // Note: all the C data structures we build for argp_parse here are non-owning.
+    // As long as these data structures are in use, the options instance must remain in scope.
+    const auto argp_options = get_argp_options(options);
     const argp argp
     {
         argp_options.data(),
