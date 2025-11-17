@@ -31,4 +31,9 @@ bool option_key::requires_long_name() const
     return !is_printable();
 }
 
+bool option_key::is_generated() const
+{
+    return m_key == generated_key;
+}
+
 }
