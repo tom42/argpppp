@@ -3,7 +3,6 @@
 
 module argpppp;
 
-// TODO: implement to_argp_option here.
 namespace argpppp
 {
 
