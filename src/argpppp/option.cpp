@@ -36,9 +36,9 @@ option::option(option_key key, const optional_string& name, const optional_strin
     , m_flags(flags)
     , m_group(group)
 {
-    if (need_long_name(key) && !m_name)
+    if (key.requires_long_name() && !m_name)
     {
-        throw std::invalid_argument("option without printable short name needs a long name");
+        throw std::invalid_argument("option requires a long name");
     }
 }
 

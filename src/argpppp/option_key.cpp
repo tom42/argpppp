@@ -20,15 +20,15 @@ bool option_key::is_printable() const
     return interval.includes(m_key) && isprint(m_key);
 }
 
-bool need_long_name(option_key key)
+bool option_key::requires_long_name() const
 {
-    if (key == 0)
+    if (*this == option_key::zero())
     {
         // Special options with key=0 such as documentation options or group headers do not need a long name.
         return false;
     }
 
-    return !key.is_printable();
+    return !is_printable();
 }
 
 }

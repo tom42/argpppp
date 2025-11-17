@@ -47,7 +47,7 @@ TEST_CASE("option")
         CHECK_THROWS_MATCHES(
             option(1, {}),
             std::invalid_argument,
-            Catch::Matchers::Message("option without printable short name needs a long name"));
+            Catch::Matchers::Message("option requires a long name"));
     }
 
     SECTION("get_names")

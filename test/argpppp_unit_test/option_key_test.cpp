@@ -11,7 +11,6 @@ import argpppp;
 namespace argpppp_unit_test
 {
 
-using argpppp::need_long_name;
 using argpppp::option_key;
 using std::make_pair;
 
@@ -33,11 +32,14 @@ TEST_CASE("option_key")
         CHECK(option_key(c).is_printable() == expected);
     }
 
-    SECTION("need_long_name")
+    SECTION("requires_long_name")
     {
-        CHECK(need_long_name(0) == false);
-        CHECK(need_long_name(1) == true);
-        CHECK(need_long_name('a') == false);
+        auto [c, expected] = GENERATE(
+            make_pair(char(0), false),
+            make_pair(1, true),
+            make_pair('a', false));
+
+        CHECK(option_key(c).requires_long_name() == expected);
     }
 }
 
