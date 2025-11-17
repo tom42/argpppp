@@ -100,7 +100,7 @@ public:
         return m_options;
     }
 
-    const option_with_handler* find_option(int key) const;
+    const option_with_handler* find_option(int argp_key) const;
 
 private:
     optional_string m_doc;

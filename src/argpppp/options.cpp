@@ -79,9 +79,9 @@ options& options::add(const option& o, std::unique_ptr<option_handler> h)
     return *this;
 }
 
-const option_with_handler* options::find_option(int key) const
+const option_with_handler* options::find_option(int argp_key) const
 {
-    auto owh = std::ranges::find_if(m_options, [key](const option_with_handler& o) { return o.argp_key() == key; });
+    auto owh = std::ranges::find_if(m_options, [argp_key](const option_with_handler& o) { return o.argp_key() == argp_key; });
     if (owh == m_options.end())
     {
         return nullptr;
