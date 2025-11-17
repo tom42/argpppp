@@ -77,6 +77,7 @@ TEST_CASE("option")
         CHECK(get_error_message(opt_with_mandatory_argument, nullptr) == "invalid argument '(null)' for option '-m'"); // argp_parse should not let this ever happen
     }
 
+    // TODO: delete this test / move it over to option_with_handler_test.cpp, but test that method instead
     SECTION("to_argp_option")
     {
         const option opt('n', "name", "doc", "arg", of::arg_optional, 123);
