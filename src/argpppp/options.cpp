@@ -75,7 +75,6 @@ options& options::add(const option& o, std::unique_ptr<option_handler> h)
         ++m_next_generated_key;
     }
 
-    // TODO: no .to_int() here
     m_options.emplace_back(o, argp_key, std::move(h));
     return *this;
 }
