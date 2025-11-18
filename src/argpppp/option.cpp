@@ -45,7 +45,7 @@ option::option(argpppp::short_name short_name, const optional_string& name, cons
 
 std::string get_names(const option& o)
 {
-    if (o.key().is_printable() && o.name())
+    if (!o.short_name().is_empty() && o.name())
     {
         return std::format("--{} (-{:c})", *o.name(), o.key().short_name());
     }
