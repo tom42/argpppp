@@ -15,13 +15,18 @@ namespace argpppp
 export class short_name
 {
 public:
-    // TODO: test: this yields an option *without short name*
     short_name() {}
 
     // TODO: question: should we allow printable chars only here? If we do so, is then '\0' also disallowed?
     // TODO: test: this yields an option with short name.
     // TODO: we're currently constructing 'zero' options using short_name(0). Should we have a short_name::zero() factory function again?
     short_name(char c) : m_short_name(c) {} // Implicit conversion from char allows for convenient specification of short names.
+
+    bool is_empty() const
+    {
+        // TODO: real implementation
+        return true;
+    }
 
     // TODO: implement, test.
     //       When does this return true?

@@ -14,9 +14,7 @@ TEST_CASE("short_name")
 {
     SECTION("constructor, empty short_name")
     {
-        short_name empty_short_name;
-
-        CHECK(empty_short_name.empty() == true);
+        CHECK(short_name().is_empty() == true);
     }
 }
 
