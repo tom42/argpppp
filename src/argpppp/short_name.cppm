@@ -21,19 +21,6 @@ public:
 
     bool is_empty() const;
 
-    // TODO: implement, test.
-    //       When does this return true?
-    //       * m_short_name is empty => true
-    //       * m_short_name is not empty
-    //         * it's 0 => false
-    //         * it's printable => false
-    //         * It's not printable => true
-    // TODO: do we REALLY want to check this?
-    // TODO: I think our code using isprint was wrong: the argp_option mentions 'printable ASCII characters', so that would isprint && isascii, no?
-    //       => Well maybe, except there IS no isascii function in the standard library
-    // TODO: also regarding isprint and consorts: cppreference: ^"To use these functions safely with plain chars (or signed chars), the argument should first be converted to unsigned char:"
-    bool requires_long_name() const;
-
     // TODO: this is only for transitioning, so should go
     option_key to_key() const
     {
