@@ -17,6 +17,7 @@ export class short_name
 public:
     short_name() {}
 
+    // TODO: decision: throw if c is not either 0 or a printable ASCII character
     // TODO: question: should we allow printable chars only here? If we do so, is then '\0' also disallowed?
     // TODO: test: this yields an option with short name.
     // TODO: we're currently constructing 'zero' options using short_name(0). Should we have a short_name::zero() factory function again?
@@ -24,8 +25,7 @@ public:
 
     bool is_empty() const
     {
-        // TODO: real implementation
-        return true;
+        return m_short_name.has_value();
     }
 
     // TODO: implement, test.
