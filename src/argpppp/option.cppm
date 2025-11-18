@@ -27,7 +27,7 @@ public:
     // Also note: We intentionally use std::nullopt rather than {} for default arguments.
     //            The latter bugs with g++ 14.2 (odd linker errors which clang++ and MSVC do not produce).
     option(
-        short_name short_name = short_name(0), // TODO: do we even need a default argument here? Maybe, maybe not. Question is, if we do change the meaning of default construction, should we still use 'no key' here?
+        short_name short_name = argpppp::short_name(0), // TODO: do we even need a default argument here? Maybe, maybe not. Question is, if we do change the meaning of default construction, should we still use 'no key' here?
         const optional_string& name = std::nullopt,
         const optional_string& doc = std::nullopt,
         const optional_string& arg = std::nullopt,

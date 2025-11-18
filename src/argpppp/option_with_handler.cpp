@@ -1,6 +1,10 @@
 // SPDX-FileCopyrightText: 2025 Thomas Mathys
 // SPDX-License-Identifier: MIT
 
+module;
+
+#include <argp.h>
+
 module argpppp;
 
 namespace argpppp

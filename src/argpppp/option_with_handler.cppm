@@ -3,6 +3,7 @@
 
 module;
 
+#include <argp.h>
 #include <memory>
 #include <stdexcept>
 #include <utility>
