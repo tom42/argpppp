@@ -25,7 +25,7 @@ public:
 
     bool is_empty() const
     {
-        return m_short_name.has_value();
+        return !m_short_name.has_value();
     }
 
     // TODO: implement, test.
