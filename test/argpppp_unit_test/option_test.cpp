@@ -45,7 +45,7 @@ TEST_CASE("option")
     {
         CHECK(option('x', {}).name().has_value() == false);
         CHECK_THROWS_MATCHES(
-            option(1, {}),
+            option({}, {}),
             std::invalid_argument,
             Catch::Matchers::Message("option requires a long name"));
     }
@@ -53,7 +53,7 @@ TEST_CASE("option")
     SECTION("get_names")
     {
         CHECK(get_names(option('s', {})) == "-s");
-        CHECK(get_names(option(1, "long-name")) == "--long-name");
+        CHECK(get_names(option({}, "long-name")) == "--long-name");
         CHECK(get_names(option('s', "long-name")) == "--long-name (-s)");
         CHECK_THROWS_MATCHES(
             get_names(option()),
