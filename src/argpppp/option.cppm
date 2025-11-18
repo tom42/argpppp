@@ -39,6 +39,8 @@ public:
     // TODO: remove
     option_key key() const { return m_key; }
 
+    short_name short_name() const { return m_short_name; }
+
     const optional_string& arg() const { return m_arg; }
 
     of flags() const { return m_flags; }
@@ -48,7 +50,7 @@ public:
     int group() const { return m_group; }
 
 private:
-    short_name m_short_name;
+    argpppp::short_name m_short_name;
     option_key m_key; // TODO: remove
     optional_string m_name;
     optional_string m_doc;
