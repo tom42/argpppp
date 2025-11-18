@@ -37,6 +37,11 @@ TEST_CASE("short_name")
             std::invalid_argument,
             Catch::Matchers::Message("short name must be a printable character or NUL"));
     }
+
+    SECTION("null")
+    {
+        CHECK(short_name::null() == short_name(0));
+    }
 }
 
 }
