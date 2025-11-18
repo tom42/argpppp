@@ -16,8 +16,12 @@ export class short_name
 public:
     short_name() {}
 
-    // TODO: we're currently constructing 'zero' options using short_name(0). Should we have a short_name::zero() factory function again?
     short_name(char c); // Implicit conversion from char allows for convenient specification of short names.
+
+    static short_name null()
+    {
+        return short_name(0);
+    }
 
     bool is_empty() const;
 

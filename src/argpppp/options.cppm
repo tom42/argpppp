@@ -40,7 +40,7 @@ public:
 
     options& add_header(const std::string& header, int group = 0)
     {
-        add(option(short_name(0), {}, header, {}, {}, group), nullptr);
+        add(option(short_name::null(), {}, header, {}, {}, group), nullptr);
         return *this;
     }
 
