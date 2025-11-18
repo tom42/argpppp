@@ -3,6 +3,9 @@
 
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
+#include <catch2/matchers/catch_matchers.hpp>
+#include <catch2/matchers/catch_matchers_exception.hpp>
+#include <stdexcept>
 
 import argpppp;
 
@@ -23,6 +26,16 @@ TEST_CASE("short_name")
         char c = GENERATE(char(0), 32, 126);
 
         CHECK(short_name(c).is_empty() == false);
+    }
+
+    SECTION("constructor throws if non-printable character is specified")
+    {
+        char c = GENERATE(char(1), 31, 127);
+
+        CHECK_THROWS_MATCHES(
+            short_name(c),
+            std::invalid_argument,
+            Catch::Matchers::Message("short name must be a printable character or NUL"));
     }
 }
 
