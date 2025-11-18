@@ -28,15 +28,17 @@ bool is_arg_optional(const option& o)
 
 }
 
-option::option(option_key key, const optional_string& name, const optional_string& doc, const optional_string& arg, of flags, int group)
-    : m_key(key)
+option::option(short_name short_name, const optional_string& name, const optional_string& doc, const optional_string& arg, of flags, int group)
+    : m_short_name(short_name)
+    , m_key(short_name.to_key())
     , m_name(name)
     , m_doc(doc)
     , m_arg(arg)
     , m_flags(flags)
     , m_group(group)
 {
-    if (key.requires_long_name() && !m_name)
+    // TODO: ask short_name here instead
+    if (m_key.requires_long_name() && !m_name)
     {
         throw std::invalid_argument("option requires a long name");
     }
