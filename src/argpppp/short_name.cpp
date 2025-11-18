@@ -14,7 +14,7 @@ namespace argpppp
 namespace
 {
 
-bool is_printable(char c)
+bool is_printable_char(char c)
 {
     // cppreference:
     // "To use [ctype] functions safely with plain chars (or signed chars), the argument should first be converted to unsigned char"
@@ -23,7 +23,7 @@ bool is_printable(char c)
 
 bool is_valid_short_name(char c)
 {
-    return (c == '\0') || is_printable(c);
+    return (c == '\0') || is_printable_char(c);
 }
 
 }
@@ -40,6 +40,11 @@ short_name::short_name(char c)
 bool short_name::is_empty() const
 {
     return !m_short_name.has_value();
+}
+
+bool short_name::is_printable() const
+{
+    return m_short_name.has_value() && is_printable_char(m_short_name.value());
 }
 
 }
