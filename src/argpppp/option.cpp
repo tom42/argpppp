@@ -37,8 +37,7 @@ option::option(short_name short_name, const optional_string& name, const optiona
     , m_flags(flags)
     , m_group(group)
 {
-    // TODO: ask short_name here instead
-    if (m_key.requires_long_name() && !m_name)
+    if (m_short_name.is_empty() && !m_name)
     {
         throw std::invalid_argument("option requires a long name");
     }
