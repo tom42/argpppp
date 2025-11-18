@@ -42,6 +42,13 @@ TEST_CASE("short_name")
     {
         CHECK(short_name::null() == short_name(0));
     }
+
+    SECTION("is_printable")
+    {
+        CHECK(short_name().is_printable() == false);
+        CHECK(short_name::null().is_printable() == false);
+        CHECK(short_name('a').is_printable() == true);
+    }
 }
 
 }
