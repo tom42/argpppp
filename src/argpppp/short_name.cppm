@@ -16,8 +16,6 @@ export class short_name
 public:
     short_name() {}
 
-    // TODO: decision: throw if c is not either 0 or a printable character (isprint)
-    // TODO: question: should we allow printable chars only here? If we do so, is then '\0' also disallowed?
     // TODO: we're currently constructing 'zero' options using short_name(0). Should we have a short_name::zero() factory function again?
     short_name(char c); // Implicit conversion from char allows for convenient specification of short names.
 
