@@ -30,7 +30,8 @@ set(
   option_handler_result.cpp
   option_key.cpp
   option_with_handler.cpp
-  options.cpp)
+  options.cpp
+  short_name.cpp)
 
 # Production version of argpppp
 add_library(argpppp)

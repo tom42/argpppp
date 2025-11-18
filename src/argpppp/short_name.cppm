@@ -11,7 +11,6 @@ import :option_key;
 namespace argpppp
 {
 
-// TODO: unit test
 export class short_name
 {
 public:
@@ -19,14 +18,10 @@ public:
 
     // TODO: decision: throw if c is not either 0 or a printable character (isprint)
     // TODO: question: should we allow printable chars only here? If we do so, is then '\0' also disallowed?
-    // TODO: test: this yields an option with short name.
     // TODO: we're currently constructing 'zero' options using short_name(0). Should we have a short_name::zero() factory function again?
-    short_name(char c) : m_short_name(c) {} // Implicit conversion from char allows for convenient specification of short names.
+    short_name(char c); // Implicit conversion from char allows for convenient specification of short names.
 
-    bool is_empty() const
-    {
-        return !m_short_name.has_value();
-    }
+    bool is_empty() const;
 
     // TODO: implement, test.
     //       When does this return true?
