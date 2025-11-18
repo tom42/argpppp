@@ -28,6 +28,8 @@ public:
     // TODO: test: when empty, when 0, when printable
     bool is_printable() const;
 
+    bool operator==(const short_name&) const = default;
+
     // TODO: this is only for transitioning, so should go
     option_key to_key() const
     {
