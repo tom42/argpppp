@@ -34,7 +34,7 @@ TEST_CASE("option")
     SECTION("constructor, all arguments use default values")
     {
         const option opt;
-        CHECK(opt.short_name() == short_name::null());
+        CHECK(opt.short_name().is_null() == true);
         CHECK(opt.name() == nullopt);
         CHECK(opt.doc() == nullopt);
         CHECK(opt.arg() == nullopt);

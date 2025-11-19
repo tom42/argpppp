@@ -4,6 +4,7 @@
 module;
 
 #include <cctype>
+#include <optional>
 #include <stdexcept>
 
 module argpppp;
@@ -40,6 +41,11 @@ short_name::short_name(char c)
 bool short_name::is_empty() const
 {
     return !m_short_name.has_value();
+}
+
+bool short_name::is_null() const
+{
+    return *this == null();
 }
 
 bool short_name::is_printable() const
