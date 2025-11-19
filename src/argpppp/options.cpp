@@ -20,7 +20,7 @@ options& options::add(const option& o, std::unique_ptr<option_handler> h)
 {
     // TODO: split this up into validation and actually doing something
 
-    if (o.key() == option_key::zero())
+    if (o.short_name().is_null())
     {
         if (h)
         {
@@ -43,7 +43,7 @@ options& options::add(const option& o, std::unique_ptr<option_handler> h)
         //          * zero
         //          * printable characters, because we will not auto-assign these.
 
-        if (!o.key().is_generated())
+        if (!o.short_name().is_empty())
         {
             // TODO: should find by argp_key here, no?
             // TODO: that, and should also defer that check until we've determined the auto assigned key, no? (Yes, but then we need to filter out options with zero key again)
