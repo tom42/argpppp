@@ -65,11 +65,4 @@ std::string get_names(const option& o);
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 std::string get_error_message(const option& o, const char* arg);
 
-// TODO: delete this: we need it on owh, now, actually
-// //                 * Yes delete this, but keep/move the comment!
-// Converts an option to an argp_option which can be passed to argp_parse.
-// Note that the option must not go out of scope while the argp_option is in use.
-ARGPPPP_EXPORT_FOR_UNIT_TESTING
-argp_option to_argp_option(const option& o);
-
 }
