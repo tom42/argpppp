@@ -15,6 +15,7 @@ namespace argpppp_unit_test
 using argpppp::of;
 using argpppp::option;
 using argpppp::optional_string;
+using argpppp::short_name;
 using std::nullopt;
 
 TEST_CASE("option")
@@ -22,7 +23,7 @@ TEST_CASE("option")
     SECTION("constructor, all arguments specified")
     {
         const option opt('n', "name", "doc", "arg", of::arg_optional, 123);
-        CHECK(opt.key() == 'n');
+        CHECK(opt.short_name() == 'n');
         CHECK(opt.name() == "name");
         CHECK(opt.doc() == "doc");
         CHECK(opt.arg() == "arg");
@@ -33,7 +34,7 @@ TEST_CASE("option")
     SECTION("constructor, all arguments use default values")
     {
         const option opt;
-        CHECK(opt.key() == 0);
+        CHECK(opt.short_name() == short_name::null());
         CHECK(opt.name() == nullopt);
         CHECK(opt.doc() == nullopt);
         CHECK(opt.arg() == nullopt);

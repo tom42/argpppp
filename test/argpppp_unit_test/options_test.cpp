@@ -130,8 +130,8 @@ TEST_CASE("options")
         options.add({ 'a' }, std::make_unique<null_option_handler>());
         options.add({ 'b' }, std::make_unique<null_option_handler>());
 
-        CHECK(options.find_option('a')->opt().key() == 'a');
-        CHECK(options.find_option('b')->opt().key() == 'b');
+        CHECK(options.find_option('a')->opt().short_name() == 'a');
+        CHECK(options.find_option('b')->opt().short_name() == 'b');
         CHECK(options.find_option('c') == nullptr);
     }
 
