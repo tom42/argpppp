@@ -14,7 +14,7 @@ namespace argpppp
 export class short_name
 {
 public:
-    short_name() {}
+    short_name() = default;
 
     short_name(char c); // Implicit conversion from char allows for convenient specification of short names.
 
