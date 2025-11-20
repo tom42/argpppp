@@ -29,7 +29,7 @@ bool is_arg_optional(const option& o)
 }
 
 option::option(argpppp::short_name short_name, const optional_string& name, const optional_string& doc, const optional_string& arg, of flags, int group)
-    : m_short_name(short_name)
+    : m_sname(short_name)
     , m_key(short_name.to_key())
     , m_name(name)
     , m_doc(doc)
@@ -37,7 +37,7 @@ option::option(argpppp::short_name short_name, const optional_string& name, cons
     , m_flags(flags)
     , m_group(group)
 {
-    if (m_short_name.is_empty() && !m_name)
+    if (m_sname.is_empty() && !m_name)
     {
         throw std::invalid_argument("option requires a long name");
     }
@@ -45,14 +45,14 @@ option::option(argpppp::short_name short_name, const optional_string& name, cons
 
 std::string get_names(const option& o)
 {
-    if (o.short_name().is_printable() && o.name())
+    if (o.sname().is_printable() && o.name())
     {
-        return std::format("--{} (-{:c})", *o.name(), o.short_name().to_char());
+        return std::format("--{} (-{:c})", *o.name(), o.sname().to_char());
     }
 
-    if (o.short_name().is_printable())
+    if (o.sname().is_printable())
     {
-        return std::format("-{:c}", o.short_name().to_char());
+        return std::format("-{:c}", o.sname().to_char());
     }
 
     if (o.name())

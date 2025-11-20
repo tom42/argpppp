@@ -23,7 +23,7 @@ TEST_CASE("option")
     SECTION("constructor, all arguments specified")
     {
         const option opt('n', "name", "doc", "arg", of::arg_optional, 123);
-        CHECK(opt.short_name() == 'n');
+        CHECK(opt.sname() == 'n');
         CHECK(opt.name() == "name");
         CHECK(opt.doc() == "doc");
         CHECK(opt.arg() == "arg");
@@ -34,7 +34,7 @@ TEST_CASE("option")
     SECTION("constructor, all arguments use default values")
     {
         const option opt;
-        CHECK(opt.short_name().is_null() == true);
+        CHECK(opt.sname().is_null() == true);
         CHECK(opt.name() == nullopt);
         CHECK(opt.doc() == nullopt);
         CHECK(opt.arg() == nullopt);

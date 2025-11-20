@@ -16,12 +16,12 @@ using argpppp::short_name;
 
 TEST_CASE("short_name")
 {
-    SECTION("constructor, empty short_name")
+    SECTION("constructor, empty short name")
     {
         CHECK(short_name().is_empty() == true);
     }
 
-    SECTION("constructor, non-empty short_name")
+    SECTION("constructor, non-empty short name")
     {
         char c = GENERATE(char(0), 32, 126);
 

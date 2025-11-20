@@ -6,7 +6,6 @@ module;
 #include <argp.h>
 #include <optional>
 #include <string>
-#include <vector>
 
 export module argpppp:option;
 import :of;
@@ -27,7 +26,7 @@ public:
     // Also note: We intentionally use std::nullopt rather than {} for default arguments.
     //            The latter bugs with g++ 14.2 (odd linker errors which clang++ and MSVC do not produce).
     option(
-        short_name short_name = argpppp::short_name::null(), // TODO: do we even need a default argument here? Maybe, maybe not. Question is, if we do change the meaning of default construction, should we still use 'no key' here?
+        short_name sname = short_name::null(), // TODO: do we even need a default argument here? Maybe, maybe not. Question is, if we do change the meaning of default construction, should we still use 'no key' here?
         const optional_string& name = std::nullopt,
         const optional_string& doc = std::nullopt,
         const optional_string& arg = std::nullopt,
@@ -39,7 +38,7 @@ public:
     // TODO: remove
     option_key key() const { return m_key; }
 
-    short_name short_name() const { return m_short_name; }
+    short_name sname() const { return m_sname; }
 
     const optional_string& arg() const { return m_arg; }
 
@@ -50,7 +49,7 @@ public:
     int group() const { return m_group; }
 
 private:
-    argpppp::short_name m_short_name;
+    short_name m_sname;
     option_key m_key; // TODO: remove
     optional_string m_name;
     optional_string m_doc;

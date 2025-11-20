@@ -20,7 +20,7 @@ options& options::add(const option& o, std::unique_ptr<option_handler> h)
 {
     // TODO: split this up into validation and actually doing something
 
-    if (o.short_name().is_null())
+    if (o.sname().is_null())
     {
         if (h)
         {
@@ -43,7 +43,7 @@ options& options::add(const option& o, std::unique_ptr<option_handler> h)
         //          * zero
         //          * printable characters, because we will not auto-assign these.
 
-        if (o.short_name().is_empty())
+        if (o.sname().is_empty())
         {
             // TODO: what range do we use to assign keys? 256 and up?
             //       => Yes but for the sake of simplicity, ensure the user cannot assign keys from this range, for the time being
@@ -61,7 +61,7 @@ options& options::add(const option& o, std::unique_ptr<option_handler> h)
             // TODO: that, and should also defer that check until we've determined the auto assigned key, no? (Yes, but then we need to filter out options with zero key again)
             //       anyway, do we not want to distinguish between "user supplied a duplicated key" and "we supplied a duplicated key and/or it clashed with an ARGP_KEY_xxx key?)
             //       => Well we could catch both, AND we could distinguish between the two, so that we can distinguish between user error and internal error?
-            if (find_option(o.short_name().to_key().argp_key()) != nullptr)
+            if (find_option(o.sname().to_key().argp_key()) != nullptr)
             {
                 throw std::invalid_argument("option with duplicate short name");
             }
@@ -70,7 +70,7 @@ options& options::add(const option& o, std::unique_ptr<option_handler> h)
 
     // TODO: quick hackage: determining the auto-generated key should go into a separate function => and do we test it somehow? => class? function)
     int argp_key = o.key().argp_key();
-    if (o.short_name().is_empty())
+    if (o.sname().is_empty())
     {
         argp_key = m_next_generated_key;
         ++m_next_generated_key;
