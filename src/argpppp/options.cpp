@@ -43,17 +43,7 @@ options& options::add(const option& o, std::unique_ptr<option_handler> h)
         //          * zero
         //          * printable characters, because we will not auto-assign these.
 
-        if (!o.short_name().is_empty())
-        {
-            // TODO: should find by argp_key here, no?
-            // TODO: that, and should also defer that check until we've determined the auto assigned key, no? (Yes, but then we need to filter out options with zero key again)
-            //       anyway, do we not want to distinguish between "user supplied a duplicated key" and "we supplied a duplicated key and/or it clashed with an ARGP_KEY_xxx key?)
-            if (find_option(o.key().argp_key()) != nullptr)
-            {
-                throw std::invalid_argument("option with duplicate key");
-            }
-        }
-        else
+        if (o.short_name().is_empty())
         {
             // TODO: what range do we use to assign keys? 256 and up?
             //       => Yes but for the sake of simplicity, ensure the user cannot assign keys from this range, for the time being
@@ -64,6 +54,16 @@ options& options::add(const option& o, std::unique_ptr<option_handler> h)
             //       * Make the option class mutable
             //       * Store the real key in option_with_handler, and look that one up
             // TODO: this branch is currently only tested by the entire command line parser test - should probably get its own test, so we can test option assignment
+        }
+        else
+        {
+            // TODO: should find by argp_key here, no? => no, by short_name. Besides, do we even care?
+            // TODO: that, and should also defer that check until we've determined the auto assigned key, no? (Yes, but then we need to filter out options with zero key again)
+            //       anyway, do we not want to distinguish between "user supplied a duplicated key" and "we supplied a duplicated key and/or it clashed with an ARGP_KEY_xxx key?)
+            if (find_option(o.key().argp_key()) != nullptr)
+            {
+                throw std::invalid_argument("option with duplicate key");
+            }
         }
     }
 
