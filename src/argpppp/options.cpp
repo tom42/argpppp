@@ -48,11 +48,6 @@ options& options::add(const option& o, std::unique_ptr<option_handler> h)
             // TODO: what range do we use to assign keys? 256 and up?
             //       => Yes but for the sake of simplicity, ensure the user cannot assign keys from this range, for the time being
             // TODO: we should ensure that we do not assign keys that have special meaning for ARGP (ARGP_KEY_xxx constants, except ARGP_KEY_ARG, which is zero, and which is legal)
-            // TODO: the option has no key assigned - we need to give it one then - problem: the option is const
-            //       Number of solutions to this problem:
-            //       * Construct a fresh option from scratch
-            //       * Make the option class mutable
-            //       * Store the real key in option_with_handler, and look that one up
             // TODO: this branch is currently only tested by the entire command line parser test - should probably get its own test, so we can test option assignment
         }
         else
