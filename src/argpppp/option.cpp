@@ -47,12 +47,12 @@ std::string get_names(const option& o)
 {
     if (o.short_name().is_printable() && o.name())
     {
-        return std::format("--{} (-{:c})", *o.name(), o.key().short_name());
+        return std::format("--{} (-{:c})", *o.name(), o.short_name().to_char());
     }
 
     if (o.short_name().is_printable())
     {
-        return std::format("-{:c}", o.key().short_name());
+        return std::format("-{:c}", o.short_name().to_char());
     }
 
     if (o.name())

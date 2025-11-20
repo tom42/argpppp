@@ -53,4 +53,9 @@ bool short_name::is_printable() const
     return m_short_name.has_value() && is_printable_char(m_short_name.value());
 }
 
+char short_name::to_char() const
+{
+    return m_short_name.value();
+}
+
 }

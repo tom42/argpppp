@@ -30,6 +30,9 @@ public:
 
     bool is_printable() const;
 
+    // TODO: test
+    char to_char() const;
+
     bool operator==(const short_name&) const = default;
 
     // TODO: this is only for transitioning, so should go
