@@ -103,6 +103,8 @@ public:
     const option_with_handler* find_option(int argp_key) const;
 
 private:
+    int make_argp_key(const option& o);
+
     optional_string m_doc;
     optional_string m_args_doc;
     std::size_t m_min_args = std::numeric_limits<size_t>::min();

@@ -68,15 +68,7 @@ options& options::add(const option& o, std::unique_ptr<option_handler> h)
         }
     }
 
-    // TODO: quick hackage: determining the auto-generated key should go into a separate function => and do we test it somehow? => class? function)
-    int argp_key = o.key().argp_key();
-    if (o.sname().is_empty())
-    {
-        argp_key = m_next_generated_key;
-        ++m_next_generated_key;
-    }
-
-    m_options.emplace_back(o, argp_key, std::move(h));
+    m_options.emplace_back(o, make_argp_key(o), std::move(h));
     return *this;
 }
 
@@ -89,6 +81,16 @@ const option_with_handler* options::find_option(int argp_key) const
     }
 
     return &*owh;
+}
+
+int options::make_argp_key(const option& o)
+{
+    if (o.sname().is_empty())
+    {
+        return m_next_generated_key++;
+    }
+
+    return o.sname().to_char();
 }
 
 std::vector<argp_option> get_argp_options(const options& o)
