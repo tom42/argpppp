@@ -17,7 +17,6 @@ using argpppp::of;
 using argpppp::option;
 using argpppp::option_handler;
 using argpppp::option_handler_result;
-using argpppp::option_key;
 using argpppp::options;
 using argpppp::short_name;
 
