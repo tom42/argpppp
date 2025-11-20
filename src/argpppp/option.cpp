@@ -30,7 +30,6 @@ bool is_arg_optional(const option& o)
 
 option::option(argpppp::short_name short_name, const optional_string& name, const optional_string& doc, const optional_string& arg, of flags, int group)
     : m_sname(short_name)
-    , m_key(short_name.to_key())
     , m_name(name)
     , m_doc(doc)
     , m_arg(arg)

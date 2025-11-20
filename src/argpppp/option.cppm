@@ -35,9 +35,6 @@ public:
 
     const optional_string& name() const { return m_name; }
 
-    // TODO: remove
-    option_key key() const { return m_key; }
-
     short_name sname() const { return m_sname; }
 
     const optional_string& arg() const { return m_arg; }
@@ -50,7 +47,6 @@ public:
 
 private:
     short_name m_sname;
-    option_key m_key; // TODO: remove
     optional_string m_name;
     optional_string m_doc;
     optional_string m_arg;
