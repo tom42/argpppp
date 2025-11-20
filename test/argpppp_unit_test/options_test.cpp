@@ -102,7 +102,7 @@ TEST_CASE("options")
         CHECK_THROWS_MATCHES(
             options.add({ 'a' }, std::make_unique<null_option_handler>()),
             std::invalid_argument,
-            Catch::Matchers::Message("option with duplicate key"));
+            Catch::Matchers::Message("option with duplicate short name"));
     }
 
     SECTION("multiple options with key = 0 can be added")

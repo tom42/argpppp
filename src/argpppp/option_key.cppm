@@ -13,6 +13,8 @@ namespace argpppp
 // TODO: unit test
 //       * default ctor (and make it constexpr?)
 //       * ctor taking char (and make it constexpr?)
+// TODO: delete this class
+// TODO: revise occurrences of the word key, in many cases (but not all) it should probably be short name
 export class option_key final
 {
 public:
