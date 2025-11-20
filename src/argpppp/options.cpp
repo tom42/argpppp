@@ -69,7 +69,7 @@ options& options::add(const option& o, std::unique_ptr<option_handler> h)
 
     // TODO: quick hackage: determining the auto-generated key should go into a separate function => and do we test it somehow? => class? function)
     int argp_key = o.key().argp_key();
-    if (o.key().is_generated())
+    if (o.short_name().is_empty())
     {
         argp_key = m_next_generated_key;
         ++m_next_generated_key;
