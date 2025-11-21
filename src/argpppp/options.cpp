@@ -7,7 +7,6 @@ module;
 #include <argp.h>
 #include <iterator>
 #include <memory>
-#include <ranges>
 #include <stdexcept>
 #include <vector>
 
@@ -52,11 +51,11 @@ options& options::add(const option& o, std::unique_ptr<option_handler> h)
         }
         else
         {
-            // TODO: should find by argp_key here, no? => no, by short_name. Besides, do we even care?
-            // TODO: that, and should also defer that check until we've determined the auto assigned key, no? (Yes, but then we need to filter out options with zero key again)
+            // TODO: should we defer that check until we've determined the auto assigned key, no? (Yes, but then we need to filter out options with zero key again)
             //       anyway, do we not want to distinguish between "user supplied a duplicated key" and "we supplied a duplicated key and/or it clashed with an ARGP_KEY_xxx key?)
             //       => Well we could catch both, AND we could distinguish between the two, so that we can distinguish between user error and internal error?
-            if (find_option(o.sname().to_key().argp_key()) != nullptr)
+            const auto same_short_name = [&o](const auto& owh) { return owh.opt().sname() == o.sname(); };
+            if (std::ranges::find_if(m_options, same_short_name) != m_options.end())
             {
                 throw std::invalid_argument("option with duplicate short name");
             }
