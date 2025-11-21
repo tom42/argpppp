@@ -6,7 +6,6 @@ module;
 #include <optional>
 
 export module argpppp:short_name;
-import :option_key;
 
 namespace argpppp
 {

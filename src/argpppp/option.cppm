@@ -8,7 +8,6 @@ module;
 
 export module argpppp:option;
 import :of;
-import :option_key;
 import :optional_string;
 import :short_name;
 
