@@ -24,12 +24,10 @@ public:
 
     bool is_empty() const;
 
-    // TODO: test
     bool is_null() const;
 
     bool is_printable() const;
 
-    // TODO: test
     char to_char() const;
 
     bool operator==(const short_name&) const = default;
