@@ -28,8 +28,8 @@ bool is_arg_optional(const option& o)
 
 }
 
-option::option(argpppp::short_name short_name, const optional_string& name, const optional_string& doc, const optional_string& arg, of flags, int group)
-    : m_sname(short_name)
+option::option(short_name sname, const optional_string& name, const optional_string& doc, const optional_string& arg, of flags, int group)
+    : m_sname(sname)
     , m_name(name)
     , m_doc(doc)
     , m_arg(arg)
