@@ -35,18 +35,7 @@ options& options::add(const option& o, std::unique_ptr<option_handler> h)
             throw std::invalid_argument("option with key != 0 must have a handler");
         }
 
-        // TODO: if an option has no short key (that is, is auto assigned), then we should not throw here, either => Instead we should generate a key.
-        //       Problem is, how can we avoid generating keys that the user will later supply by himself?
-        //       => Best way for the time being would be to be very restrictive in what keys the user can supply - best to accept only the following:
-        //          * zero
-        //          * printable characters, because we will not auto-assign these.
-
-        if (o.sname().is_empty())
-        {
-            // TODO: we should ensure that we do not assign keys that have special meaning for ARGP (ARGP_KEY_xxx constants, except ARGP_KEY_ARG, which is zero, and which is legal)
-            // TODO: this branch is currently only tested by the entire command line parser test - should probably get its own test, so we can test option assignment
-        }
-        else
+        if (!o.sname().is_empty())
         {
             const auto same_short_name = [&o](const auto& owh) { return owh.opt().sname() == o.sname(); };
             if (std::ranges::find_if(m_options, same_short_name) != m_options.end())
@@ -75,6 +64,10 @@ int options::make_key(const option& o)
 {
     if (o.sname().is_empty())
     {
+        // TODO: throw if the returned key is ARGP_KEY_END? Because we have then too many options?
+        // TODO: we should ensure that we do not assign keys that have special meaning for ARGP (ARGP_KEY_xxx constants, except ARGP_KEY_ARG, which is zero, and which is legal)
+        // TODO: this branch is currently only tested by the entire command line parser test - should probably get its own test, so we can test option assignment
+        //       => Ugh: probably this branch gets no test at all...
         return m_next_generated_key++;
     }
 
