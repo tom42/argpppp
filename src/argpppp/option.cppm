@@ -3,7 +3,6 @@
 
 module;
 
-#include <argp.h>
 #include <optional>
 #include <string>
 
