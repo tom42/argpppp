@@ -22,10 +22,6 @@ import :optional_string;
 namespace argpppp
 {
 
-// TODO: for the sake of completeness, also add an add_doc helper function?
-//       => Well why would we do that - better to remove add_header and instead have
-//       => add(header())? => Well the API for add_header is simpler: it is clear you should not add a handler
-//       => Same would be true for add_doc()
 export class options final
 {
 public:

@@ -79,7 +79,6 @@ TEST_CASE("options")
 
     SECTION("add throws if an option with key = 0 has a handler")
     {
-        // TODO: what are doc options, again, exactly? Are they allowed to have a nonzero key?
         CHECK_THROWS_MATCHES(
             options.add({ short_name::null(), "This is a documentation option", {}, {}, of::doc}, std::make_unique<null_option_handler>()),
             std::invalid_argument,
