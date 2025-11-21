@@ -48,9 +48,6 @@ options& options::add(const option& o, std::unique_ptr<option_handler> h)
         }
         else
         {
-            // TODO: should we defer that check until we've determined the auto assigned key, no? (Yes, but then we need to filter out options with zero key again)
-            //       anyway, do we not want to distinguish between "user supplied a duplicated key" and "we supplied a duplicated key and/or it clashed with an ARGP_KEY_xxx key?)
-            //       => Well we could catch both, AND we could distinguish between the two, so that we can distinguish between user error and internal error?
             const auto same_short_name = [&o](const auto& owh) { return owh.opt().sname() == o.sname(); };
             if (std::ranges::find_if(m_options, same_short_name) != m_options.end())
             {
