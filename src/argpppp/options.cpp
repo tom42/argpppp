@@ -62,13 +62,13 @@ options& options::add(const option& o, std::unique_ptr<option_handler> h)
         }
     }
 
-    m_options.emplace_back(o, make_argp_key(o), std::move(h));
+    m_options.emplace_back(o, make_key(o), std::move(h));
     return *this;
 }
 
-const option_with_handler* options::find_option(int argp_key) const
+const option_with_handler* options::find_option(int key) const
 {
-    auto owh = std::ranges::find_if(m_options, [argp_key](const option_with_handler& o) { return o.argp_key() == argp_key; });
+    auto owh = std::ranges::find_if(m_options, [key](const option_with_handler& o) { return o.key() == key; });
     if (owh == m_options.end())
     {
         return nullptr;
@@ -77,7 +77,7 @@ const option_with_handler* options::find_option(int argp_key) const
     return &*owh;
 }
 
-int options::make_argp_key(const option& o)
+int options::make_key(const option& o)
 {
     if (o.sname().is_empty())
     {

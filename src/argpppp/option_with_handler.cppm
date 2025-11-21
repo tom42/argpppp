@@ -19,9 +19,9 @@ ARGPPPP_EXPORT_FOR_UNIT_TESTING
 class option_with_handler final
 {
 public:
-    option_with_handler(const option& o, int argp_key, std::unique_ptr<option_handler> h)
+    option_with_handler(const option& o, int key, std::unique_ptr<option_handler> h)
         : m_option(o)
-        , m_argp_key(argp_key)
+        , m_key(key)
         , m_handler(std::move(h))
     {}
 
@@ -30,9 +30,9 @@ public:
         return m_option;
     }
 
-    int argp_key() const
+    int key() const
     {
-        return m_argp_key;
+        return m_key;
     }
 
     option_handler_result handle_option(const char* arg) const
@@ -47,7 +47,7 @@ public:
 
 private:
     argpppp::option m_option;
-    int m_argp_key;
+    int m_key;
     std::unique_ptr<option_handler> m_handler;
 };
 

@@ -15,7 +15,7 @@ argp_option to_argp_option(const option_with_handler& owh)
     return
     {
         c_str(owh.opt().name()),
-        owh.argp_key(),
+        owh.key(),
         c_str(owh.opt().arg()),
         to_int(owh.opt().flags()),
         c_str(owh.opt().doc()),

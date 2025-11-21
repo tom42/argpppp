@@ -100,10 +100,10 @@ public:
         return m_options;
     }
 
-    const option_with_handler* find_option(int argp_key) const;
+    const option_with_handler* find_option(int key) const;
 
 private:
-    int make_argp_key(const option& o);
+    int make_key(const option& o);
 
     optional_string m_doc;
     optional_string m_args_doc;

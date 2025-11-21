@@ -29,15 +29,15 @@ TEST_CASE("option_with_handler")
 
     SECTION("to_argp_option")
     {
-        constexpr int argp_key = 456;
+        constexpr int key = 456;
         const option_with_handler owh(
             option('n', "name", "doc", "arg", of::arg_optional, 123),
-            argp_key,
+            key,
             {});
 
         const auto argp_option = to_argp_option(owh);
 
-        CHECK(argp_option.key == argp_key);
+        CHECK(argp_option.key == key);
         CHECK(!strcmp(argp_option.name, "name"));
         CHECK(!strcmp(argp_option.doc, "doc"));
         CHECK(!strcmp(argp_option.arg, "arg"));
