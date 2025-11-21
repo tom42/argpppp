@@ -35,7 +35,6 @@ options& options::add(const option& o, std::unique_ptr<option_handler> h)
             throw std::invalid_argument("option with key != 0 must have a handler");
         }
 
-        // TODO: no to_int here
         // TODO: if an option has no short key (that is, is auto assigned), then we should not throw here, either => Instead we should generate a key.
         //       Problem is, how can we avoid generating keys that the user will later supply by himself?
         //       => Best way for the time being would be to be very restrictive in what keys the user can supply - best to accept only the following:
@@ -44,8 +43,6 @@ options& options::add(const option& o, std::unique_ptr<option_handler> h)
 
         if (o.sname().is_empty())
         {
-            // TODO: what range do we use to assign keys? 256 and up?
-            //       => Yes but for the sake of simplicity, ensure the user cannot assign keys from this range, for the time being
             // TODO: we should ensure that we do not assign keys that have special meaning for ARGP (ARGP_KEY_xxx constants, except ARGP_KEY_ARG, which is zero, and which is legal)
             // TODO: this branch is currently only tested by the entire command line parser test - should probably get its own test, so we can test option assignment
         }
