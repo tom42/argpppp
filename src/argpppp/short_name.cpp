@@ -50,7 +50,7 @@ bool short_name::is_null() const
 
 bool short_name::is_printable() const
 {
-    return m_short_name.has_value() && is_printable_char(m_short_name.value());
+    return !is_empty() && is_printable_char(m_short_name.value());
 }
 
 char short_name::to_char() const
