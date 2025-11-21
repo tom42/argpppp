@@ -35,17 +35,6 @@ public:
 
     bool operator==(const short_name&) const = default;
 
-    // TODO: this is only for transitioning, so should go
-    option_key to_key() const
-    {
-        if (!m_short_name)
-        {
-            return option_key();
-        }
-
-        return option_key(m_short_name.value());
-    }
-
 private:
     std::optional<char> m_short_name;
 };
