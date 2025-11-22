@@ -17,14 +17,10 @@ namespace argpppp
 
 options& options::add(const option& o, std::unique_ptr<option_handler> h)
 {
-    // TODO: split this up into validation and actually doing something
-
     if (o.sname().is_null())
     {
         if (h)
         {
-            // TODO: not sure where this requirement comes from: from reading the documentation it seems legal to have an option with a long name and key=0
-            //       Need to investigate, otoh it's not hurting much: it just means you can't have options with key=0
             throw std::invalid_argument("a special option with key = 0 must not have a handler");
         }
     }
@@ -64,8 +60,11 @@ int options::make_key(const option& o)
 {
     if (o.sname().is_empty())
     {
-        // TODO: throw if the returned key is >= ARGP_KEY_END? Because we have then too many options?
-        // TODO: we should ensure that we do not assign keys that have special meaning for ARGP (ARGP_KEY_xxx constants, except ARGP_KEY_ARG, which is zero, and which is legal)
+        if (m_next_generated_key >= ARGP_KEY_END)
+        {
+            throw std::length_error("too many options");
+        }
+
         return m_next_generated_key++;
     }
 
