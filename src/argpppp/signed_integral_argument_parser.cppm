@@ -11,6 +11,7 @@ export module argpppp:signed_integral_argument_parser;
 import :interval;
 import :option;
 import :option_handler;
+import :option_handler_result;
 import :parse_number;
 
 namespace argpppp

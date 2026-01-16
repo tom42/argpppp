@@ -18,6 +18,7 @@ import :option;
 import :option_handler;
 import :option_with_handler;
 import :optional_string;
+import :short_name;
 
 namespace argpppp
 {

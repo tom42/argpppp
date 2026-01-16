@@ -11,6 +11,7 @@ module;
 export module argpppp:option_with_handler;
 import :option;
 import :option_handler;
+import :option_handler_result;
 
 namespace argpppp
 {
