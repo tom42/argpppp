@@ -5,7 +5,6 @@ module;
 
 #include <concepts>
 #include <stdexcept>
-#include <string>
 
 export module argpppp:value;
 import :interval;
@@ -30,11 +29,12 @@ public:
     }
 };
 
-template <>
-class value<std::string> : public option_handler
+template <typename TValue>
+requires std::assignable_from<TValue&, const char*>
+class value<TValue> : public option_handler
 {
 public:
-    explicit value(std::string& target_value) : m_target_value(target_value) {}
+    explicit value(TValue& target_value) : m_target_value(target_value) {}
 
     option_handler_result handle_option(const option&, const char* arg) const override
     {
@@ -48,7 +48,7 @@ public:
     }
 
 private:
-    std::string& m_target_value;
+    TValue& m_target_value;
 };
 
 template <>
