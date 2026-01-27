@@ -1,10 +1,13 @@
 // SPDX-FileCopyrightText: 2025 Thomas Mathys
 // SPDX-License-Identifier: MIT
 
+#include <catch2/catch_template_test_macros.hpp>
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
 #include <catch2/matchers/catch_matchers.hpp>
 #include <catch2/matchers/catch_matchers_exception.hpp>
+#include <filesystem>
+#include <optional>
 #include <stdexcept>
 #include <string>
 #include <utility>
@@ -14,16 +17,18 @@ import argpppp;
 namespace argpppp_unit_test
 {
 
+namespace fs = std::filesystem;
 using argpppp::error;
 using argpppp::ok;
 using argpppp::option_handler_result;
-using std::string;
 using std::make_pair;
+using std::optional;
+using std::string;
 
-TEST_CASE("value<string>")
+TEMPLATE_TEST_CASE("value<convertible from const char*>", "", fs::path, optional<fs::path>, string, optional<string>)
 {
-    string target;
-    argpppp::option opt('s', {}, {}, "STRING");
+    TestType target;
+    argpppp::option opt('o', {}, {}, "VALUE");
     argpppp::value value(target);
 
     SECTION("successful parsing")
