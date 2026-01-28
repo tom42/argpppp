@@ -54,8 +54,19 @@ TEST_CASE("value<bool>")
 
     SECTION("successful parsing")
     {
+        target = false;
+
         CHECK(value.handle_option(switch_opt, nullptr) == ok());
         CHECK(target == true);
+    }
+
+    SECTION("successful parsing, negative logic")
+    {
+        target = true;
+        value.negative();
+
+        CHECK(value.handle_option(switch_opt, nullptr) == ok());
+        CHECK(target == false);
     }
 
     SECTION("handling arguments is not supported")

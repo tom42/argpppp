@@ -64,12 +64,19 @@ public:
             throw std::logic_error("arguments are not supported. value<bool> should be used for switches only");
         }
 
-        m_target_variable = true;
+        m_target_variable = m_value_when_seen;
         return ok();
+    }
+
+    value& negative()
+    {
+        m_value_when_seen = false;
+        return *this;
     }
 
 private:
     bool& m_target_variable;
+    bool m_value_when_seen = true;
 };
 
 // Note: std::unsigned_integral is currently not supported due to how strtoul and strtoull handle minus signs.
