@@ -82,7 +82,9 @@ public:
 
     option_handler_result handle_option(const option& opt, const char* arg) const override
     {
-        TValue value;
+        // TODO: If not initialized, g++ warns in release builds about possible use of uninitialized variable
+        //       Can we redesign signed_integral_argument_parser to work without output argument, and without having to default construct anything?
+        TValue value{};
         auto result = m_parser.parse_arg(opt, arg, value);
 
         if (result.is_success())
