@@ -28,7 +28,10 @@ TEST_CASE("callback")
     SECTION("with option parameter")
     {
         option opt('s', {}, {}, "STRING");
-        callback callback([](const option& o, const char* a) { return error(o, a, "error 2"); });
+        // TODO: remove capture by reference, that is a temporary hack
+        // TODO: do not pass opt, take data from parameter object
+        // TODO: do not pass "argh!" literal here, take data from parameter object
+        callback callback([&](auto&&) { return error(opt, "argh!", "error 2"); });
 
         auto result = callback.handle_option(opt, "argh!");
 
