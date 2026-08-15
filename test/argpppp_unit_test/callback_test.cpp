@@ -19,7 +19,7 @@ TEST_CASE("callback")
     {
         bool callback_executed = false;
         option opt({}, "--switch");
-        callback callback([&] { callback_executed = true; return error("return value"); });
+        callback callback([&] { callback_executed = true; });
 
         auto result = callback.handle_option(opt, nullptr);
 

@@ -16,7 +16,7 @@ namespace argpppp
 export class callback : public option_handler
 {
 public:
-    explicit callback(std::function<void(void)> callback)
+    explicit callback(std::function<option_handler_result(void)> callback)
         : m_callback([=](const option&, const char*) { callback(); return ok(); }) {}
 
     explicit callback(std::function<option_handler_result(const option&, const char*)> callback)
