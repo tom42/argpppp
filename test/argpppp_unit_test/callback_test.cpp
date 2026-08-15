@@ -12,6 +12,11 @@ using argpppp::error;
 
 TEST_CASE("callback")
 {
+    SECTION("without option parameter")
+    {
+        CHECK(false);
+    }
+
     SECTION("with option parameter")
     {
         argpppp::option opt('s', {}, {}, "STRING");
