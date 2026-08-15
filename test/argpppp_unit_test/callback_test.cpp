@@ -14,8 +14,6 @@ using argpppp::option;
 
 TEST_CASE("callback")
 {
-    option opt('s', {}, {}, "STRING");
-
     SECTION("without option parameter")
     {
         CHECK(false);
@@ -23,6 +21,7 @@ TEST_CASE("callback")
 
     SECTION("with option parameter")
     {
+        option opt('s', {}, {}, "STRING");
         callback callback([](const option& o, const char* a) { return error(o, a, "horrible error"); });
 
         auto result = callback.handle_option(opt, "argh!");
