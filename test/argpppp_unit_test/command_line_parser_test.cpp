@@ -143,8 +143,8 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser")
     SECTION("Exceptions abort parsing and are propagated to caller")
     {
         options
-            .add({ 'a' }, callback([](auto, auto) -> option_handler_result { throw runtime_error("This exception should occur."); }))
-            .add({ 'b' }, callback([](auto, auto) -> option_handler_result { throw runtime_error("This exception should not occur."); }));
+            .add({ 'a' }, callback([] -> option_handler_result { throw runtime_error("This exception should occur."); }))
+            .add({ 'b' }, callback([] -> option_handler_result { throw runtime_error("This exception should not occur."); }));
 
         CHECK_THROWS_MATCHES(
             parse_command_line("-a -b"),
@@ -159,9 +159,9 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser")
         bool c_seen = false;
 
         options
-            .add({ 'a' }, callback([&](auto, auto) { a_seen = true; return ok(); }))
-            .add({ 'b' }, callback([&](auto, auto) { b_seen = true; return ok(); }))
-            .add({ 'c' }, callback([&](auto, auto) { c_seen = true; return ok(); }));
+            .add({ 'a' }, callback([&] { a_seen = true; return ok(); }))
+            .add({ 'b' }, callback([&] { b_seen = true; return ok(); }))
+            .add({ 'c' }, callback([&] { c_seen = true; return ok(); }));
 
         auto result = parse_command_line("-c -a");
 
@@ -177,8 +177,8 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser")
         bool a_seen = false;
 
         options
-            .add({ 'a' }, callback([&](auto, auto) -> option_handler_result { a_seen = true; return error("error message"); }))
-            .add({ 'b' }, callback([](auto, auto) -> option_handler_result { throw runtime_error("This exception should not occur."); }));
+            .add({ 'a' }, callback([&] -> option_handler_result { a_seen = true; return error("error message"); }))
+            .add({ 'b' }, callback([] -> option_handler_result { throw runtime_error("This exception should not occur."); }));
 
         auto result = parse_command_line("-a -b");
 
