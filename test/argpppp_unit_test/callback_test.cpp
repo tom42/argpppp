@@ -10,13 +10,21 @@ namespace argpppp_unit_test
 
 using argpppp::callback;
 using argpppp::error;
+using argpppp::ok;
 using argpppp::option;
 
 TEST_CASE("callback")
 {
-    SECTION("without option parameter")
+    SECTION("without option parameter and without return value")
     {
-        CHECK(false);
+        bool callback_executed = false;
+        option opt({}, "--switch");
+        callback callback([&] { callback_executed = true; });
+
+        auto result = callback.handle_option(opt, nullptr);
+
+        CHECK(callback_executed);
+        CHECK(result == ok());
     }
 
     SECTION("with option parameter")
