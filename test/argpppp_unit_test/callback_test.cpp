@@ -15,7 +15,7 @@ using argpppp::option;
 
 TEST_CASE("callback")
 {
-    SECTION("without option parameter and without return value")
+    SECTION("without option parameter, without return value")
     {
         bool callback_executed = false;
         option opt({}, "--switch");
