@@ -15,11 +15,11 @@ using argpppp::option;
 
 TEST_CASE("callback")
 {
-    SECTION("without option parameter, without return value")
+    SECTION("without option parameter")
     {
         bool callback_executed = false;
         option opt({}, "--switch");
-        callback callback([&] { callback_executed = true; });
+        callback callback([&] { callback_executed = true; return error("return value"); });
 
         auto result = callback.handle_option(opt, nullptr);
 
