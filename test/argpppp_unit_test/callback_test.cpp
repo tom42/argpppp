@@ -8,7 +8,9 @@ import argpppp;
 namespace argpppp_unit_test
 {
 
+using argpppp::callback;
 using argpppp::error;
+using argpppp::option;
 
 TEST_CASE("callback")
 {
@@ -19,8 +21,8 @@ TEST_CASE("callback")
 
     SECTION("with option parameter")
     {
-        argpppp::option opt('s', {}, {}, "STRING");
-        argpppp::callback callback([](const argpppp::option& o, const char* a) { return error(o, a, "horrible error"); });
+        option opt('s', {}, {}, "STRING");
+        callback callback([](const option& o, const char* a) { return error(o, a, "horrible error"); });
 
         auto result = callback.handle_option(opt, "argh!");
 
