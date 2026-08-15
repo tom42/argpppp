@@ -13,6 +13,9 @@ import :option_handler_result;
 namespace argpppp
 {
 
+// TODO: consider using this for all types of option_handler?
+export class option_occurrence {};
+
 export class callback : public option_handler
 {
 public:
