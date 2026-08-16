@@ -73,13 +73,6 @@ private:
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 std::string get_names(const option& o);
 
-// TODO: this should take option_occurrence (well remove it, use the other overload)
-ARGPPPP_EXPORT_FOR_UNIT_TESTING
-std::string get_error_message(const option& o, const char* arg);
-
-// TODO: implement
-// TODO: use
-// TODO: unit test(?)
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 std::string get_error_message(const option_occurrence& o);
 
