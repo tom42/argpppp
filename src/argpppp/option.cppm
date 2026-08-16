@@ -52,6 +52,24 @@ private:
     int m_group;
 };
 
+// TODO: consider using this for all types of option_handler?
+export class option_occurrence final
+{
+public:
+    option_occurrence(const option& opt, const char* arg)
+        : m_opt(opt)
+        , m_arg(arg)
+    {}
+
+    const option& opt() const { return m_opt; }
+
+    const char* c_arg() const { return m_arg; }
+
+private:
+    const option& m_opt;
+    const char* m_arg;
+};
+
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
 std::string get_names(const option& o);
 

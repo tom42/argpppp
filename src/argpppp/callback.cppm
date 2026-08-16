@@ -13,25 +13,6 @@ import :option_handler_result;
 namespace argpppp
 {
 
-// TODO: consider using this for all types of option_handler?
-//       * At the very least it needs to be possible to create option_handler_result from option_occurrence
-export class option_occurrence
-{
-public:
-    option_occurrence(const option& opt, const char* arg)
-        : m_opt(opt)
-        , m_arg(arg)
-    {}
-
-    const option& opt() const { return m_opt; }
-
-    const char* c_arg() const { return m_arg; }
-
-private:
-    const option& m_opt;
-    const char* m_arg;
-};
-
 export class callback : public option_handler
 {
 public:

@@ -28,8 +28,7 @@ TEST_CASE("callback")
     SECTION("with option parameter")
     {
         option opt('s', {}, {}, "STRING");
-        // TODO: should be able to construct an error from an option occurrence
-        callback callback([](auto&& o) { return error(o.opt(), o.c_arg(), "error 2"); });
+        callback callback([](auto&& o) { return error(o, "error 2"); });
 
         auto result = callback.handle_option(opt, "argh!");
 
