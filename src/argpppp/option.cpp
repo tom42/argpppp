@@ -82,7 +82,19 @@ std::string get_error_message(const option& o, const char* arg)
 std::string get_error_message(const option_occurrence& /*o*/)
 {
     // TODO: implement
-    throw "yikes";
+    if (is_switch(o) || (is_arg_optional(o) && (arg == nullptr)))
+    {
+        return std::format("unexpected option '{}'", get_names(o));
+    }
+    else
+    {
+        if (arg == nullptr)
+        {
+            arg = "(null)";
+        }
+
+        return std::format("invalid argument '{}' for option '{}'", arg, get_names(o));
+    }
 }
 
 }
