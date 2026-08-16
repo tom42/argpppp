@@ -10,7 +10,7 @@ export module argpppp:short_name;
 namespace argpppp
 {
 
-export class short_name
+export class short_name final
 {
 public:
     short_name() = default;
