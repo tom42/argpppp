@@ -79,4 +79,10 @@ std::string get_error_message(const option& o, const char* arg)
     }
 }
 
+std::string get_error_message(const option_occurrence& /*o*/)
+{
+    // TODO: implement
+    throw "yikes";
+}
+
 }
