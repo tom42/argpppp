@@ -15,10 +15,21 @@ namespace argpppp
 
 // TODO: consider using this for all types of option_handler?
 //       * At the very least it needs to be possible to create option_handler_result from option_occurrence
-// TODO: contain an option (how? by const reference?)
-// TODO: contain arguments (how? const char*? string_view?) Can a string_view go back to const char*? If not, don't use it?
 export class option_occurrence
 {
+public:
+    option_occurrence(const option& opt, const char* arg)
+        : m_opt(opt)
+        , m_arg(arg)
+    {}
+
+    const option& opt() const { return m_opt; }
+
+    const char* c_arg() const { return m_arg; }
+
+private:
+    const option& m_opt;
+    const char* m_arg;
 };
 
 export class callback : public option_handler
@@ -30,11 +41,9 @@ public:
     explicit callback(std::function<option_handler_result(option_occurrence)> callback)
         : m_callback(std::move(callback)) {}
 
-    option_handler_result handle_option(const option& /*opt*/, const char* /*arg*/) const override
+    option_handler_result handle_option(const option& opt, const char* arg) const override
     {
-        // TODO: supply opt
-        // TODO: supply arg
-        return m_callback(option_occurrence());
+        return m_callback(option_occurrence(opt, arg));
     }
 
 private:

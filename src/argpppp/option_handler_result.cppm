@@ -62,6 +62,6 @@ export option_handler_result error(std::string message);
 
 export option_handler_result error(const option& opt, const char* arg, const std::string& message);
 
-export option_handler_result error(const option& optS, const char* arg, const char* message);
+export option_handler_result error(const option& opt, const char* arg, const char* message);
 
 }
