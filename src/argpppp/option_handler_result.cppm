@@ -60,8 +60,10 @@ export option_handler_result ok();
 
 export option_handler_result error(std::string message);
 
+// TODO: rewrite this to use option_occurrence
 export option_handler_result error(const option& opt, const char* arg, const std::string& message);
 
+// TODO: rewrite this to use option_occurrence
 export option_handler_result error(const option& opt, const char* arg, const char* message);
 
 // TODO: see what is going to happen: would we not be better off using a string_view here?
