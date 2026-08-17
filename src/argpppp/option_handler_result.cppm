@@ -4,6 +4,7 @@
 module;
 
 #include <string>
+#include <string_view>
 #include <utility>
 
 export module argpppp:option_handler_result;
@@ -63,10 +64,9 @@ export option_handler_result error(std::string message);
 // TODO: rewrite this to use option_occurrence
 export option_handler_result error(const option& opt, const char* arg, const std::string& message);
 
-// TODO: rewrite this to use option_occurrence
+// TODO: rewrite this to use option_occurrence (for starters, delete this overload. is there a unit test? => need to go through all of them, anyway)
 export option_handler_result error(const option& opt, const char* arg, const char* message);
 
-// TODO: see what is going to happen: would we not be better off using a string_view here?
-export option_handler_result error(const option_occurrence& opt, const char* message);
+export option_handler_result error(const option_occurrence& opt, std::string_view message);
 
 }
