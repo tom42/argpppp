@@ -49,14 +49,14 @@ TEST_CASE("set<bool>")
 
     SECTION("successful parsing")
     {
-        CHECK(set.handle_option(switch_opt, nullptr) == ok());
+        CHECK(set.handle_option(option_occurrence(switch_opt, nullptr)) == ok());
         CHECK(flag == true);
     }
 
     SECTION("handling arguments is not supported")
     {
         CHECK_THROWS_MATCHES(
-            set.handle_option(switch_opt, "arg"),
+            set.handle_option(option_occurrence(switch_opt, "arg")),
             std::logic_error,
             Catch::Matchers::Message("arguments are not supported. set<bool> should be used for switches only"));
     }
