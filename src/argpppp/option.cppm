@@ -66,6 +66,7 @@ public:
     const char* c_arg() const { return m_arg; }
 
 private:
+    // Fields are chosen such that option_occurrence is cheap to copy.
     const option& m_opt;
     const char* m_arg;
 };
