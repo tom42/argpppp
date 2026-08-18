@@ -16,7 +16,16 @@ public:
 
     virtual ~option_handler() = default;
 
+    // TODO: phase this out, use option occurrence
     virtual option_handler_result handle_option(const option& opt, const char* arg) const = 0;
+
+    // TODO: use
+    // TODO: make pure virtual
+    virtual option_handler_result handle_option(option_occurrence opt)
+    {
+        // TODO: temporary implementation
+        return handle_option(opt.opt(), opt.c_arg());
+    }
 };
 
 }
