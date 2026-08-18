@@ -22,6 +22,7 @@ template <std::signed_integral TValue>
 class signed_integral_argument_parser final
 {
 public:
+    // TODO: take option_occurrence here? after all, this directly supports implementing option handlers, so why not
     option_handler_result parse_arg(const option& opt, const char* arg, TValue& value) const
     {
         if (!arg)

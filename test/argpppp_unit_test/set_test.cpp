@@ -71,7 +71,7 @@ TEST_CASE("set<signed_integral>")
 
     SECTION("successful parsing, default base")
     {
-        CHECK(set.handle_option(opt, "10") == ok());
+        CHECK(set.handle_option(option_occurrence(opt, "10")) == ok());
         CHECK(i == 10);
     }
 
@@ -79,7 +79,7 @@ TEST_CASE("set<signed_integral>")
     {
         set.base(36);
 
-        CHECK(set.handle_option(opt, "10") == ok());
+        CHECK(set.handle_option(option_occurrence(opt, "10")) == ok());
         CHECK(i == 36);
     }
 
@@ -90,7 +90,7 @@ TEST_CASE("set<signed_integral>")
             make_pair("0x123", 0x123));
         set.auto_detect_base();
 
-        CHECK(set.handle_option(opt, arg) == ok());
+        CHECK(set.handle_option(option_occurrence(opt, arg)) == ok());
         CHECK(i == expected_value);
     }
 
@@ -101,7 +101,7 @@ TEST_CASE("set<signed_integral>")
             make_pair("10", 10));
         set.min(1).max(10);
 
-        CHECK(set.handle_option(opt, arg) == ok());
+        CHECK(set.handle_option(option_occurrence(opt, arg)) == ok());
         CHECK(i == expected_value);
     }
 
@@ -112,7 +112,7 @@ TEST_CASE("set<signed_integral>")
             make_pair("11", "invalid argument '11' for option '-i': value must be in range [1, 10]"));
         set.min(1).max(10);
 
-        CHECK(set.handle_option(opt, arg) == error(expected_error_message));
+        CHECK(set.handle_option(option_occurrence(opt, arg)) == error(expected_error_message));
         CHECK(i == default_value);
     }
 }

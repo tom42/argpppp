@@ -80,12 +80,12 @@ class set<TValue> : public option_handler
 public:
     explicit set(setter_callable<int> auto setter) : m_setter(setter) {}
 
-    option_handler_result handle_option(const option& opt, const char* arg) const override
+    option_handler_result handle_option(option_occurrence opt) const override
     {
         // TODO: If not initialized, g++ warns in release builds about possible use of uninitialized variable
         //       Can we redesign signed_integral_argument_parser to work without output argument, and without having to default construct anything?
         TValue value{};
-        auto result = m_parser.parse_arg(opt, arg, value);
+        auto result = m_parser.parse_arg(opt.opt(), opt.c_arg(), value);
 
         if (result.is_success())
         {
