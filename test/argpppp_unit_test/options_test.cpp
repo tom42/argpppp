@@ -17,6 +17,7 @@ using argpppp::of;
 using argpppp::option;
 using argpppp::option_handler;
 using argpppp::option_handler_result;
+using argpppp::option_occurrence;
 using argpppp::options;
 using argpppp::short_name;
 
@@ -26,7 +27,7 @@ namespace
 class null_option_handler final : public option_handler
 {
 public:
-    option_handler_result handle_option(const option&, const char*) const override
+    option_handler_result handle_option(option_occurrence) const override
     {
         return argpppp::ok();
     }
