@@ -27,6 +27,11 @@ public:
         return m_callback(option_occurrence(opt, arg));
     }
 
+    virtual option_handler_result handle_option(option_occurrence opt) const override
+    {
+        return m_callback(opt);
+    }
+
 private:
     std::function<option_handler_result(option_occurrence)> m_callback;
 };
