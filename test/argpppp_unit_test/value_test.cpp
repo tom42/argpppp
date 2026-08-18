@@ -57,7 +57,7 @@ TEST_CASE("value<bool>")
     {
         target = false;
 
-        CHECK(value.handle_option(switch_opt, nullptr) == ok());
+        CHECK(value.handle_option(option_occurrence(switch_opt, nullptr)) == ok());
         CHECK(target == true);
     }
 
@@ -66,14 +66,14 @@ TEST_CASE("value<bool>")
         target = true;
         value.negative();
 
-        CHECK(value.handle_option(switch_opt, nullptr) == ok());
+        CHECK(value.handle_option(option_occurrence(switch_opt, nullptr)) == ok());
         CHECK(target == false);
     }
 
     SECTION("handling arguments is not supported")
     {
         CHECK_THROWS_MATCHES(
-            value.handle_option(switch_opt, "arg"),
+            value.handle_option(option_occurrence(switch_opt, "arg")),
             std::logic_error,
             Catch::Matchers::Message("arguments are not supported. value<bool> should be used for switches only"));
     }
