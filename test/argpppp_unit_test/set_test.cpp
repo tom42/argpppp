@@ -16,6 +16,7 @@ namespace argpppp_unit_test
 
 using argpppp::error;
 using argpppp::ok;
+using argpppp::option_occurrence;
 using string = std::string;
 using std::make_pair;
 
@@ -27,14 +28,14 @@ TEST_CASE("set<string>")
 
     SECTION("successful parsing")
     {
-        CHECK(set.handle_option(opt, "arg") == ok());
+        CHECK(set.handle_option(option_occurrence(opt, "arg")) == ok());
         CHECK(s == "arg");
     }
 
     SECTION("optional arguments are not supported")
     {
         CHECK_THROWS_MATCHES(
-            set.handle_option(opt, nullptr),
+            set.handle_option(option_occurrence(opt, nullptr)),
             std::logic_error,
             Catch::Matchers::Message("optional arguments are currently not supported"));
     }

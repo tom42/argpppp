@@ -38,14 +38,14 @@ class set<std::string> : public option_handler
 public:
     explicit set(setter_callable<std::string> auto setter) : m_setter(setter) {}
 
-    option_handler_result handle_option(const option&, const char* arg) const override
+    option_handler_result handle_option(option_occurrence opt) const override
     {
-        if (!arg)
+        if (!opt.c_arg())
         {
             throw std::logic_error("optional arguments are currently not supported");
         }
 
-        m_setter(arg);
+        m_setter(opt.c_arg());
         return ok();
     }
 
