@@ -21,7 +21,7 @@ public:
 
     // TODO: use
     // TODO: make pure virtual
-    virtual option_handler_result handle_option(option_occurrence opt)
+    virtual option_handler_result handle_option(option_occurrence opt) const
     {
         // TODO: temporary implementation
         return handle_option(opt.opt(), opt.c_arg());
