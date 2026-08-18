@@ -36,14 +36,14 @@ class value<TValue> : public option_handler
 public:
     explicit value(TValue& target_value) : m_target_value(target_value) {}
 
-    option_handler_result handle_option(const option&, const char* arg) const override
+    option_handler_result handle_option(option_occurrence opt) const override
     {
-        if (!arg)
+        if (!opt.c_arg())
         {
             throw std::logic_error("optional arguments are currently not supported");
         }
 
-        m_target_value = arg;
+        m_target_value = opt.c_arg();
         return ok();
     }
 

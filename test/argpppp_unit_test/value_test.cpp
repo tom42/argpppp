@@ -21,6 +21,7 @@ namespace fs = std::filesystem;
 using argpppp::error;
 using argpppp::ok;
 using argpppp::option_handler_result;
+using argpppp::option_occurrence;
 using std::make_pair;
 using std::optional;
 using std::string;
@@ -33,14 +34,14 @@ TEMPLATE_TEST_CASE("value<convertible from const char*>", "", fs::path, optional
 
     SECTION("successful parsing")
     {
-        CHECK(value.handle_option(opt, "arg") == ok());
+        CHECK(value.handle_option(option_occurrence(opt, "arg")) == ok());
         CHECK(target == "arg");
     }
 
     SECTION("optional arguments are not supported")
     {
         CHECK_THROWS_MATCHES(
-            value.handle_option(opt, nullptr),
+            value.handle_option(option_occurrence(opt, nullptr)),
             std::logic_error,
             Catch::Matchers::Message("optional arguments are currently not supported"));
     }
