@@ -4,7 +4,7 @@
 module;
 
 #include <string>
-#include <string_view>
+#include <string_view> // TODO: do we *really* want to use string_view here at all? Are we not copying the string, so taking by value and moving would be just as good?
 #include <utility>
 
 export module argpppp:option_handler_result;
@@ -62,12 +62,16 @@ export option_handler_result ok();
 
 export option_handler_result error(std::string message); // TODO: use string_view?
 
-// TODO: rewrite this to use option_occurrence
+// TODO: rewrite this to use option_occurrence (migration path, ultimately we want to get rid of it, no?
 export option_handler_result error(const option& opt, const char* arg, const std::string& message);
 
-// TODO: rewrite this to use option_occurrence (for starters, delete this overload. is there a unit test? => need to go through all of them, anyway)
+// TODO: rewrite this to use option_occurrence (migration path, ultimately we want to get rid of it, no?
 export option_handler_result error(const option& opt, const char* arg, const char* message);
 
+// TODO: use this everywhere
+//       * Review all occurrences
+//       * Clean up production code
+//       * Clean up tests
 export option_handler_result error(const option_occurrence& opt, std::string_view message);
 
 }
