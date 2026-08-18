@@ -22,13 +22,7 @@ public:
         throw "YIKES: this was a pure virtual method and should never be called";
     }
 
-    // TODO: use
-    // TODO: make pure virtual
-    virtual option_handler_result handle_option(option_occurrence opt) const
-    {
-        // TODO: temporary implementation
-        return handle_option(opt.opt(), opt.c_arg());
-    }
+    virtual option_handler_result handle_option(option_occurrence opt) const = 0;
 };
 
 }
