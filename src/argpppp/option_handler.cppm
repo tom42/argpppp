@@ -16,12 +16,6 @@ public:
 
     virtual ~option_handler() = default;
 
-    // TODO: phase this out, use option occurrence
-    virtual option_handler_result handle_option(const option& /*opt*/, const char* /*arg*/) const
-    {
-        throw "YIKES: this was a pure virtual method and should never be called";
-    }
-
     virtual option_handler_result handle_option(option_occurrence opt) const = 0;
 };
 

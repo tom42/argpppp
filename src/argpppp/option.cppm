@@ -52,7 +52,6 @@ private:
     int m_group;
 };
 
-// TODO: consider using this for all types of option_handler?
 // TODO: if this is cheap to copy, should we ever have methods that take it by const reference?
 export class option_occurrence final
 {
