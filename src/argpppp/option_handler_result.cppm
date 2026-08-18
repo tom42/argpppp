@@ -13,6 +13,7 @@ import :option;
 namespace argpppp
 {
 
+// TODO: see where std::string should be replaced by string_view (entire file. e.g. ctor)
 export class option_handler_result final
 {
 public:
@@ -59,7 +60,7 @@ private:
 
 export option_handler_result ok();
 
-export option_handler_result error(std::string message);
+export option_handler_result error(std::string message); // TODO: use string_view?
 
 // TODO: rewrite this to use option_occurrence
 export option_handler_result error(const option& opt, const char* arg, const std::string& message);
