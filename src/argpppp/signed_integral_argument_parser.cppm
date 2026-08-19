@@ -85,8 +85,7 @@ public:
 private:
     option_handler_result out_of_range_error(option_occurrence opt) const
     {
-        // TODO: use appropriate overload of error() taking option_occurrence. Possibly might have to create one first.
-        return error(opt.opt(), opt.c_arg(), std::format("value must be in range [{}, {}]", m_interval.min(), m_interval.max()));
+        return error(opt, std::format("value must be in range [{}, {}]", m_interval.min(), m_interval.max()));
     }
 
     interval<TValue> m_interval;
