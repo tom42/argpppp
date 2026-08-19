@@ -85,7 +85,7 @@ public:
         // TODO: If not initialized, g++ warns in release builds about possible use of uninitialized variable
         //       Can we redesign signed_integral_argument_parser to work without output argument, and without having to default construct anything?
         TValue value{};
-        auto result = m_parser.parse_arg(opt.opt(), opt.c_arg(), value);
+        auto result = m_parser.parse_arg(opt, value);
 
         if (result.is_success())
         {

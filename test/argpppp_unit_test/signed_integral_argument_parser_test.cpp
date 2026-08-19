@@ -17,19 +17,34 @@ namespace argpppp_unit_test
 using argpppp::error;
 using argpppp::ok;
 
-TEST_CASE("signed_integral_argument_parser")
+namespace
+{
+
+struct signed_integral_argument_parser_fixture
+{
+    template <std::signed_integral TValue>
+    argpppp::option_handler_result parse_arg(const char* arg, TValue& value)
+    {
+        return parser.parse_arg(argpppp::option_occurrence(opt, arg), value);
+    }
+
+    argpppp::option opt{ 'i', {}, {}, "INTEGER" };
+    argpppp::signed_integral_argument_parser<int16_t> parser;
+};
+
+}
+
+TEST_CASE_METHOD(signed_integral_argument_parser_fixture, "signed_integral_argument_parser")
 {
     constexpr int16_t default_value = 12345;
     constexpr int16_t custom_min = 0;
     constexpr int16_t custom_max = 10;
     int16_t value = default_value;
-    argpppp::option opt('i', {}, {}, "INTEGER");
-    argpppp::signed_integral_argument_parser<int16_t> parser;
 
     SECTION("optional arguments are not supported")
     {
         CHECK_THROWS_MATCHES(
-            parser.parse_arg(opt, nullptr, value),
+            parse_arg(nullptr, value),
             std::logic_error,
             Catch::Matchers::Message("optional arguments are currently not supported"));
         CHECK(value == default_value);
@@ -37,10 +52,10 @@ TEST_CASE("signed_integral_argument_parser")
 
     SECTION("successful parsing with default settings")
     {
-        CHECK(parser.parse_arg(opt, "-32768", value) == ok());
+        CHECK(parse_arg("-32768", value) == ok());
         CHECK(value == -32768);
 
-        CHECK(parser.parse_arg(opt, "32767", value) == ok());
+        CHECK(parse_arg("32767", value) == ok());
         CHECK(value == 32767);
     }
 
@@ -49,10 +64,10 @@ TEST_CASE("signed_integral_argument_parser")
         parser.min(custom_min);
         parser.max(custom_max);
 
-        CHECK(parser.parse_arg(opt, "0", value) == ok());
+        CHECK(parse_arg("0", value) == ok());
         CHECK(value == 0);
 
-        CHECK(parser.parse_arg(opt, "10", value) == ok());
+        CHECK(parse_arg("10", value) == ok());
         CHECK(value == 10);
     }
 
@@ -61,19 +76,19 @@ TEST_CASE("signed_integral_argument_parser")
         parser.min(custom_min);
         parser.max(custom_max);
 
-        CHECK(parser.parse_arg(opt, "-1", value) == error("invalid argument '-1' for option '-i': value must be in range [0, 10]"));
+        CHECK(parse_arg("-1", value) == error("invalid argument '-1' for option '-i': value must be in range [0, 10]"));
         CHECK(value == default_value);
 
-        CHECK(parser.parse_arg(opt, "11", value) == error("invalid argument '11' for option '-i': value must be in range [0, 10]"));
+        CHECK(parse_arg("11", value) == error("invalid argument '11' for option '-i': value must be in range [0, 10]"));
         CHECK(value == default_value);
     }
 
     SECTION("parsed value is out of range, range limited by type")
     {
-        CHECK(parser.parse_arg(opt, "-32769", value) == error("invalid argument '-32769' for option '-i': value must be in range [-32768, 32767]"));
+        CHECK(parse_arg("-32769", value) == error("invalid argument '-32769' for option '-i': value must be in range [-32768, 32767]"));
         CHECK(value == default_value);
 
-        CHECK(parser.parse_arg(opt, "32768", value) == error("invalid argument '32768' for option '-i': value must be in range [-32768, 32767]"));
+        CHECK(parse_arg("32768", value) == error("invalid argument '32768' for option '-i': value must be in range [-32768, 32767]"));
         CHECK(value == default_value);
     }
 
@@ -81,10 +96,10 @@ TEST_CASE("signed_integral_argument_parser")
     {
         parser.auto_detect_base();
 
-        CHECK(parser.parse_arg(opt, "010", value) == ok());
+        CHECK(parse_arg("010", value) == ok());
         CHECK(value == 8);
 
-        CHECK(parser.parse_arg(opt, "0x10", value) == ok());
+        CHECK(parse_arg("0x10", value) == ok());
         CHECK(value == 16);
     }
 
@@ -92,19 +107,19 @@ TEST_CASE("signed_integral_argument_parser")
     {
         parser.base(6);
 
-        CHECK(parser.parse_arg(opt, "20", value) == ok());
+        CHECK(parse_arg("20", value) == ok());
         CHECK(value == 12);
     }
 
     SECTION("garbage input")
     {
-        CHECK(parser.parse_arg(opt, "!?*", value) == error("invalid argument '!?*' for option '-i': not a valid integer number"));
+        CHECK(parse_arg("!?*", value) == error("invalid argument '!?*' for option '-i': not a valid integer number"));
         CHECK(value == default_value);
     }
 
     SECTION("auto-detection of base is off by default")
     {
-        CHECK(parser.parse_arg(opt, "0x10", value) == error("invalid argument '0x10' for option '-i': not a valid integer number"));
+        CHECK(parse_arg("0x10", value) == error("invalid argument '0x10' for option '-i': not a valid integer number"));
         CHECK(value == default_value);
     }
 
