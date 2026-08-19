@@ -47,7 +47,7 @@ option_handler_result error(const option& opt, const char* arg, const char* mess
 }
 
 // TODO: this should get a unit test, no?
-option_handler_result error(const option_occurrence& opt, const char* message)
+option_handler_result error(const option_occurrence& opt, std::string_view message)
 {
     return error(std::format("{}: {}", get_error_message(opt), message));
 }
