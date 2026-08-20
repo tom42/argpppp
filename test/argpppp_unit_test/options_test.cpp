@@ -30,7 +30,7 @@ class null_option_handler final : public option_handler
 public:
     option_handler_result handle_option(option_occurrence) const override
     {
-        throw std::exception("null_option_handler does not implement handle_option");
+        throw std::logic_error("null_option_handler does not implement handle_option");
     }
 };
 
