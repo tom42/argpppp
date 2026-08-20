@@ -93,6 +93,8 @@ public:
 
     option_handler_result handle_option(option_occurrence opt) const override
     {
+        // Need to initialize value, so that g++ does not warn about
+        // possible use of uninitialized variable in release builds.
         TValue value{};
         auto result = m_parser.parse_arg(opt, value);
 
