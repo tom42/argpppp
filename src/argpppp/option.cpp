@@ -62,7 +62,7 @@ std::string get_names(const option& o)
     throw std::invalid_argument("option has no name");
 }
 
-std::string get_error_message(const option_occurrence& o)
+std::string get_error_message(option_occurrence o)
 {
     if (is_switch(o.opt()) || (is_arg_optional(o.opt()) && !o.c_arg()))
     {

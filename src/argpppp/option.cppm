@@ -52,7 +52,6 @@ private:
     int m_group;
 };
 
-// TODO: if this is cheap to copy, should we ever have methods that take it by const reference?
 export class option_occurrence final
 {
 public:
@@ -75,6 +74,6 @@ ARGPPPP_EXPORT_FOR_UNIT_TESTING
 std::string get_names(const option& o);
 
 ARGPPPP_EXPORT_FOR_UNIT_TESTING
-std::string get_error_message(const option_occurrence& o);
+std::string get_error_message(option_occurrence o);
 
 }

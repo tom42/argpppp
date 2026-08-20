@@ -60,6 +60,6 @@ export option_handler_result ok();
 
 export option_handler_result error(std::string message);
 
-export option_handler_result error(const option_occurrence& opt, std::string_view message);
+export option_handler_result error(option_occurrence opt, std::string_view message);
 
 }

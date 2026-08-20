@@ -34,7 +34,7 @@ option_handler_result error(std::string message)
     return option_handler_result::error(std::move(message));
 }
 
-option_handler_result error(const option_occurrence& opt, std::string_view message)
+option_handler_result error(option_occurrence opt, std::string_view message)
 {
     return error(std::format("{}: {}", get_error_message(opt), message));
 }
