@@ -42,10 +42,8 @@ public:
             case parse_number_result::leading_garbage:
             case parse_number_result::trailing_garbage:
                 return error(opt, "not a valid integer number");
-                break;
             default:
                 throw std::logic_error("unknown parse_number_result");
-                break;
         }
 
         if (!m_interval.includes(tmp_value))
