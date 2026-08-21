@@ -24,6 +24,7 @@ public:
 
     virtual option_handler_result handle_option(option_occurrence opt) const override
     {
+        // TODO: should constructors bark if the callback is null? Since we're not checking it here?
         return m_callback(opt);
     }
 

@@ -15,6 +15,7 @@ namespace argpppp_unit_test
 
 using argpppp::callback;
 using argpppp::of;
+using argpppp::ok;
 using argpppp::option;
 using argpppp::option_handler;
 using argpppp::option_handler_result;
@@ -82,7 +83,7 @@ TEST_CASE("options")
     SECTION("add throws if an option with key = 0 has a handler")
     {
         CHECK_THROWS_MATCHES(
-            options.add({ short_name::null(), "This is a documentation option", {}, {}, of::doc}, std::make_unique<null_option_handler>()),
+            options.add({ short_name::null(), "This is a documentation option", {}, {}, of::doc }, std::make_unique<null_option_handler>()),
             std::invalid_argument,
             Catch::Matchers::Message("a special option with key = 0 must not have a handler"));
     }
@@ -90,7 +91,7 @@ TEST_CASE("options")
     SECTION("add throws if an option with key != 0 does not have a handler")
     {
         CHECK_THROWS_MATCHES(
-            options.add({ 'a' }, {}),
+            options.add({ 'a' }, std::unique_ptr<option_handler>()),
             std::invalid_argument,
             Catch::Matchers::Message("option with key != 0 must have a handler"));
     }
@@ -111,18 +112,33 @@ TEST_CASE("options")
         options.add_header("header 2");
     }
 
+    SECTION("add lambda without parameter without using class callback")
+    {
+        options.add({ 'a' }, [] { return ok(); });
+
+        const auto argp_options = get_argp_options(options);
+        CHECK(argp_options.at(0).key == 'a'); // TODO: is this check sufficient, or do we want to test the entire argp_option? (the latter requires some work)
+    }
+
+    SECTION("add lambda with parameter without using class callback")
+    {
+        options.add({ 'a' }, [](option_occurrence&&) { return ok(); });
+
+        const auto argp_options = get_argp_options(options);
+        CHECK(argp_options.at(0).key == 'a'); // TODO: is this check sufficient, or do we want to test the entire argp_option? (the latter requires some work)
+    }
+
     SECTION("add_header")
     {
         options.add_header("header text", 123);
 
         const auto argp_options = get_argp_options(options);
-
-        CHECK(argp_options[0].key == 0);
-        CHECK(argp_options[0].name == nullptr);
-        CHECK(!strcmp(argp_options[0].doc, "header text"));
-        CHECK(argp_options[0].arg == nullptr);
-        CHECK(argp_options[0].flags == 0);
-        CHECK(argp_options[0].group == 123);
+        CHECK(argp_options.at(0).key == 0);
+        CHECK(argp_options.at(0).name == nullptr);
+        CHECK(!strcmp(argp_options.at(0).doc, "header text"));
+        CHECK(argp_options.at(0).arg == nullptr);
+        CHECK(argp_options.at(0).flags == 0);
+        CHECK(argp_options.at(0).group == 123);
     }
 
     SECTION("find_option")

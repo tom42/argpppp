@@ -223,6 +223,32 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser")
         CHECK(value1 == 1);
         CHECK(value2 == 2);
     }
+
+    SECTION("Parsing of switch using a lambda without parameter")
+    {
+        bool a_seen = false;
+        options.add({ 'a' }, [&] { a_seen = true; return error("a seen"); });
+
+        auto result = parse_command_line("-a");
+
+        CHECK(a_seen == true);
+        CHECK(result.errnum == EINVAL);
+        CHECK(failures == vector<failure>{ failure(EXIT_FAILURE, 0, "a seen") });
+    }
+
+    SECTION("Parsing of option with argument using a lambda with parameter")
+    {
+        bool o_seen = false;
+        string arg;
+        options.add({ 'o', {}, {}, "ARG" }, [&](auto&& opt) { o_seen = true; arg = opt.c_arg(); return error("o seen"); });
+
+        auto result = parse_command_line("-o ARG");
+
+        CHECK(o_seen == true);
+        CHECK(arg == "ARG");
+        CHECK(result.errnum == EINVAL);
+        CHECK(failures == vector<failure>{ failure(EXIT_FAILURE, 0, "o seen") });
+    }
 }
 
 }
