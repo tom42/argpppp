@@ -16,6 +16,7 @@ namespace argpppp_unit_test
 
 using argpppp::error;
 using argpppp::ok;
+using argpppp::option_occurrence;
 using string = std::string;
 using std::make_pair;
 
@@ -27,14 +28,14 @@ TEST_CASE("set<string>")
 
     SECTION("successful parsing")
     {
-        CHECK(set.handle_option(opt, "arg") == ok());
+        CHECK(set.handle_option(option_occurrence(opt, "arg")) == ok());
         CHECK(s == "arg");
     }
 
     SECTION("optional arguments are not supported")
     {
         CHECK_THROWS_MATCHES(
-            set.handle_option(opt, nullptr),
+            set.handle_option(option_occurrence(opt, nullptr)),
             std::logic_error,
             Catch::Matchers::Message("optional arguments are currently not supported"));
     }
@@ -48,14 +49,14 @@ TEST_CASE("set<bool>")
 
     SECTION("successful parsing")
     {
-        CHECK(set.handle_option(switch_opt, nullptr) == ok());
+        CHECK(set.handle_option(option_occurrence(switch_opt, nullptr)) == ok());
         CHECK(flag == true);
     }
 
     SECTION("handling arguments is not supported")
     {
         CHECK_THROWS_MATCHES(
-            set.handle_option(switch_opt, "arg"),
+            set.handle_option(option_occurrence(switch_opt, "arg")),
             std::logic_error,
             Catch::Matchers::Message("arguments are not supported. set<bool> should be used for switches only"));
     }
@@ -70,7 +71,7 @@ TEST_CASE("set<signed_integral>")
 
     SECTION("successful parsing, default base")
     {
-        CHECK(set.handle_option(opt, "10") == ok());
+        CHECK(set.handle_option(option_occurrence(opt, "10")) == ok());
         CHECK(i == 10);
     }
 
@@ -78,7 +79,7 @@ TEST_CASE("set<signed_integral>")
     {
         set.base(36);
 
-        CHECK(set.handle_option(opt, "10") == ok());
+        CHECK(set.handle_option(option_occurrence(opt, "10")) == ok());
         CHECK(i == 36);
     }
 
@@ -89,7 +90,7 @@ TEST_CASE("set<signed_integral>")
             make_pair("0x123", 0x123));
         set.auto_detect_base();
 
-        CHECK(set.handle_option(opt, arg) == ok());
+        CHECK(set.handle_option(option_occurrence(opt, arg)) == ok());
         CHECK(i == expected_value);
     }
 
@@ -100,7 +101,7 @@ TEST_CASE("set<signed_integral>")
             make_pair("10", 10));
         set.min(1).max(10);
 
-        CHECK(set.handle_option(opt, arg) == ok());
+        CHECK(set.handle_option(option_occurrence(opt, arg)) == ok());
         CHECK(i == expected_value);
     }
 
@@ -111,7 +112,7 @@ TEST_CASE("set<signed_integral>")
             make_pair("11", "invalid argument '11' for option '-i': value must be in range [1, 10]"));
         set.min(1).max(10);
 
-        CHECK(set.handle_option(opt, arg) == error(expected_error_message));
+        CHECK(set.handle_option(option_occurrence(opt, arg)) == error(expected_error_message));
         CHECK(i == default_value);
     }
 }

@@ -4,7 +4,7 @@
 module;
 
 #include <string>
-#include <utility>
+#include <string_view>
 
 export module argpppp:option_handler_result;
 import :option;
@@ -60,8 +60,6 @@ export option_handler_result ok();
 
 export option_handler_result error(std::string message);
 
-export option_handler_result error(const option& opt, const char* arg, const std::string& message);
-
-export option_handler_result error(const option& optS, const char* arg, const char* message);
+export option_handler_result error(option_occurrence opt, std::string_view message);
 
 }

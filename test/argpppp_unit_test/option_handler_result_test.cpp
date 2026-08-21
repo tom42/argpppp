@@ -11,6 +11,7 @@ namespace argpppp_unit_test
 
 using argpppp::error;
 using argpppp::ok;
+using argpppp::option_occurrence;
 
 TEST_CASE("option_handler_result")
 {
@@ -27,7 +28,7 @@ TEST_CASE("option_handler_result")
         CHECK(result.include_standard_error_message() == false);
     }
 
-    SECTION("error, overload taking single error message")
+    SECTION("error, overload taking error message")
     {
         const auto result = error("error message");
 
@@ -38,20 +39,9 @@ TEST_CASE("option_handler_result")
         CHECK(result.include_standard_error_message() == false);
     }
 
-    SECTION("error, overload taking option, argument and error message as std::string")
+    SECTION("error, overload taking option_occurrence and error message")
     {
-        const auto result = error(opt, "123", std::string("value is too big"));
-
-        CHECK(result.is_success() == false);
-        CHECK(result.exit_status() == EXIT_FAILURE);
-        CHECK(result.error_number() == EINVAL);
-        CHECK(result.error_message() == "invalid argument '123' for option '-i': value is too big");
-        CHECK(result.include_standard_error_message() == false);
-    }
-
-    SECTION("error, overload taking option, argument and error message as const char*")
-    {
-        const auto result = error(opt, "123", "value is too big");
+        const auto result = error(option_occurrence(opt, "123"), "value is too big");
 
         CHECK(result.is_success() == false);
         CHECK(result.exit_status() == EXIT_FAILURE);

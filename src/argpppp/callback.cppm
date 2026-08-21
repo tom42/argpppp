@@ -16,18 +16,19 @@ namespace argpppp
 export class callback : public option_handler
 {
 public:
-    explicit callback(std::function<option_handler_result(const option&, const char*)> callback)
-        : m_callback(std::move(callback))
-    {
-    }
+    explicit callback(std::function<option_handler_result(void)> callback)
+        : m_callback([=](option_occurrence) { return callback(); }) {}
 
-    option_handler_result handle_option(const option& opt, const char* arg) const override
+    explicit callback(std::function<option_handler_result(option_occurrence)> callback)
+        : m_callback(std::move(callback)) {}
+
+    virtual option_handler_result handle_option(option_occurrence opt) const override
     {
-        return m_callback(opt, arg);
+        return m_callback(opt);
     }
 
 private:
-    std::function<option_handler_result(const option&, const char*)> m_callback;
+    std::function<option_handler_result(option_occurrence)> m_callback;
 };
 
 }

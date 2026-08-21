@@ -62,20 +62,16 @@ std::string get_names(const option& o)
     throw std::invalid_argument("option has no name");
 }
 
-std::string get_error_message(const option& o, const char* arg)
+std::string get_error_message(option_occurrence o)
 {
-    if (is_switch(o) || (is_arg_optional(o) && (arg == nullptr)))
+    if (is_switch(o.opt()) || (is_arg_optional(o.opt()) && !o.c_arg()))
     {
-        return std::format("unexpected option '{}'", get_names(o));
+        return std::format("unexpected option '{}'", get_names(o.opt()));
     }
     else
     {
-        if (arg == nullptr)
-        {
-            arg = "(null)";
-        }
-
-        return std::format("invalid argument '{}' for option '{}'", arg, get_names(o));
+        const char* arg = o.c_arg() ? o.c_arg() : "(null)";
+        return std::format("invalid argument '{}' for option '{}'", arg, get_names(o.opt()));
     }
 }
 

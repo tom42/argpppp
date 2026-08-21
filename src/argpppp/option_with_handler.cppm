@@ -43,7 +43,7 @@ public:
             throw std::logic_error("no option handler set");
         }
 
-        return m_handler->handle_option(m_option, arg);
+        return m_handler->handle_option(option_occurrence(m_option, arg));
     }
 
 private:

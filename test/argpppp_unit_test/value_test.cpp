@@ -21,6 +21,7 @@ namespace fs = std::filesystem;
 using argpppp::error;
 using argpppp::ok;
 using argpppp::option_handler_result;
+using argpppp::option_occurrence;
 using std::make_pair;
 using std::optional;
 using std::string;
@@ -33,14 +34,14 @@ TEMPLATE_TEST_CASE("value<convertible from const char*>", "", fs::path, optional
 
     SECTION("successful parsing")
     {
-        CHECK(value.handle_option(opt, "arg") == ok());
+        CHECK(value.handle_option(option_occurrence(opt, "arg")) == ok());
         CHECK(target == "arg");
     }
 
     SECTION("optional arguments are not supported")
     {
         CHECK_THROWS_MATCHES(
-            value.handle_option(opt, nullptr),
+            value.handle_option(option_occurrence(opt, nullptr)),
             std::logic_error,
             Catch::Matchers::Message("optional arguments are currently not supported"));
     }
@@ -56,7 +57,7 @@ TEST_CASE("value<bool>")
     {
         target = false;
 
-        CHECK(value.handle_option(switch_opt, nullptr) == ok());
+        CHECK(value.handle_option(option_occurrence(switch_opt, nullptr)) == ok());
         CHECK(target == true);
     }
 
@@ -65,14 +66,14 @@ TEST_CASE("value<bool>")
         target = true;
         value.negative();
 
-        CHECK(value.handle_option(switch_opt, nullptr) == ok());
+        CHECK(value.handle_option(option_occurrence(switch_opt, nullptr)) == ok());
         CHECK(target == false);
     }
 
     SECTION("handling arguments is not supported")
     {
         CHECK_THROWS_MATCHES(
-            value.handle_option(switch_opt, "arg"),
+            value.handle_option(option_occurrence(switch_opt, "arg")),
             std::logic_error,
             Catch::Matchers::Message("arguments are not supported. value<bool> should be used for switches only"));
     }
@@ -87,7 +88,7 @@ TEST_CASE("value<signed_integral>")
 
     SECTION("successful parsing, default base")
     {
-        CHECK(value.handle_option(opt, "10") == ok());
+        CHECK(value.handle_option(option_occurrence(opt, "10")) == ok());
         CHECK(i == 10);
     }
 
@@ -95,7 +96,7 @@ TEST_CASE("value<signed_integral>")
     {
         value.base(36);
 
-        CHECK(value.handle_option(opt, "10") == ok());
+        CHECK(value.handle_option(option_occurrence(opt, "10")) == ok());
         CHECK(i == 36);
     }
 
@@ -106,7 +107,7 @@ TEST_CASE("value<signed_integral>")
             make_pair("0x123", 0x123));
         value.auto_detect_base();
 
-        CHECK(value.handle_option(opt, arg) == ok());
+        CHECK(value.handle_option(option_occurrence(opt, arg)) == ok());
         CHECK(i == expected_value);
     }
 
@@ -117,7 +118,7 @@ TEST_CASE("value<signed_integral>")
             make_pair("10", 10));
         value.min(1).max(10);
 
-        CHECK(value.handle_option(opt, arg) == ok());
+        CHECK(value.handle_option(option_occurrence(opt, arg)) == ok());
         CHECK(i == expected_value);
     }
 
@@ -128,7 +129,7 @@ TEST_CASE("value<signed_integral>")
             make_pair("11", "invalid argument '11' for option '-i': value must be in range [1, 10]"));
         value.min(1).max(10);
 
-        CHECK(value.handle_option(opt, arg) == error(expected_error_message));
+        CHECK(value.handle_option(option_occurrence(opt, arg)) == error(expected_error_message));
         CHECK(i == default_value);
     }
 }

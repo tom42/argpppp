@@ -36,14 +36,14 @@ class value<TValue> : public option_handler
 public:
     explicit value(TValue& target_value) : m_target_value(target_value) {}
 
-    option_handler_result handle_option(const option&, const char* arg) const override
+    option_handler_result handle_option(option_occurrence opt) const override
     {
-        if (!arg)
+        if (!opt.c_arg())
         {
             throw std::logic_error("optional arguments are currently not supported");
         }
 
-        m_target_value = arg;
+        m_target_value = opt.c_arg();
         return ok();
     }
 
@@ -57,9 +57,9 @@ class value<bool> : public option_handler
 public:
     explicit value(bool& target_variable) : m_target_variable(target_variable) {}
 
-    option_handler_result handle_option(const option&, const char* arg) const override
+    option_handler_result handle_option(option_occurrence opt) const override
     {
-        if (arg)
+        if (opt.c_arg())
         {
             throw std::logic_error("arguments are not supported. value<bool> should be used for switches only");
         }
@@ -91,12 +91,12 @@ class value<TValue> : public option_handler
 public:
     explicit value(TValue& target_variable) : m_target_variable(target_variable) {}
 
-    option_handler_result handle_option(const option& opt, const char* arg) const override
+    option_handler_result handle_option(option_occurrence opt) const override
     {
-        // TODO: If not initialized, g++ warns in release builds about possible use of uninitialized variable
-        //       Can we redesign signed_integral_argument_parser to work without output argument, and without having to default construct anything?
+        // Need to initialize value, so that g++ does not warn about
+        // possible use of uninitialized variable in release builds.
         TValue value{};
-        auto result = m_parser.parse_arg(opt, arg, value);
+        auto result = m_parser.parse_arg(opt, value);
 
         if (result.is_success())
         {

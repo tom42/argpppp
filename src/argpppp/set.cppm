@@ -38,14 +38,14 @@ class set<std::string> : public option_handler
 public:
     explicit set(setter_callable<std::string> auto setter) : m_setter(setter) {}
 
-    option_handler_result handle_option(const option&, const char* arg) const override
+    option_handler_result handle_option(option_occurrence opt) const override
     {
-        if (!arg)
+        if (!opt.c_arg())
         {
             throw std::logic_error("optional arguments are currently not supported");
         }
 
-        m_setter(arg);
+        m_setter(opt.c_arg());
         return ok();
     }
 
@@ -59,9 +59,9 @@ class set<bool> : public option_handler
 public:
     explicit set(setter_callable<bool> auto setter) : m_setter(setter) {}
 
-    option_handler_result handle_option(const option&, const char* arg) const override
+    option_handler_result handle_option(option_occurrence opt) const override
     {
-        if (arg)
+        if (opt.c_arg())
         {
             throw std::logic_error("arguments are not supported. set<bool> should be used for switches only");
         }
@@ -80,12 +80,12 @@ class set<TValue> : public option_handler
 public:
     explicit set(setter_callable<int> auto setter) : m_setter(setter) {}
 
-    option_handler_result handle_option(const option& opt, const char* arg) const override
+    option_handler_result handle_option(option_occurrence opt) const override
     {
-        // TODO: If not initialized, g++ warns in release builds about possible use of uninitialized variable
-        //       Can we redesign signed_integral_argument_parser to work without output argument, and without having to default construct anything?
+        // Need to initialize value, so that g++ does not warn about
+        // possible use of uninitialized variable in release builds.
         TValue value{};
-        auto result = m_parser.parse_arg(opt, arg, value);
+        auto result = m_parser.parse_arg(opt, value);
 
         if (result.is_success())
         {

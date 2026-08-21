@@ -34,14 +34,9 @@ option_handler_result error(std::string message)
     return option_handler_result::error(std::move(message));
 }
 
-option_handler_result error(const option& opt, const char* arg, const std::string& message)
+option_handler_result error(option_occurrence opt, std::string_view message)
 {
-    return error(opt, arg, message.c_str());
-}
-
-option_handler_result error(const option& opt, const char* arg, const char* message)
-{
-    return error(std::format("{}: {}", get_error_message(opt, arg), message));
+    return error(std::format("{}: {}", get_error_message(opt), message));
 }
 
 option_handler_result::option_handler_result(bool is_success, int exit_status, int error_number, std::string error_message)

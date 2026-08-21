@@ -22,15 +22,15 @@ template <std::signed_integral TValue>
 class signed_integral_argument_parser final
 {
 public:
-    option_handler_result parse_arg(const option& opt, const char* arg, TValue& value) const
+    option_handler_result parse_arg(option_occurrence opt, TValue& value) const
     {
-        if (!arg)
+        if (!opt.c_arg())
         {
             throw std::logic_error("optional arguments are currently not supported");
         }
 
         TValue tmp_value;
-        auto parse_result = parse_integral(arg, tmp_value, m_base);
+        auto parse_result = parse_integral(opt.c_arg(), tmp_value, m_base);
         switch (parse_result)
         {
             case parse_number_result::success:
@@ -38,19 +38,17 @@ public:
                 break;
             case parse_number_result::underflow:
             case parse_number_result::overflow:
-                return out_of_range_error(opt, arg);
+                return out_of_range_error(opt);
             case parse_number_result::leading_garbage:
             case parse_number_result::trailing_garbage:
-                return error(opt, arg, "not a valid integer number");
-                break;
+                return error(opt, "not a valid integer number");
             default:
                 throw std::logic_error("unknown parse_number_result");
-                break;
         }
 
         if (!m_interval.includes(tmp_value))
         {
-            return out_of_range_error(opt, arg);
+            return out_of_range_error(opt);
         }
 
         value = tmp_value;
@@ -83,9 +81,9 @@ public:
     }
 
 private:
-    option_handler_result out_of_range_error(const option& opt, const char* arg) const
+    option_handler_result out_of_range_error(option_occurrence opt) const
     {
-        return error(opt, arg, std::format("value must be in range [{}, {}]", m_interval.min(), m_interval.max()));
+        return error(opt, std::format("value must be in range [{}, {}]", m_interval.min(), m_interval.max()));
     }
 
     interval<TValue> m_interval;

@@ -16,7 +16,7 @@ public:
 
     virtual ~option_handler() = default;
 
-    virtual option_handler_result handle_option(const option& opt, const char* arg) const = 0;
+    virtual option_handler_result handle_option(option_occurrence opt) const = 0;
 };
 
 }
