@@ -37,14 +37,12 @@ public:
         return *this;
     }
 
-    // TODO: do we want typedefs for our std::function's? Who provides them?
     options& add(const option& o, std::function<option_handler_result(void)> c)
     {
         add(o, callback(c));
         return *this;
     }
 
-    // TODO: do we want typedefs for our std::function's? Who provides them?
     options& add(const option& o, std::function<option_handler_result(option_occurrence)> c)
     {
         add(o, callback(c));
