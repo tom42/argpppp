@@ -117,7 +117,7 @@ TEST_CASE("options")
         options.add({ 'a' }, [] { return ok(); });
 
         const auto argp_options = get_argp_options(options);
-        CHECK(argp_options.at(0).key == 'a'); // TODO: is this check sufficient, or do we want to test the entire argp_option? (the latter requires some work)
+        CHECK(argp_options.at(0).key == 'a');
     }
 
     SECTION("add lambda with parameter without using class callback")
@@ -125,7 +125,7 @@ TEST_CASE("options")
         options.add({ 'a' }, [](option_occurrence&&) { return ok(); });
 
         const auto argp_options = get_argp_options(options);
-        CHECK(argp_options.at(0).key == 'a'); // TODO: is this check sufficient, or do we want to test the entire argp_option? (the latter requires some work)
+        CHECK(argp_options.at(0).key == 'a');
     }
 
     SECTION("add_header")
