@@ -27,7 +27,6 @@ TEST_CASE("option_with_handler")
             Catch::Matchers::Message("no option handler set"));
     }
 
-    // TODO: move this test, and no need to create an owh
     SECTION("to_argp_option")
     {
         constexpr int key = 456;
@@ -36,7 +35,7 @@ TEST_CASE("option_with_handler")
             key,
             {});
 
-        const auto argp_option = to_argp_option(owh.opt());
+        const auto argp_option = to_argp_option(owh);
 
         CHECK(argp_option.key == key);
         CHECK(!strcmp(argp_option.name, "name"));
