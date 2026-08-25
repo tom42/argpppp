@@ -17,14 +17,15 @@ export class callback : public option_handler
 {
 public:
     explicit callback(std::function<option_handler_result(void)> callback)
-        : m_callback([=](option_occurrence) { return callback(); }) {}
+        : callback([=](option_occurrence) { return callback(); }) {}
 
     explicit callback(std::function<option_handler_result(option_occurrence)> callback)
         : m_callback(std::move(callback)) {}
 
     virtual option_handler_result handle_option(option_occurrence opt) const override
     {
-        // TODO: should constructors bark if the callback is null? Since we're not checking it here?
+        // TODO: should constructors bark if the callback is null? Since we're not checking it here? => Maybe, but test both then.
+        //       * Note: we do ctor delegation, so only one ctor needs to be modified
         return m_callback(opt);
     }
 
