@@ -87,7 +87,7 @@ protected:
 
 TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser")
 {
-    SECTION("Unlimited number of arguments")
+    SECTION("unlimited number of arguments")
     {
         auto result = parse_command_line("arg1 arg2 arg3 arg4");
 
@@ -96,7 +96,7 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser")
         CHECK(failures.empty());
     }
 
-    SECTION("Too few arguments")
+    SECTION("too few arguments")
     {
         options.num_args(2);
 
@@ -107,7 +107,7 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser")
         CHECK(failures == vector<failure>{ failure(EXIT_FAILURE, 0, "too few arguments") });
     }
 
-    SECTION("Too many arguments")
+    SECTION("too many arguments")
     {
         options.num_args(2);
 
@@ -118,7 +118,7 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser")
         CHECK(failures == vector<failure>{ failure(EXIT_FAILURE, 0, "too many arguments") });
     }
 
-    SECTION("Correct number of arguments")
+    SECTION("correct number of arguments")
     {
         options.num_args(2);
 
@@ -129,7 +129,7 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser")
         CHECK(failures.empty());
     }
 
-    SECTION("Minimum and maximum number of arguments differ")
+    SECTION("minimum and maximum number of arguments differ")
     {
         options.min_args(2);
         options.max_args(3);
@@ -140,7 +140,7 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser")
         CHECK(parse_command_line("1 2 3 4").errnum == EINVAL);
     }
 
-    SECTION("Exceptions abort parsing and are propagated to caller")
+    SECTION("exceptions abort parsing and are propagated to caller")
     {
         options
             .add({ 'a' }, callback([] -> option_handler_result { throw runtime_error("This exception should occur."); }))
@@ -152,7 +152,7 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser")
             Catch::Matchers::Message("This exception should occur."));
     }
 
-    SECTION("Successful parsing of switches using callback option handlers")
+    SECTION("successful parsing of switches using callback option handlers")
     {
         bool a_seen = false;
         bool b_seen = false;
@@ -172,7 +172,7 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser")
         CHECK(c_seen == true);
     }
 
-    SECTION("Parsing should stop if an option handler returns an error")
+    SECTION("parsing should stop if an option handler returns an error")
     {
         bool a_seen = false;
 
@@ -187,7 +187,7 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser")
         CHECK(a_seen == true);
     }
 
-    SECTION("Parsing of values")
+    SECTION("parsing of values")
     {
         int i = 0;
         int j = 0;
@@ -207,7 +207,7 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser")
         CHECK(s == "foo");
     }
 
-    SECTION("Options without short names whose keys are automatically assigned")
+    SECTION("options without short names whose keys are automatically assigned")
     {
         int value1 = 0;
         int value2 = 0;
@@ -224,7 +224,7 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser")
         CHECK(value2 == 2);
     }
 
-    SECTION("Parsing of switch using a lambda without parameter")
+    SECTION("parsing of switch using a lambda without parameter")
     {
         bool a_seen = false;
         options.add({ 'a' }, [&] { a_seen = true; return error("a seen"); });
@@ -236,7 +236,7 @@ TEST_CASE_METHOD(command_line_parser_fixture, "command_line_parser")
         CHECK(failures == vector<failure>{ failure(EXIT_FAILURE, 0, "a seen") });
     }
 
-    SECTION("Parsing of option with argument using a lambda with parameter")
+    SECTION("parsing of option with argument using a lambda with parameter")
     {
         bool o_seen = false;
         string arg;
