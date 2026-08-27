@@ -2,7 +2,9 @@
 // SPDX-License-Identifier: MIT
 
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/matchers/catch_matchers_exception.hpp>
 #include <functional>
+#include <stdexcept>
 
 import argpppp;
 
@@ -40,8 +42,15 @@ TEST_CASE("callback")
 
     SECTION("no callback function passed to constructor")
     {
-        callback(std::function<option_handler_result(void)>{}); // TODO: this should throw an exception
-        callback(std::function<option_handler_result(option_occurrence)>{}); // TODO: this should throw the same exception
+        CHECK_THROWS_MATCHES(
+            callback(std::function<option_handler_result(void)>{}),
+            std::invalid_argument,
+            Catch::Matchers::Message("callback must not be empty"));
+
+        CHECK_THROWS_MATCHES(
+            callback(std::function<option_handler_result(option_occurrence)>{}),
+            std::invalid_argument,
+            Catch::Matchers::Message("callback must not be empty"));
     }
 }
 
