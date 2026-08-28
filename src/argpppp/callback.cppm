@@ -4,6 +4,7 @@
 module;
 
 #include <functional>
+#include <stdexcept>
 
 export module argpppp:callback;
 import :option;
@@ -17,10 +18,16 @@ export class callback : public option_handler
 {
 public:
     explicit callback(std::function<option_handler_result(void)> callback)
-        : m_callback([=](option_occurrence) { return callback(); }) {}
+    {
+        throw_if_empty(callback);
+        m_callback = [=](option_occurrence) { return callback(); };
+    }
 
     explicit callback(std::function<option_handler_result(option_occurrence)> callback)
-        : m_callback(std::move(callback)) {}
+    {
+        throw_if_empty(callback);
+        m_callback = std::move(callback);
+    }
 
     virtual option_handler_result handle_option(option_occurrence opt) const override
     {
@@ -28,6 +35,15 @@ public:
     }
 
 private:
+    template <typename TFunction>
+    static void throw_if_empty(const TFunction& callback)
+    {
+        if (!callback)
+        {
+            throw std::invalid_argument("callback must not be empty");
+        }
+    }
+
     std::function<option_handler_result(option_occurrence)> m_callback;
 };
 
